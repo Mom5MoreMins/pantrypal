@@ -1,9 +1,9 @@
-title: DNHS Flocker
-description: "Social Media for Del Norte High School"
-owner_name: John Mortensen
-github_username: nighthawkcoders
-github_repo: "flocker_frontend" 
-baseurl: "/flocker_frontend"
+title: DNHS Project Frostbyte
+description: "Camping and National Parks and Recreation Guide and Discussion Site"
+owner_name: CSP Period 1 Group Frostbyte
+github_username: blackstar3092
+github_repo: "frostbyte_frontend" 
+baseurl: "/frostbyte_frontend"
 future: true
 remote_theme: jekyll/minima
 minima:
