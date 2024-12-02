@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Flocker Social Media Site 
+title: What National Park Is Meant For You?
 search_exclude: true
-description: Login and explore our social media hub for everything DNHS 
+description: Take a fun quiz to find out the national park that is perfect for you! 
 hide: true
 menu: nav/home.html
 ---
