@@ -41,7 +41,7 @@ menu: nav/camping.html
     }
 </style>
 
-## Welcome to Vote for the GOAT!
+## Welcome to the world of national parks!
 
 We're excited to bring you "Vote for the GOAT," a fun and interactive project from Mr. Brown's class! Here, students can dive into different topics, cast their votes, and have some great conversations. Each group has their own theme, so there's something for everyone to get excited about. Let’s jump into what each group is up to and how you can get involved!
 
