@@ -2,12 +2,12 @@
 layout: post 
 title: National Parks Home
 search_exclude: true
-permalink: /national_parks/home
-menu: nav/Buck_Reef.html
+permalink: /national_parks/buck_reef
+menu: nav/national_parks.html
 ---
 
 
-# All About Buck Reef National Park! 
+# All About Buck Reef National Park! 🌊🪸
 
 <style>
     body {
@@ -28,7 +28,7 @@ menu: nav/Buck_Reef.html
 
     .group-theme {
         background: #000;
-        color: #e0e0e0;
+        color: #1cd0fc;
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -41,7 +41,7 @@ menu: nav/Buck_Reef.html
     }
 </style>
 
-## Welcome to The Buck Reef National Park Page!
+## Welcome to The Buck Reef National Park Page!🌊🪸
 
 Buck Reef National Park, located in the Caribbean Sea off the coast of Belize, is a protected marine area known for its vibrant coral reefs and diverse marine life. The park is a popular destination for snorkelers and divers, offering stunning underwater landscapes with colorful corals, sponges, and an array of tropical fish. As part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site, Buck Reef plays a critical role in preserving the delicate marine ecosystem while providing opportunities for eco-tourism and environmental education. Its clear waters and rich biodiversity make it a key destination for marine conservation efforts.
 
