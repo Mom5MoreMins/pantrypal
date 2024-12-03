@@ -41,11 +41,11 @@ menu: nav/Buck_Reef.html
     }
 </style>
 
-## Welcome to Vote for the GOAT!
+## Welcome to The Buck Reef National Park Page!
 
-We're excited to bring you "Vote for the GOAT," a fun and interactive project from Mr. Brown's class! Here, students can dive into different topics, cast their votes, and have some great conversations. Each group has their own theme, so there's something for everyone to get excited about. Let’s jump into what each group is up to and how you can get involved!
+Buck Reef National Park, located in the Caribbean Sea off the coast of Belize, is a protected marine area known for its vibrant coral reefs and diverse marine life. The park is a popular destination for snorkelers and divers, offering stunning underwater landscapes with colorful corals, sponges, and an array of tropical fish. As part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site, Buck Reef plays a critical role in preserving the delicate marine ecosystem while providing opportunities for eco-tourism and environmental education. Its clear waters and rich biodiversity make it a key destination for marine conservation efforts.
 
-### Group Themes and Activities
+### Activites & Supplies Needed
 
 <div class="group-theme">
     <strong>Anvay's Group: Internet Debates</strong>  
@@ -57,10 +57,7 @@ We're excited to bring you "Vote for the GOAT," a fun and interactive project fr
     Got a favorite snack or item at the Dinero Store? Risha’s group is all about sharing those favorites and seeing what the top picks are. Join in, cast your votes, and discover which items are the most-loved among your classmates!
 </div>
 
-<div class="group-theme">
-    <strong>Maryam's Group: Calico Critters Showdown</strong>  
-    Calling all Calico Critter fans! Maryam’s group is diving into the world of these cute critters to find out which ones are the absolute favorites. Whether you’re here for nostalgia or just want to see which ones win, it’s time to vote for the critters that hold a special place in your heart.
-</div>
+
 
 <div class="group-theme">
     <strong>Weston's Group: Car Preferences</strong>  
