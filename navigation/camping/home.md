@@ -6,9 +6,6 @@ permalink: /camping/home
 menu: nav/camping.html
 ---
 
-
-# Camping Home
-
 <style>
     body {
         font-family: 'Poppins', sans-serif;
