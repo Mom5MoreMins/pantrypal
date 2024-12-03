@@ -12,7 +12,7 @@ menu: nav/camping.html
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background-color: #000;
+        background-color: #63c752;
         color: #e0e0e0;
         padding: 20px;
     }
