@@ -6,7 +6,7 @@ permalink: /national_parks/buck_reef
 menu: nav/national_parks.html
 ---
 
-<img src="{{ site.baseurl }}/images/NationalParkImages/buckreef.jpg" alt="Photo of buck reef" style="width: 75%; height: auto;">
+<img src="{{ site.baseurl }}/images/NationalParkImages/ocean.jpg" alt="Photo of buck reef" style="width: 90%; height: auto;">
 
 
 # All About Buck Reef National Park! 🌊🪸
@@ -44,10 +44,10 @@ menu: nav/national_parks.html
     }
 </style>
 
-## Welcome to The Buck Reef National Park Page!
+<h3 style="color: #1cd0fc;">Welcome to the Buck Reef National Park Page</h3>
 
 Buck Reef National Park, located in the Caribbean Sea off the coast of Belize, is a protected marine area known for its vibrant coral reefs and diverse marine life. The park is a popular destination for snorkelers and divers, offering stunning underwater landscapes with colorful corals, sponges, and an array of tropical fish. As part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site, Buck Reef plays a critical role in preserving the delicate marine ecosystem while providing opportunities for eco-tourism and environmental education. Its clear waters and rich biodiversity make it a key destination for marine conservation efforts.
 
-### Activites & Supplies Needed
+<h3 style="color: #1cd0fc;">Activities & Supplies Needed</h3>
 
 Buck Reef National Park offers a variety of exciting activities for visitors, particularly those interested in marine life and water-based exploration. Popular activities include snorkeling, diving, and kayaking, where visitors can discover vibrant coral reefs, diverse marine species, and clear turquoise waters. Additionally, the park is great for eco-tours, allowing visitors to learn about marine conservation efforts. To fully enjoy these activities, you'll need basic supplies such as a snorkeling or diving mask, fins, a wetsuit for cooler waters, and a reef-safe sunscreen to protect both your skin and the fragile ecosystem. A waterproof camera is also recommended to capture the stunning underwater sights.
