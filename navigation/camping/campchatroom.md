@@ -5,127 +5,132 @@ search_exclude: true
 permalink: /camping/page2
 ---
 <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-}
-.chatroom {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background: #414833;
-    border-radius: 5px;
-}
-.messages {
-    height: 300px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background: #a5a58d;
-}
-.message {
-    margin-bottom: 15px;
-}
-.message strong {
-    display: block;
-    color: #333;
-    margin-bottom: 5px;
-}
-.message p {
-    margin: 0;
-    padding: 5px;
-    background: #f0f0f0;
-    border-radius: 5px;
-    color: #555;
-}
-.chat-form {
-    display: flex;
-    gap: 10px;
-}
-.chat-form input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-.chat-form button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-.chat-form button:hover {
-    background: #0056b3;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #181818;
+        color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    .top-sections-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1000px;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .chatroom-container {
+        background-color: #2b2b2b;
+        padding: 20px;
+        border-radius: 8px;
+        border: 2px solid #6b705c;
+        flex: 1;
+    }
+    .chatroom-container h2 {
+        color: #6b705c;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    #username, #message {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #333;
+        background-color: #333;
+        color: #e0e0e0;
+    }
+    .message-form button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #6b705c;
+        color: #1b1b1b;
+        font-weight: bold;
+        cursor: pointer;
+        text-shadow: 0px 2px 8px rgba(255, 209, 102, 0.6);
+    }
 </style>
 
-
-<div class="chatroom">
-    <h2>All things camping!</h2>
-    <div class="messages" id="messages"></div>
-    <form id="chat-form" class="chat-form">
-      <input type="text" id="message-input" placeholder="Type your message..." required />
-      <button type="submit">Send</button>
+<div class="chatroom-container">
+    <h2>All Things Camping!</h2>
+    <div class="chat-area" id="messages">
+        <!-- Messages will appear here -->
+    </div>
+    <form class="message-form" id="chat-form">
+        <input type="text" id="username" placeholder="Your Name" required>
+        <input type="text" id="message" placeholder="Type a message..." maxlength="200" required>
+        <button type="submit">Send</button>
     </form>
 </div>
 
-  <script>
-    const apiUrl = "https://your-backend-url.com/api"; // replace w backend API URL
-    const username = "LoggedInUsername"; // replace w actual username from  login system
+<script type="module">
+    import { pythonURI, fetchOptions } from '../assets/js/api/config.js';
 
-    // fetch and display messages
-    async function loadMessages() {
-      try {
-        const response = await fetch(`${apiUrl}/messages`);
-        const messages = await response.json();
-        const messagesContainer = document.getElementById("messages");
-        messagesContainer.innerHTML = ""; // clears existing messages
-        messages.forEach(msg => {
-          const messageElement = document.createElement("div");
-          messageElement.classList.add("message");
-          messageElement.innerHTML = `<strong>${msg.username}</strong><p>${msg.text}</p>`;
-          messagesContainer.appendChild(messageElement);
-        });
-        messagesContainer.scrollTop = messagesContainer.scrollHeight; // autoscroll
-      } catch (error) {
-        console.error("Error loading messages:", error);
-      }
+    async function fetchPosts() {
+        try {
+            const response = await fetch(`${pythonURI}/api/posts`, fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch posts from the backend.");
+            }
+            const posts = await response.json();
+            renderPosts(posts);
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        }
     }
 
-    // message submission
-    document.getElementById("chat-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const messageInput = document.getElementById("message-input");
-      const messageText = messageInput.value.trim();
-      if (!messageText) return;
+    function renderPosts(posts) {
+        document.getElementById('postsWrapper').innerHTML = posts.map(post => {
+            const username = post.username || "Anonymous"; // Default to "Anonymous" if undefined
+            const content = typeof post.content === 'string' ? post.content : JSON.stringify(post.content); // Display content as JSON if it's an object
 
-      try {
-        const response = await fetch(`${apiUrl}/messages`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, text: messageText })
-        });
-        if (response.ok) {
-          messageInput.value = ""; // clear input
-          loadMessages(); // refresh
-        } else {
-          console.error("Failed to send message:", response.statusText);
+        }).join('');
+    }
+
+    async function addPost(event) {
+        event.preventDefault();
+        const username = document.getElementById('usernameInput').value || "Anonymous";
+        const content = document.getElementById('postInput').value;
+        const postData = { username, content };
+
+        try {
+            const response = await fetch(`${pythonURI}/api/posts`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData)
+            });
+            if (!response.ok) {
+                throw new Error("Failed to add post to the backend.");
+            }
+            document.getElementById('postForm').reset();
+            fetchPosts(); // Refresh posts after adding a new one
+        } catch (error) {
+            console.error("Error adding post:", error);
         }
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchPosts();
+        
+        document.getElementById('postForm').addEventListener('submit', addPost);
+
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value || "Anonymous";
+            const message = document.getElementById('message').value;
+            const timestamp = new Date().toLocaleTimeString();
+            const messageHtml = `<p><span class="username">${username}</span>: ${message} <span class="timestamp">[${timestamp}]</span></p>`;
+            document.getElementById("messages").innerHTML += messageHtml;
+            event.target.reset();
+        });
     });
 
-    // load messages 
-    setInterval(loadMessages, 3000); // Refreshes messages every 3 sec
+</script>
 
-    // initial load
-    loadMessages();
-  </script>
