@@ -6,7 +6,7 @@ permalink: /national_parks/buck_reef
 menu: nav/national_parks.html
 ---
 
-<img src="{{ site.baseurl }}/images/dnerostore/Dnero_Store_Header_Updated.png" alt="Dnero Store Header" style="width: 100%; height: auto;">
+<img src="{{ site.baseurl }}/images/national_parks/buck_reef.png" alt="Photo of buck reef" style="width: 100%; height: auto;">
 
 
 # All About Buck Reef National Park! 🌊🪸
