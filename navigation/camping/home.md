@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Camping Home
+title: Camping Homepage
 search_exclude: true
 permalink: /camping/home
 menu: nav/camping.html
@@ -43,11 +43,14 @@ menu: nav/camping.html
     .slides {
         display: none;
         width: 100%;
+        height: 400px;
     }
 
     .slides img {
         width: 100%;
-        border-radius: 10px;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
     }
 
     .prev, .next {
@@ -89,29 +92,59 @@ menu: nav/camping.html
     .dot.active {
         background-color: #00d4ff;
     }
+
+    .fullscreen {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fullscreen img {
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #fff;
+        color: #000;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
 </style>
 
-<h1>Welcome to the World of National Parks!</h1>
+<h1>Welcome to the Camping Homepage!</h1>
 
 <div class="feature-overview">
-    <h2>Explore the Features</h2>
-    <p>Take a personality quiz to find your ideal national park.</p>
-    <p>Get camping tips, join discussions, and connect with other adventurers.</p>
-    <p>Rate and review parks after your visit and share your experiences.</p>
+    <h2>Discover Your Next Adventure</h2>
+    <p>Explore the best camping destinations across stunning national parks.</p>
+    <p>Learn tips and tricks for camping, connect with other adventurers, and share your experiences.</p>
 </div>
 
 <div class="slideshow-container">
     <div class="slides">
-        <img src="https://media.cntraveler.com/photos/5f15ca3da107fd1a0223dde7/1:1/w_2634,h_2634,c_limit/DenaliNationalPark-Alaska-2020-GettyImages-628618916.jpg" alt="National Park 1">
+        <img src="https://media.cntraveler.com/photos/5f15ca3da107fd1a0223dde7/1:1/w_2634,h_2634,c_limit/DenaliNationalPark-Alaska-2020-GettyImages-628618916.jpg" alt="Denali National Park" onclick="openFullscreen(this)">
     </div>
     <div class="slides">
-        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQe8po_i_zHqgTQ9LLpCFB9vArUZ1_BrBM60VTKFmk2yhghJadINiobzOE1BJJzndll2TsGbkk08QVlt1D5aVdQOGIkEjce5ThX0128RA" alt="National Park 2">
+        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQe8po_i_zHqgTQ9LLpCFB9vArUZ1_BrBM60VTKFmk2yhghJadINiobzOE1BJJzndll2TsGbkk08QVlt1D5aVdQOGIkEjce5ThX0128RA" alt="Grand Canyon National Park" onclick="openFullscreen(this)">
     </div>
     <div class="slides">
-        <img src="https://media.cntraveler.com/photos/641366bd693167e7802a8bf2/1:1/w_4000,h_4000,c_limit/Redwood%20National%20Park_GettyImages-1079164438.jpg" alt="National Park 3">
+        <img src="https://media.cntraveler.com/photos/641366bd693167e7802a8bf2/1:1/w_4000,h_4000,c_limit/Redwood%20National%20Park_GettyImages-1079164438.jpg" alt="Redwood National Park" onclick="openFullscreen(this)">
     </div>
     <div class="slides">
-        <img src="https://www.nps.gov/articles/000/images/BUIS-corsaut-873x0425.jpg" alt="National Park 3">
+        <img src="https://www.nps.gov/articles/000/images/BUIS-corsaut-873x0425.jpg" alt="Buck Island Reef National Monument" onclick="openFullscreen(this)">
     </div>
 
     <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
@@ -122,6 +155,12 @@ menu: nav/camping.html
     <span class="dot" onclick="currentSlide(1)"></span>
     <span class="dot" onclick="currentSlide(2)"></span>
     <span class="dot" onclick="currentSlide(3)"></span>
+    <span class="dot" onclick="currentSlide(4)"></span>
+</div>
+
+<div class="fullscreen" id="fullscreen">
+    <button class="close-btn" onclick="closeFullscreen()">&#10006;</button>
+    <img id="fullscreenImage" src="" alt="Fullscreen Image">
 </div>
 
 <script>
@@ -145,6 +184,18 @@ menu: nav/camping.html
         dots.forEach(dot => dot.classList.remove('active'));
         slides[slideIndex].style.display = 'block';
         dots[slideIndex].classList.add('active');
+    }
+
+    function openFullscreen(image) {
+        const fullscreen = document.getElementById('fullscreen');
+        const fullscreenImage = document.getElementById('fullscreenImage');
+        fullscreenImage.src = image.src;
+        fullscreen.style.display = 'flex';
+    }
+
+    function closeFullscreen() {
+        const fullscreen = document.getElementById('fullscreen');
+        fullscreen.style.display = 'none';
     }
 
     // Auto slide every 5 seconds
