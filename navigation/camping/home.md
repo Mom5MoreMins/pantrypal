@@ -105,10 +105,13 @@ menu: nav/camping.html
         <img src="https://media.cntraveler.com/photos/5f15ca3da107fd1a0223dde7/1:1/w_2634,h_2634,c_limit/DenaliNationalPark-Alaska-2020-GettyImages-628618916.jpg" alt="National Park 1">
     </div>
     <div class="slides">
-        <img src="https://example.com/park2.jpg" alt="National Park 2">
+        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQe8po_i_zHqgTQ9LLpCFB9vArUZ1_BrBM60VTKFmk2yhghJadINiobzOE1BJJzndll2TsGbkk08QVlt1D5aVdQOGIkEjce5ThX0128RA" alt="National Park 2">
     </div>
     <div class="slides">
-        <img src="https://example.com/park3.jpg" alt="National Park 3">
+        <img src="https://media.cntraveler.com/photos/641366bd693167e7802a8bf2/1:1/w_4000,h_4000,c_limit/Redwood%20National%20Park_GettyImages-1079164438.jpg" alt="National Park 3">
+    </div>
+    <div class="slides">
+        <img src="https://www.nps.gov/articles/000/images/BUIS-corsaut-873x0425.jpg" alt="National Park 3">
     </div>
 
     <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
