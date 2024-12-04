@@ -29,12 +29,10 @@ menu: nav/camping.html
       justify-content: center;
       align-items: center;
     }
-
     .chat-button img {
       width: 40px;
       height: 40px;
     }
-
     /* Style for the chatbox container */
     .chatbox {
       position: fixed;
@@ -50,7 +48,6 @@ menu: nav/camping.html
       flex-direction: column;
       overflow: hidden;
     }
-
     /* Header of the chatbox */
     .chatbox-header {
       background: #4CAF50;
@@ -59,27 +56,23 @@ menu: nav/camping.html
       font-size: 16px;
       text-align: center;
     }
-
     /* Chatbox content area */
     .chatbox-content {
       flex-grow: 1;
       padding: 10px;
       overflow-y: auto;
     }
-
     /* Chatbox input area */
     .chatbox-input {
       border-top: 1px solid #ddd;
       display: flex;
     }
-
     .chatbox-input input {
       flex-grow: 1;
       padding: 10px;
       border: none;
       outline: none;
     }
-
     .chatbox-input button {
       background: #4CAF50;
       color: white;
@@ -92,7 +85,7 @@ menu: nav/camping.html
 <body>
   <!-- Chat Button -->
   <button class="chat-button" onclick="toggleChatbox()">
-    <img src="/images/rangerhat.jpg" alt="Ranger Hat">
+    <img src="https://img.freepik.com/premium-vector/camping-lantern-icon-clipart-avatar-logotype-isolated-vector-illustration_955346-193.jpg" alt="Ranger Hat">
   </button>
 
   <!-- Chatbox -->
