@@ -155,10 +155,12 @@ menu: nav/national_parks.html
     <button class="submit-btn">Submit Review</button>
 
 <div class="star-rating">
-        <span class="star" onclick="alert('Star 1 clicked')">&#9733;</span>
-        <span class="star" onclick="alert('Star 2 clicked')">&#9733;</span>
-        <span class="star" onclick="alert('Star 3 clicked')">&#9733;</span>
-        <span class="star" onclick="alert('Star 4 clicked')">&#9733;</span>
-        <span class="star" onclick="alert('Star 5 clicked')">&#9733;</span>
+        <span class="star" onclick="alert('5 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('4 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('3 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('2 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('1 star clicked')">&#9733;</span>
     </div>
 </div>
+
+
