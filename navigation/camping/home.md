@@ -130,7 +130,7 @@ menu: nav/camping.html
 <div class="feature-overview">
     <h2>Discover Your Next Adventure</h2>
     <p>Explore the best camping destinations across stunning national parks.</p>
-    <p>Take the quiz to learn what National Park fits your interests best. Learn tips and tricks for camping, connect with other adventurers, and share your experiences.</p>
+    <p>Take the quiz to learn what National Park fits your interests best.Learn tips and tricks for camping, connect with other adventurers, and share your experiences.</p>
 </div>
 
 <div class="slideshow-container">
