@@ -6,7 +6,13 @@ permalink: /national_parks/buck_reef
 menu: nav/national_parks.html
 ---
 
-<img src="{{ site.baseurl }}/images/NationalParkImages/ocean.jpg" alt="Photo of buck reef" style="width: 90%; height: auto;">
+<div class="image-scroller">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/ocean.jpg" alt="Image 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/PIC5.jpg" alt="Image 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/pic6.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/reef.jpg" alt="Image 5">
+</div>
 
 
 # All About Buck Reef National Park! 🌊🪸
