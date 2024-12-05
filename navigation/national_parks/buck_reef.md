@@ -34,6 +34,27 @@ menu: nav/national_parks.html
         box-shadow: 0 4px 8px 0 rgba(28, 208, 252, 0.2), 0 6px 20px 0 rgba(28, 208, 252, 0.19);
         border: 1px solid #00d4ff;
     }
+    .image-scroller {
+        width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        background-color: #111;
+        border: 1px solid #bbf14f;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
+        margin: 20px auto;
+        padding: 10px 0;
+    }
+
+    .image-scroller img {
+        display: inline-block;
+        width: 400px;
+        height: 300px;
+        margin-right: 10px;
+        border-radius: 5px;
+        object-fit: cover;
+    }
 
     .group-theme h3 {
         margin-top: 0;
@@ -42,9 +63,9 @@ menu: nav/national_parks.html
 
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/NationalParkImages/ocean.jpg" alt="Image 1">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/PIC5.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/pic6.jpg" alt="Image 3">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/turtle.png" alt="Image 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/BUCKREEFPIC.jpg" alt="Image 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/reeef.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/TURTLE.jpg" alt="Image 4">
     <img src="{{ site.baseurl }}/images/NationalParkImages/reef.jpg" alt="Image 5">
 </div>
 
