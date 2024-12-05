@@ -5,16 +5,6 @@ search_exclude: true
 permalink: /camping/page2
 ---
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #181818;
-        color: #e0e0e0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        overflow-x: hidden;
-    }
     .top-sections-wrapper {
         display: flex;
         justify-content: space-between;
@@ -58,7 +48,7 @@ permalink: /camping/page2
 </style>
 
 <div class="chatroom-container">
-    <h2>All Things Camping!</h2>
+    <h2>Send a message to enter the chat!</h2>
     <div class="chat-area" id="messages">
         <!-- Messages will appear here -->
     </div>
@@ -118,8 +108,6 @@ permalink: /camping/page2
 
     document.addEventListener('DOMContentLoaded', () => {
         fetchPosts();
-        
-        document.getElementById('postForm').addEventListener('submit', addPost);
 
         document.getElementById('chat-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -129,6 +117,7 @@ permalink: /camping/page2
             const messageHtml = `<p><span class="username">${username}</span>: ${message} <span class="timestamp">[${timestamp}]</span></p>`;
             document.getElementById("messages").innerHTML += messageHtml;
             event.target.reset();
+        
         });
     });
 
