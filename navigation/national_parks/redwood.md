@@ -8,23 +8,32 @@ menu: nav/national_parks.html
 <style>
     .container {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
         max-width: 1200px;
         padding: 20px;
         box-sizing: border-box;
     }
-    .form-container {
+
+    .form-container, .post-item {
         display: flex;
         flex-direction: column;
-        max-width: 800px;
-        width: 100%;
+        width: 100%; /* Make both elements take up full width of their parent */
+        max-width: 800px; /* Limit the width to match the desired layout */
         background-color: #2C3E50;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         color: #ECF0F1;
+        margin-bottom: 20px;
+        box-sizing: border-box; /* Ensure padding doesn't overflow the width */
     }
+
+    .post-item h3, .post-item p {
+        margin: 0 0 10px;
+    }
+
     .form-container label {
         margin-bottom: 5px;
     }
@@ -43,22 +52,24 @@ menu: nav/national_parks.html
         color: #ECF0F1;
         cursor: pointer;
     }
-</style>
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
 
-<div class="container">
-    <div class="form-container">
-        <h2>Add New Post to Redwood National Park</h2>
-        <form id="postForm">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-            <label for="comment">Comment:</label>
-            <textarea id="comment" name="comment" required></textarea>
-            <input type="hidden" id="group_id" name="group_id" value="national parks">
-            <input type="hidden" id="channel_id" name="channel_id" value="17">
-            <button type="submit">Add Post</button>
-        </form>
-    </div>
-</div>
+    .post-item h3 {
+        margin: 0 0 10px;
+    }
+    .post-item p {
+        margin: 5px 0;
+    }
+
+</style>
 
 <div class="container">
     <div id="data" class="data">
@@ -134,7 +145,7 @@ menu: nav/national_parks.html
             }
 
             const postData = await response.json();
-            document.getElementById('count').innerHTML = `<h2>Posts Count: ${postData.length || 0}</h2>`;
+            document.getElementById('count').innerHTML = `<h4>Number of Reviews: ${postData.length || 0}</h4>`;
             const detailsDiv = document.getElementById('details');
             detailsDiv.innerHTML = '';
 
@@ -143,6 +154,7 @@ menu: nav/national_parks.html
                 postElement.className = 'post-item';
                 postElement.innerHTML = `
                     <h3>${post.title}</h3>
+                    <p><strong>Username:</strong> ${post.user_name}</p>
                     <p><strong>Comment:</strong> ${post.comment}</p>
                 `;
                 detailsDiv.appendChild(postElement);
@@ -155,3 +167,18 @@ menu: nav/national_parks.html
     // Fetch posts on page load
     fetchData(17);
 </script>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Add New Post to Redwood National Park</h2>
+        <form id="postForm">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" required></textarea>
+            <input type="hidden" id="group_id" name="group_id" value="national parks">
+            <input type="hidden" id="channel_id" name="channel_id" value="17">
+            <button type="submit">Add Post</button>
+        </form>
+    </div>
+</div>
