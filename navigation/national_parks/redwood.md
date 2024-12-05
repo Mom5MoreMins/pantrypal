@@ -5,107 +5,153 @@ search_exclude: true
 permalink: /national_parks/redwood
 menu: nav/national_parks.html
 ---
-
-<div class="post-form-container" id="post-form" style="display: none;">
-  <h2>Post a Review</h2>
-  <form id="postForm">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
-    <p></p>
-    <label for="comment">Comment:</label>
-    <textarea id="comment" name="comment" required></textarea>
-    <button type="submit">Add Review</button>
-  </form>
-</div>
-
-<div id="post-list" class="post-list-container">
-  <!-- Fetched posts will be displayed here -->
-</div>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Show the post form by default
-    const formContainer = document.getElementById('post-form');
-    formContainer.style.display = 'block';
-
-    // Pre-fill form fields with default values for Redwood National Park
-    document.getElementById('title').value = 'Review for Redwood National Park';
-    document.getElementById('comment').value = 'Enter your comments here...';
-    document.getElementById('group-select').value = 'National Parks';
-
-    // Populate the channel dropdown with the "Redwood" option
-    const channelSelect = document.getElementById('channel-select');
-    channelSelect.innerHTML = ''; // Clear existing options
-    const redwoodOption = document.createElement('option');
-    redwoodOption.value = 'Redwood';
-    redwoodOption.text = 'Redwood';
-    channelSelect.appendChild(redwoodOption);
-    channelSelect.value = 'Redwood'; // Set default selection to Redwood
-
-    // Set a default channel ID (example: 12 for Redwood)
-    const channelID = 12;
-    document.getElementById('postForm').setAttribute('data-channel-id', channelID);
-  });
-
-  document.getElementById('postForm').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    // Get form data
-    const title = document.getElementById('title').value;
-    const comment = document.getElementById('comment').value;
-    const group = document.getElementById('group-select').value;
-    const channel = document.getElementById('channel-select').value;
-    const channelID = document.getElementById('postForm').getAttribute('data-channel-id');
-
-    const postData = {
-      title: title,
-      comment: comment,
-      channel_id: channelID,
-    };
-
-    try {
-      // Log post data for debugging
-      console.log('Submitting post data:', postData);
-
-      const response = await fetch(`${pythonURI}/api/post`, {
-        ...fetchOptions,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData),
-      });
-
-      if (!response.ok) {
-        console.error('Failed to submit post:', response.statusText);
-        alert('Error: Could not submit your review. Please try again later.');
-        return;
-      }
-
-      const result = await response.json();
-      console.log('Post submitted successfully:', result);
-
-      alert('Review submitted successfully!');
-      document.getElementById('postForm').reset(); // Reset form after successful submission
-    } catch (error) {
-      console.error('Error during submission:', error);
-      alert('Error: Unable to submit your review. Please check the console for more details.');
-    }
-  });
-</script>
-
 <style>
-  .post-form-container {
-    background-color: #13292b;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-  }
-
-  .post-item {
-    background-color: #13292b;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
+    .container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        width: 100%;
+        background-color: #2C3E50;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #ECF0F1;
+    }
+    .form-container label {
+        margin-bottom: 5px;
+    }
+    .form-container input, .form-container textarea {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 100%;
+    }
+    .form-container button {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #34495E;
+        color: #ECF0F1;
+        cursor: pointer;
+    }
 </style>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Add New Post to Redwood National Park</h2>
+        <form id="postForm">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" required></textarea>
+            <input type="hidden" id="group_id" name="group_id" value="national parks">
+            <input type="hidden" id="channel_id" name="channel_id" value="17">
+            <button type="submit">Add Post</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div id="data" class="data">
+        <div class="left-side">
+            <p id="count"></p>
+        </div>
+        <div class="details" id="details"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    /**
+     * Handle form submission for adding a post
+     */
+    document.getElementById('postForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        // Extract data from form
+        const title = document.getElementById('title').value;
+        const comment = document.getElementById('comment').value;
+        const groupId = document.getElementById('group_id').value;
+        const channelId = document.getElementById('channel_id').value;
+
+        // Create API payload
+        const postData = {
+            title: title,
+            comment: comment,
+            group_id: groupId,
+            channel_id: channelId
+        };
+
+        try {
+            // Send POST request to backend
+            const response = await fetch(`${pythonURI}/api/post`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add post: ' + response.statusText);
+            }
+
+            alert('Post added successfully!');
+            document.getElementById('postForm').reset();
+            fetchData(channelId);
+        } catch (error) {
+            console.error('Error adding post:', error);
+            alert('Error adding post: ' + error.message);
+        }
+    });
+
+    /**
+     * Fetch and display posts
+     */
+    async function fetchData(channelId) {
+        try {
+            const response = await fetch(`${pythonURI}/api/posts/filter`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ channel_id: channelId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts: ' + response.statusText);
+            }
+
+            const postData = await response.json();
+            document.getElementById('count').innerHTML = `<h2>Posts Count: ${postData.length || 0}</h2>`;
+            const detailsDiv = document.getElementById('details');
+            detailsDiv.innerHTML = '';
+
+            postData.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p><strong>Comment:</strong> ${post.comment}</p>
+                `;
+                detailsDiv.appendChild(postElement);
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // Fetch posts on page load
+    fetchData(17);
+</script>
