@@ -1,8 +1,8 @@
 ---
 layout: post 
-title: Grand Canyon
+title: Denali National Park
 search_exclude: true
-permalink: /national_parks/GrandCanyon
+permalink: /national_parks/Denali
 menu: nav/national_parks.html
 ---
 
@@ -127,7 +127,7 @@ menu: nav/national_parks.html
 </style>
 
 <div class="image-scroller">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/image.png" alt="Image 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/denalipic1.png" alt="Image 1">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic1.jpg" alt="Image 2">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic2.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
