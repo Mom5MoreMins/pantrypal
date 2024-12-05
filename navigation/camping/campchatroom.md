@@ -14,16 +14,17 @@ permalink: /camping/page2
         margin-top: 20px;
     }
     .chatroom-container {
-        background-color: #2b2b2b;
+        background-color: #a4ac86;
         padding: 20px;
-        border-radius: 8px;
-        border: 2px solid #6b705c;
+        border-radius: 10x;
+        border: 5px solid #414833;
         flex: 1;
     }
     .chatroom-container h2 {
-        color: #6b705c;
+        color: #656d4a;
         text-align: center;
         margin-bottom: 10px;
+        text-shadow: 0px 2px 8px #a4ac86;
     }
     #username, #message {
         width: 100%;
