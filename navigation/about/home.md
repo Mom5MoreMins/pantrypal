@@ -2,8 +2,8 @@
 layout: post 
 title: Big Ideas Home
 search_exclude: true
-permalink: /big_ideas/home
-menu: nav/big_ideas.html
+menu: nav/about.html
+permalink: /about/home
 ---
 
 
