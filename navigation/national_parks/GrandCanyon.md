@@ -155,12 +155,51 @@ menu: nav/national_parks.html
     <button class="submit-btn">Submit Review</button>
 
 <div class="star-rating">
-        <span class="star" onclick="alert('5 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('4 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('3 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('1 stars clicked')">&#9733;</span>
         <span class="star" onclick="alert('2 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('1 star clicked')">&#9733;</span>
+        <span class="star" onclick="alert('3 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('4 stars clicked')">&#9733;</span>
+        <span class="star" onclick="alert('5 star clicked')">&#9733;</span>
     </div>
 </div>
 
 
+
+<script>
+    document.querySelector('.submit-btn').addEventListener('click', function() {
+        const title = 'Grand Canyon Review';  // You can dynamically change this
+        const comment = document.querySelector('.review-input').value;
+        const content = {};  // Add any extra review data if necessary
+        const channel_id = 1;  // Assuming channel_id is static for now or can be dynamically set
+                
+        // Create the review object
+        const review = {
+            title: title,
+            comment: comment,
+            content: content,
+            channel_id: channel_id
+        };
+
+        // Send the review data to the backend
+        fetch('/api/review', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer YOUR_JWT_TOKEN'  
+            },
+            body: JSON.stringify(review)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+            } else {
+                alert('Review submitted successfully!');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to submit review.');
+        });
+    });
+</script>

@@ -66,7 +66,6 @@ menu: nav/national_parks.html
     <img src="{{ site.baseurl }}/images/NationalParkImages/BUCKREEFPIC.jpg" alt="Image 2">
     <img src="{{ site.baseurl }}/images/NationalParkImages/reeef.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/TURTLE.jpg" alt="Image 4">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/reef.jpg" alt="Image 5">
 </div>
 
 <h3 style="color: #1cd0fc;">Welcome to the Buck Reef National Park Page</h3>
