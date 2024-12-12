@@ -1,83 +1,114 @@
 ---
 layout: post 
-title: Big Ideas Home
+title: About Our Team
 search_exclude: true
 menu: nav/about.html
 permalink: /about/home
 ---
 
-
-# Big Ideas Home
-
 <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #000;
-        color: #e0e0e0;
-        padding: 20px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .table-wrapper {
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        td {
+            background-color: #fff;
+        }
+    </style>
 
-    h2, h3 {
-        color: #00d4ff;
-        margin-bottom: 10px;
-    }
-
-    p {
-        margin-bottom: 15px;
-    }
-
-    .group-theme {
-        background: #000;
-        color: #e0e0e0;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
-        border: 1px solid #00d4ff;
-    }
-
-    .group-theme h3 {
-        margin-top: 0;
-    }
-</style>
-
-## Welcome to Vote for the GOAT!
-
-We're excited to bring you "Vote for the GOAT," a fun and interactive project from Mr. Brown's class! Here, students can dive into different topics, cast their votes, and have some great conversations. Each group has their own theme, so there's something for everyone to get excited about. Let’s jump into what each group is up to and how you can get involved!
-
-### Group Themes and Activities
-
-<div class="group-theme">
-    <strong>Anvay's Group: Internet Debates</strong>  
-    Step right up to join some of the internet’s hottest debates! Anvay’s group is tackling the big questions—from “milk or cereal first?” to other internet classics. Get ready to bring your best arguments, learn from different perspectives, and, of course, vote on which side you’re on!
+<div class="table-container" id="tableContainer">
+    <!-- Tables will be dynamically injected here -->
 </div>
 
-<div class="group-theme">
-    <strong>Risha's Group: Dinero Store Favorites</strong>  
-    Got a favorite snack or item at the Dinero Store? Risha’s group is all about sharing those favorites and seeing what the top picks are. Join in, cast your votes, and discover which items are the most-loved among your classmates!
-</div>
+<script>
+    // Fetch data from Flask API
+    const apiUrl = 'http://127.0.0.1:5001/api/data';
 
-<div class="group-theme">
-    <strong>Maryam's Group: Calico Critters Showdown</strong>  
-    Calling all Calico Critter fans! Maryam’s group is diving into the world of these cute critters to find out which ones are the absolute favorites. Whether you’re here for nostalgia or just want to see which ones win, it’s time to vote for the critters that hold a special place in your heart.
-</div>
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Get the table container
+            const container = document.getElementById('tableContainer');
 
-<div class="group-theme">
-    <strong>Weston's Group: Car Preferences</strong>  
-    Love cars? So does Weston’s group! They’re setting up a discussion about the best cars for students, dream cars, and what everyone’s actually driving. Share your picks, vote, and maybe even find a new favorite!
-</div>
+            // Loop through each user's data to create tables
+            data.forEach((user, index) => {
+                // Create a wrapper div for each table
+                const tableWrapper = document.createElement('div');
+                tableWrapper.className = 'table-wrapper';
 
-<div class="group-theme">
-    <strong>Noah's Group: NFL GOATs Debate</strong>
-    Noah’s group is here for all the NFL fans, especially those who love a good debate about the greatest players of all time. With a focus on the Green Bay Packers, this one’s bound to get exciting. Whether you’re in it for local pride or just love the game, join in to share your take on the GOATs of the NFL.
-</div>
+                // Create a table element
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th colspan="2">User ${index + 1}: ${user.FirstName} ${user.LastName}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Favorite Color</td>
+                            <td>${user.FavoriteColor || user.Favorite_Color || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td>Favorite Fruit</td>
+                            <td>${user.FavoriteFruit || user.Favorite_Fruit || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td>Favorite Sport</td>
+                            <td>${user.FavoriteSport || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td>Hobbies</td>
+                            <td>${(user.Hobbies || []).join(', ')}</td>
+                        </tr>
+                    </tbody>
+                `;
 
-<div class="group-theme">
-    <strong>Thomas's Group: Beverage debate</strong>
-    Fed up with the same old drinks at school? While we can’t promise a menu change, we can offer some fun! Welcome to our group beverage debate, where your votes pick the unofficial favorite. From classics to creative drinks, choose the drink that you think deserves the spotlight. It’s all about seeing which flavors the students love most—cast your vote and make your voice heard!
-</div>
+                // Append the table to the wrapper
+                tableWrapper.appendChild(table);
 
-<div class="group-theme">
-    **Gaheera's Group: Genres**
-    Dive into a world where music lovers connect, explore, and share their favorite genres. Our site offers a unique space to vote on genres, discover new music, and join a lively chatroom where you can vibe with others who share your taste. Whether you’re into rock, jazz, pop, or electronic, this is the place to express your music passions and connect with a community that gets it. Join us now and be part of the rhythm!
-</div>
+                // Append the wrapper to the container
+                container.appendChild(tableWrapper);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script>
