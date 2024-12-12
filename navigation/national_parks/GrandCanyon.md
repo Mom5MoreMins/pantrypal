@@ -150,7 +150,7 @@ menu: nav/national_parks.html
 </div>
 
 <div class="review-section">
-    <h3>Leave a Review</h3>
+    <h3>Leave a review</h3>
     <textarea class="review-input" placeholder="Write your review here..."></textarea>
     <button class="submit-btn">Submit Review</button>
 
@@ -194,7 +194,7 @@ menu: nav/national_parks.html
             if (data.message) {
                 alert(data.message);
             } else {
-                alert('Review submitted successfully!');
+                alert('review submitted successfully!');
             }
         })
         .catch(error => {
