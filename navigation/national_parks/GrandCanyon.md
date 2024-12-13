@@ -154,24 +154,39 @@ menu: nav/national_parks.html
     <textarea class="review-input" placeholder="Write your review here..."></textarea>
     <button class="submit-btn">Submit Review</button>
 
-<div class="star-rating">
-        <span class="star" onclick="alert('1 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('2 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('3 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('4 stars clicked')">&#9733;</span>
-        <span class="star" onclick="alert('5 star clicked')">&#9733;</span>
+    <div class="star-rating">
+        <span class="star" onclick="setRating(1)">&#9733;</span>
+        <span class="star" onclick="setRating(2)">&#9733;</span>
+        <span class="star" onclick="setRating(3)">&#9733;</span>
+        <span class="star" onclick="setRating(4)">&#9733;</span>
+        <span class="star" onclick="setRating(5)">&#9733;</span>
     </div>
 </div>
 
-
-
 <script>
+    let rating = 0;
+
+    // Function to set the rating
+    function setRating(stars) {
+        rating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.style.color = (index < stars) ? '#ff0' : '#bbb';
+        });
+    }
+
+    // Handle review submission
     document.querySelector('.submit-btn').addEventListener('click', function() {
-        const title = 'Grand Canyon Review';  // You can dynamically change this
+        const title = 'Grand Canyon Review';  // You can dynamically set this from the page title
         const comment = document.querySelector('.review-input').value;
-        const content = {};  // Add any extra review data if necessary
-        const channel_id = 1;  // Assuming channel_id is static for now or can be dynamically set
-                
+        const content = { rating: rating };  // Add any extra data if necessary
+        const channel_id = 1;  // Static for now or dynamically set it based on the context
+
+        // Validate that the review has a comment
+        if (!comment.trim()) {
+            alert('Please write a review.');
+            return;
+        }
+
         // Create the review object
         const review = {
             title: title,
@@ -185,16 +200,16 @@ menu: nav/national_parks.html
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer YOUR_JWT_TOKEN'  
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt_token') // Make sure the token is available
             },
             body: JSON.stringify(review)
         })
         .then(response => response.json())
         .then(data => {
             if (data.message) {
-                alert(data.message);
+                alert(data.message); // Handle the backend response message
             } else {
-                alert('review submitted successfully!');
+                alert('Review submitted successfully!');
             }
         })
         .catch(error => {
@@ -203,31 +218,3 @@ menu: nav/national_parks.html
         });
     });
 </script>
-
-class _CRUD(Resource):
-        @token_required()
-        def review(self):
-            try:
-                current_park = g.current_park
-                data = request.get_json()
-
-                # Validate the presence of required keys
-                if not data:
-                    return {'message': 'No input data provided'}, 400
-                if 'title' not in data:
-                    return {'message': 'Review title is required'}, 400
-                if 'comment' not in data:
-                    return {'message': 'Review comment is required'}, 400
-                if 'channel_id' not in data:
-                    return {'message': 'Channel ID is required'}, 400
-                if 'content' not in data:
-                    data['content'] = {}
-
-                review = Review(data['title'], data['comment'], current_park.id, data['channel_id'], data['content'])
-                review.create()
-
-                return jsonify(review.read())
-
-            except Exception as e:
-                current_app.logger.error(f"Error creating review: {str(e)}")
-                return {'message': 'An error occurred while creating the review'}, 500
