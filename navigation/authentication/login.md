@@ -132,7 +132,6 @@ show_reading_time: false
             name: document.getElementById("name").value,
             uid: document.getElementById("signupUid").value,
             password: document.getElementById("signupPassword").value,
-            kasm_server_needed: document.getElementById("kasmNeeded").checked,
         }
     };
 
