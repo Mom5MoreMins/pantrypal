@@ -205,16 +205,69 @@ menu: nav/national_parks.html
             body: JSON.stringify(review)
         })
         .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message); // Handle the backend response message
-            } else {
-                alert('Review submitted successfully!');
-            }
-        })
+    .then(data => {
+    if (data.message) {
+        alert(data.message); // Handle error from backend
+    } else {
+        alert('Review submitted successfully!');
+    }
+})
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to submit review.');
         });
     });
 </script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grand Canyon Points of Interest</title>
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grand Canyon Points of Interest</h1>
+    <div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" async defer></script>
+    <script>
+      function initMap() {
+        const grandCanyon = { lat: 36.1069, lng: -112.1129 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 12,
+          center: grandCanyon,
+        });
+
+const locations = [
+    { lat: 36.1069, lng: -112.1129, title: "Grand Canyon Visitor Center", info: "Information about the canyon." },
+    { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
+    { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+        ];
+
+        locations.forEach(function(location) {
+          const marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.title,
+          });
+
+          const infowindow = new google.maps.InfoWindow({
+            content: `<h3>${location.title}</h3><p>${location.info}</p>`,
+          });
+
+          marker.addListener("click", function() {
+            infowindow.open(map, marker);
+          });
+        });
+      }
+</script>
+  </body>
+</html>
