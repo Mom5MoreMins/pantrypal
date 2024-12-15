@@ -11,7 +11,7 @@ menu: nav/national_parks.html
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background-color: #1cd0fc;
+        background-color: #000;
         color: #e0e0e0;
         padding: 20px;
     }
@@ -27,13 +27,18 @@ menu: nav/national_parks.html
 
     .group-theme {
         background: #000;
-        color: #1cd0fc;
+        color: #e0e0e0;
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 8px 0 rgba(28, 208, 252, 0.2), 0 6px 20px 0 rgba(28, 208, 252, 0.19);
-        border: 1px solid #00d4ff;
+        box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
+        border: 1px solid #bbf14f;
     }
+
+    .group-theme h3 {
+        margin-top: 0;
+    }
+
     .image-scroller {
         width: 100%;
         overflow-x: scroll;
@@ -56,8 +61,68 @@ menu: nav/national_parks.html
         object-fit: cover;
     }
 
-    .group-theme h3 {
-        margin-top: 0;
+    .content {
+        text-align: center;
+    }
+
+    .review-section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #111;
+        border-radius: 10px;
+        border: 1px solid #bbf14f;
+        box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
+        text-align: left;
+        color: #e0e0e0;
+    }
+
+    .review-section h3 {
+        color: #00d4ff;
+    }
+
+    .review-input {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        border: 1px solid #bbf14f;
+        background-color: #222;
+        color: #e0e0e0;
+    }
+
+    .submit-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #00d4ff;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .submit-btn:hover {
+        background-color: #007a99;
+    }
+
+    .star-rating {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .star {
+        font-size: 2rem;
+        color: #bbb;
+        cursor: pointer;
+        margin: 0 5px;
+        transition: color 0.3s;
+    }
+
+    .star:hover,
+    .star:hover ~ .star {
+        color: #ff0;
     }
 </style>
 
@@ -65,13 +130,34 @@ menu: nav/national_parks.html
     <img src="{{ site.baseurl }}/images/NationalParkImages/ocean.jpg" alt="Image 1">
     <img src="{{ site.baseurl }}/images/NationalParkImages/BUCKREEFPIC.jpg" alt="Image 2">
     <img src="{{ site.baseurl }}/images/NationalParkImages/reeef.jpg" alt="Image 3">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/TURTLE.jpg" alt="Image 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/TURTLE.png" alt="Image 4">
 </div>
 
-<h3 style="color: #1cd0fc;">Welcome to the Buck Reef National Park Page</h3>
+<div class="content">
+    <h2>Welcome to Buck Reef National Park</h2>
+    <p>Explore the breathtaking landscapes, unique wildlife, and rich history of one of the most iconic natural wonders of the world. Whether you're planning a visit or just learning more, you're in the right place!</p>
 
-Buck Reef National Park, located in the Caribbean Sea off the coast of Belize, is a protected marine area known for its vibrant coral reefs and diverse marine life. The park is a popular destination for snorkelers and divers, offering stunning underwater landscapes with colorful corals, sponges, and an array of tropical fish. As part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site, Buck Reef plays a critical role in preserving the delicate marine ecosystem while providing opportunities for eco-tourism and environmental education. Its clear waters and rich biodiversity make it a key destination for marine conservation efforts.
+<div class="group-theme">
+        <h3>Explore the gorgeos waters</h3>
+        <p>Discover the best trails for breathtaking views and incredible experiences. The Grand Canyon has something for every level of hiker!</p>
+    </div>
 
-<h3 style="color: #1cd0fc;">Activities & Supplies Needed</h3>
+<div class="group-theme">
+        <h3>Wildlife and Nature</h3>
+        <p>Learn about the unique wildlife and ecosystems of the Grand Canyon National Park.</p>
+    </div>
+</div>
 
-Buck Reef National Park offers a variety of exciting activities for visitors, particularly those interested in marine life and water-based exploration. Popular activities include snorkeling, diving, and kayaking, where visitors can discover vibrant coral reefs, diverse marine species, and clear turquoise waters. Additionally, the park is great for eco-tours, allowing visitors to learn about marine conservation efforts. To fully enjoy these activities, you'll need basic supplies such as a snorkeling or diving mask, fins, a wetsuit for cooler waters, and a reef-safe sunscreen to protect both your skin and the fragile ecosystem. A waterproof camera is also recommended to capture the stunning underwater sights.
+<div class="review-section">
+    <h3>Leave a review</h3>
+    <textarea class="review-input" placeholder="Write your review here..."></textarea>
+    <button class="submit-btn">Submit Review</button>
+
+    <div class="star-rating">
+        <span class="star" onclick="setRating(1)">&#9733;</span>
+        <span class="star" onclick="setRating(2)">&#9733;</span>
+        <span class="star" onclick="setRating(3)">&#9733;</span>
+        <span class="star" onclick="setRating(4)">&#9733;</span>
+        <span class="star" onclick="setRating(5)">&#9733;</span>
+    </div>
+</div>
