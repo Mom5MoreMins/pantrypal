@@ -1,4 +1,4 @@
-<h1>Grand Canyon Points of Interest</h1>
+<h1>Buck Reef Points of Interest</h1>
 
 <div id="map" style="height: 500px;"></div>
 
@@ -6,16 +6,16 @@
 
 <script>
     function initMap() {
-        const grandCanyon = { lat: 36.1069, lng: -112.1129 };
+        const buckReef = { lat: 32.7147, lng: -80.5047 };
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 12,
-            center: grandCanyon,
+            center: buckReef,
         });
 
         const locations = [
-            { lat: 36.1011, lng: -113.0790, title: "Hopi Point", info: "A peaceful spot to take a beautiful photo." },
-            { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
-            { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+            { lat: 30.2169, lng: -81.3501, title: "Buck Reef", info: "A beautiful reef located in [Location Details]." },
+            { lat: 30.2200, lng: -81.3550, title: "Reef Dive Spot", info: "A popular dive spot near Buck Reef." },
+            { lat: 30.2250, lng: -81.3400, title: "Buck Reef Viewpoint", info: "A great viewpoint for scenic views of the reef." }
         ];
 
         locations.forEach(function(location) {

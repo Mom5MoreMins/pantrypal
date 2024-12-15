@@ -1,4 +1,4 @@
-<h1>Grand Canyon Points of Interest</h1>
+<h1>Redwood Points of Interest</h1>
 
 <div id="map" style="height: 500px;"></div>
 
@@ -6,16 +6,16 @@
 
 <script>
     function initMap() {
-        const grandCanyon = { lat: 36.1069, lng: -112.1129 };
+        const redwood = { lat: 41.4, lng: -124.04 };
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 12,
-            center: grandCanyon,
+            center: redwood,
         });
 
         const locations = [
-            { lat: 36.1011, lng: -113.0790, title: "Hopi Point", info: "A peaceful spot to take a beautiful photo." },
-            { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
-            { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+            { lat: 41.2672, lng: -123.9791, title: "Tall Trees Grove", info: "Start your journey at the Redwood Visitor Center, where you'll find park maps and information." },
+            { lat: 41.2134, lng: -124.0179, title: "Lady Bird Johnson Grove", info: "A popular hiking trail among the towering redwoods, named after the former First Lady." },
+            { lat: 41.2805, lng: -123.9797, title: "Fern Canyon", info: "A beautiful canyon lined with lush ferns and moss, often featured in films like 'Jurassic Park'." }
         ];
 
         locations.forEach(function(location) {

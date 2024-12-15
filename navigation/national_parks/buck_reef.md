@@ -136,6 +136,8 @@ menu: nav/national_parks.html
     <h2>Welcome to Buck Reef National Park</h2>
     <p>Explore the stunning underwater landscapes, vibrant marine life, and rich history of one of the most captivating reefs in the world. Whether you're planning a dive or simply looking to learn more, you're in the perfect place!</p>
 
+    {% include buckreefmap.html %}
+
 <div class="group-theme">
         <h3>Explore the gorgeos waters</h3>
         <p>Discover the best dive spots for breathtaking underwater views and unforgettable marine encounters. Buck Reef offers something for every level of diver!</p>
