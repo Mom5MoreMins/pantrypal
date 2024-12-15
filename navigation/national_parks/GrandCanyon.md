@@ -219,6 +219,7 @@ menu: nav/national_parks.html
     });
 </script>
 
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -237,7 +238,7 @@ menu: nav/national_parks.html
     <h1>Grand Canyon Points of Interest</h1>
     <div id="map"></div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtcpEjzls8cPLTl-u8BHJZcLXOh-pZoJ0&callback=initMap" 
             async 
             defer>
     </script>
