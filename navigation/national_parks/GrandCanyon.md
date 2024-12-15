@@ -245,29 +245,24 @@ menu: nav/national_parks.html
           zoom: 12,
           center: grandCanyon,
         });
+const locations = [ 
+  { lat: 36.1069, lng: -112.1129, title: "Grand Canyon Visitor Center", info: "Information about the canyon." },
+  { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
+  { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+];
 
-const locations = [
-    { lat: 36.1069, lng: -112.1129, title: "Grand Canyon Visitor Center", info: "Information about the canyon." },
-    { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
-    { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
-        ];
+locations.forEach(function(location) {
+  const marker = new google.maps.Marker({
+    position: { lat: location.lat, lng: location.lng },
+    map: map,
+    title: location.title,
+  });
 
-        locations.forEach(function(location) {
-          const marker = new google.maps.Marker({
-            position: { lat: location.lat, lng: location.lng },
-            map: map,
-            title: location.title,
-          });
+  const infowindow = new google.maps.InfoWindow({
+    content: `<h3>${location.title}</h3><p>${location.info}</p>`,
+  });
 
-          const infowindow = new google.maps.InfoWindow({
-            content: `<h3>${location.title}</h3><p>${location.info}</p>`,
-          });
-
-          marker.addListener("click", function() {
-            infowindow.open(map, marker);
-          });
-        });
-      }
-</script>
-  </body>
-</html>
+  marker.addListener("click", function() {
+    infowindow.open(map, marker);
+  });
+});
