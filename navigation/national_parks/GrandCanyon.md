@@ -138,6 +138,8 @@ menu: nav/national_parks.html
     <h2>Welcome to Grand Canyon National Park</h2>
     <p>Explore the breathtaking landscapes, unique wildlife, and rich history of one of the most iconic natural wonders of the world. Whether you're planning a visit or just learning more, you're in the right place!</p>
 
+{% include google_maps.html %}
+
 <div class="group-theme">
         <h3>Hiking Trails</h3>
         <p>Discover the best trails for breathtaking views and incredible experiences. The Grand Canyon has something for every level of hiker!</p>
@@ -217,5 +219,5 @@ menu: nav/national_parks.html
             alert('Failed to submit review.');
         });
     });
-{% include google_maps.html %}
+
 </script>
