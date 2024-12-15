@@ -238,8 +238,8 @@ menu: nav/national_parks.html
     <div id="map"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" 
-    async 
-    defer>
+            async 
+            defer>
     </script>
 <script>
       function initMap() {
@@ -248,24 +248,29 @@ menu: nav/national_parks.html
           zoom: 12,
           center: grandCanyon,
         });
-const locations = [ 
-  { lat: 36.1069, lng: -112.1129, title: "Grand Canyon Visitor Center", info: "Information about the canyon." },
-  { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
-  { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
-];
 
-locations.forEach(function(location) {
-  const marker = new google.maps.Marker({
-    position: { lat: location.lat, lng: location.lng },
-    map: map,
-    title: location.title,
-  });
+        const locations = [ 
+          { lat: 36.1069, lng: -112.1129, title: "Grand Canyon Visitor Center", info: "Information about the canyon." },
+          { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
+          { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+        ];
 
-  const infowindow = new google.maps.InfoWindow({
-    content: `<h3>${location.title}</h3><p>${location.info}</p>`,
-  });
+        locations.forEach(function(location) {
+          const marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.title,
+          });
 
-  marker.addListener("click", function() {
-    infowindow.open(map, marker);
-  });
-});
+          const infowindow = new google.maps.InfoWindow({
+            content: `<h3>${location.title}</h3><p>${location.info}</p>`,
+          });
+
+          marker.addListener("click", function() {
+            infowindow.open(map, marker);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
