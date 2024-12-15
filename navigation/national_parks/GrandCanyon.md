@@ -237,8 +237,11 @@ menu: nav/national_parks.html
     <h1>Grand Canyon Points of Interest</h1>
     <div id="map"></div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" async defer></script>
-    <script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" 
+    async 
+    defer>
+    </script>
+<script>
       function initMap() {
         const grandCanyon = { lat: 36.1069, lng: -112.1129 };
         const map = new google.maps.Map(document.getElementById("map"), {
