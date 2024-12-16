@@ -127,9 +127,9 @@ menu: nav/national_parks.html
 </style>
 
 <div class="image-scroller">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/redw.jpg" alt="Image 1">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/ww.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic2.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/rd.jpg" alt="Image 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/3874.jpg" alt="Image 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/123.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
     <img src="{{ site.baseurl }}/images/NationalParkImages/GrandCanyon5.jpg" alt="Image 5">
 </div>
