@@ -13,9 +13,9 @@
         });
 
         const locations = [
-            { lat: 36.1011, lng: -113.0790, title: "Hopi Point", info: "A peaceful spot to take a beautiful photo." },
-            { lat: 36.0575, lng: -112.1381, title: "South Kaibab Trail", info: "A popular hiking trail." },
-            { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Famous viewpoint." }
+            { lat: 36.0544, lng: -112.1401, title: "Grand Canyon Village", info: "Grand Canyon Village, located on the South Rim, is the heart of the Grand Canyon National Park. It offers visitors a range of services, including historic hotels like El Tovar, restaurants, gift shops, and the Grand Canyon Railway depot, which provides scenic train rides to the canyon." },
+            { lat: 36.0529, lng: -112.08304, title: "South Kaibab Trail", info: "a scenic and challenging hiking trail at the Grand Canyon, offering stunning views of the canyon’s cliffs, rock formations, and river below. Known for its steep descent, it provides hikers with an exhilarating experience, leading to the Colorado River at the canyon’s floor" },
+            { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "stunning, panoramic views of the canyon's vast expanse. Known for its breathtaking vistas, it provides visitors with a dramatic perspective of the canyon's colorful rock formations and deep gorges" }
         ];
 
         locations.forEach(function(location) {
@@ -26,7 +26,7 @@
             });
 
             const infowindow = new google.maps.InfoWindow({
-                content: `<h3>${location.title}</h3><p>${location.info}</p>`,
+                content: `<h3 style="color: #b36a32;">${location.title}</h3><p style="color: #b36a32;">${location.info}</p>`,
             });
 
             marker.addListener("click", function() {

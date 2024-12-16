@@ -6,7 +6,7 @@
 
 <script>
     function initMap() {
-        const buckReef = { lat: 32.7147, lng: -80.5047 };
+        const buckReef = { lat: 17.78694, lng: -64.61916 };
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 12,
             center: buckReef,
@@ -26,7 +26,7 @@
             });
 
             const infowindow = new google.maps.InfoWindow({
-                content: `<h3>${location.title}</h3><p>${location.info}</p>`,
+                content: `<h3 style="color: #b36a32;">${location.title}</h3><p style="color: #b36a32;">${location.info}</p>`,
             });
 
             marker.addListener("click", function() {

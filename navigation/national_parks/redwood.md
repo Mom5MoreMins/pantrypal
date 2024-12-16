@@ -6,7 +6,7 @@ permalink: /national_parks/redwood
 menu: nav/national_parks.html
 ---
 
-<h1>Redwood National Park</h1>
+<h1>Redwood National Park🌲🏞️</h1>
 
 <style>
     body {
