@@ -139,7 +139,7 @@ menu: nav/national_parks.html
     {% include buckreefmap.html %}
 
 <div class="group-theme">
-        <h3>Explore the gorgeos waters</h3>
+        <h3>Explore the gorgeous waters</h3>
         <p>Discover the best dive spots for breathtaking underwater views and unforgettable marine encounters. Buck Reef offers something for every level of diver!</p>
     </div>
 

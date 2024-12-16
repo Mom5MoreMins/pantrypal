@@ -6,7 +6,7 @@ permalink: /national_parks/Denali
 menu: nav/national_parks.html
 ---
 
-<h1>Delali National Park</h1>
+<h1>Denali National Park</h1>
 
 <style>
     body {
