@@ -34,7 +34,7 @@ menu: nav/camping.html
     position: fixed;
     bottom: 120px;
     right: 60px;
-    width: 300px;
+    width: 600px;
     max-height: 400px;
     background: #fff;
     border: 1px solid #ddd;
@@ -52,14 +52,6 @@ menu: nav/camping.html
     padding: 10px;
     font-size: 16px;
     text-align: center;
-  }
-
-  /* Chatbox content area */
-  .chatbox-content {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
-    background-color: #f9f9f9;
   }
 
   /* Chatbox input area */
@@ -83,31 +75,47 @@ menu: nav/camping.html
     cursor: pointer;
   }
 
+     /* Chatbox content area */
+  .chatbox-content {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto; /* Allows scrolling if content exceeds the container height */
+    background-color: #f9f9f9;
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack messages vertically */
+    gap: 8px; /* Add spacing between messages */
+  }
+
   /* Shared message bubble style */
   .chat-message {
     padding: 10px 15px;
-    margin: 8px 0;
+    margin: 0; /* Remove external margin since spacing is controlled by gap */
     border-radius: 18px;
-    max-width: 75%;
     word-wrap: break-word;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: inline-block; /* Make the bubble only as wide as its content */
   }
 
   /* User's message bubble */
   .chat-message-user {
     background-color: #d4f8d4; /* Light green */
     color: #000; /* Black text */
-    align-self: flex-end; /* Align to the right */
-    text-align: left; /* Align text to the left */
+    align-self: flex-start; /* Align to the left */
+    text-align: left; /* Align text inside to the left */
+    max-width: 75%; /* Maximum width for the bubble */
+    border-bottom-left-radius: 0; /* Flat bottom-left corner */
   }
 
   /* AI's message bubble */
   .chat-message-ai {
     background-color: #f4a460; /* Sandy brown */
     color: #000; /* Black text */
-    align-self: flex-start; /* Align to the left */
-    text-align: left;
+    align-self: flex-end; /* Align to the right */
+    text-align: left; /* Align text inside to the left */
+    max-width: 75%; /* Maximum width for the bubble */
+    border-bottom-right-radius: 0; /* Flat bottom-right corner */
   }
+
 </style>
 
 <body>
@@ -127,95 +135,112 @@ menu: nav/camping.html
   </div>
 
   <script>
+    // Chatbot message visibility flag
+    let chatbotMessageShown = false;
+
     // Function to toggle the chatbox visibility
     function toggleChatbox() {
-      const chatbox = document.getElementById('chatbox');
-      const content = document.querySelector('.chatbox-content');
-      if (chatbox.style.display === 'none' || chatbox.style.display === '') {
-        chatbox.style.display = 'flex';
-        showChatbotMessage(content);
-      } else {
-        chatbox.style.display = 'none';
-      }
+        const chatbox = document.getElementById('chatbox');
+        const content = document.querySelector('.chatbox-content');
+        if (chatbox.style.display === 'none' || chatbox.style.display === '') {
+            chatbox.style.display = 'flex';
+            showChatbotMessage(content);
+        } else {
+            chatbox.style.display = 'none';
+        }
     }
 
     // Function to show the initial chatbot message
     function showChatbotMessage(content) {
-      if (!content.parentElement.dataset.chatbotMessageShown) {
-        const chatbotMessage = createMessage("AI: Hello, how can I help you?", 'chat-message-ai');
-        content.appendChild(chatbotMessage);
-        scrollToBottom(content);
-        content.parentElement.dataset.chatbotMessageShown = true;
-      }
+        if (!chatbotMessageShown) {
+            const chatbotMessage = createMessage("RangerAI: Hello, how can I help you?", 'chat-message-ai');
+            content.appendChild(chatbotMessage);
+            scrollToBottom(content);
+            chatbotMessageShown = true;
+        }
     }
 
-    // Function to send a user's message
-    function sendMessage() {
-      const input = document.querySelector('.chatbox-input input');
-      const content = document.querySelector('.chatbox-content');
-      const message = input.value.trim();
-
-      if (message) {
-        const userMessage = createMessage(`You: ${message}`, 'chat-message-user');
-        content.appendChild(userMessage);
-        scrollToBottom(content);
-        input.value = '';
-        
-        fetch('http://127.0.0.1:8887/api/gemini', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ user_input: message }),
-
-        })
-          .then(response => response.json())
-          .then(data => {
-            const aiMessage = createMessage(
-              data.response
-                ? `AI: ${data.response}`
-                : `Error: ${data.error || 'No response received'}`,
-              'chat-message-ai'
-            );
-            content.appendChild(aiMessage);
-            scrollToBottom(content);
-          })
-          .catch(() => {
-            const errorMessage = createMessage('Error: Failed to connect to the AI service.', 'chat-message-ai');
-            content.appendChild(errorMessage);
-            scrollToBottom(content);
-          });
-      }
-    }
-
-    // Utility function to create a message element
+    // Function to create a message element
     function createMessage(text, className) {
-      const message = document.createElement('div');
-      message.classList.add('chat-message', className);
-      message.textContent = text;
-      return message;
+        const message = document.createElement('div');
+        message.classList.add('chat-message', className);
+        message.textContent = text;
+        return message;
     }
 
-    // Utility function to scroll to the bottom of the chatbox
+    // Function to scroll to the bottom of the chatbox
     function scrollToBottom(content) {
-      content.scrollTop = content.scrollHeight;
+        content.scrollTop = content.scrollHeight;
+    }
+
+    // Function to fetch Gemini API response
+    async function fetchGeminiResponse(userInput) {
+        try {
+            const response = await fetch(`http://127.0.0.1:8887/api/gemini`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_input: userInput })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch Gemini response: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            return data.model_response;
+        } catch (error) {
+            console.error('Error fetching Gemini response:', error);
+            return null;
+        }
+    }
+
+    // Function to send a message
+    function sendMessage() {
+        const input = document.querySelector('.chatbox-input input');
+        const content = document.querySelector('.chatbox-content');
+        const message = input.value.trim();
+
+        if (message) {
+            // Display user message
+            const userMessage = createMessage(`You: ${message}`, 'chat-message-user');
+            content.appendChild(userMessage);
+            scrollToBottom(content);
+            input.value = '';
+
+            // Fetch AI response
+            fetchGeminiResponse(message).then((response) => {
+                const aiMessage = createMessage(
+                    response ? `RangerAI: ${response}` : 'Error: No response received.',
+                    'chat-message-ai'
+                );
+                content.appendChild(aiMessage);
+                scrollToBottom(content);
+            }).catch(() => {
+                const errorMessage = createMessage('Error: Failed to connect to the AI service.', 'chat-message-ai');
+                content.appendChild(errorMessage);
+                scrollToBottom(content);
+            });
+        } else {
+            alert('Please enter a message before sending.');
+        }
     }
 
     // Initialize event listeners
     document.addEventListener('DOMContentLoaded', () => {
-      const input = document.querySelector('.chatbox-input input');
-      const sendButton = document.querySelector('.chatbox-input button');
-      if (input) {
-        input.addEventListener('keypress', function (event) {
-          if (event.key === 'Enter') {
-            event.preventDefault();
-            sendMessage();
-          }
-        });
-      }
-      if (sendButton) {
-        sendButton.addEventListener('click', sendMessage);
-      }
+        const input = document.querySelector('.chatbox-input input');
+        const sendButton = document.querySelector('.chatbox-input button');
+        if (input) {
+            input.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+        if (sendButton) {
+            sendButton.addEventListener('click', sendMessage);
+        }
     });
-  </script>
-</body>
+</script>
