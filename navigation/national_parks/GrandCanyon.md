@@ -152,9 +152,8 @@ menu: nav/national_parks.html
 </div>
 
 <div class="review-section">
-    <h3>Leave a review</h3>
+    <h3>Leave a Review</h3>
     <textarea class="review-input" placeholder="Write your review here..."></textarea>
-    <button class="submit-btn">Submit Review</button>
 
     <div class="star-rating">
         <span class="star" onclick="setRating(1)">&#9733;</span>
@@ -163,33 +162,42 @@ menu: nav/national_parks.html
         <span class="star" onclick="setRating(4)">&#9733;</span>
         <span class="star" onclick="setRating(5)">&#9733;</span>
     </div>
+
+    <button class="submit-btn">Submit Review</button>
 </div>
+
+<script src="{{ site.baseurl }}/assets/js/api/config.js"></script>
 
 <script>
     let rating = 0;
 
     // Function to set the rating
-    function setRating(stars) {
-        rating = stars;
+    window.setRating = function (stars) {
+        const rating = stars;
         document.querySelectorAll('.star').forEach((star, index) => {
             star.style.color = (index < stars) ? '#ff0' : '#bbb';
         });
-    }
+        console.log(`Rating set to: ${stars}`);
+    };
 
     // Handle review submission
-    document.querySelector('.submit-btn').addEventListener('click', function() {
-        const title = 'Grand Canyon Review';  // You can dynamically set this from the page title
+    document.querySelector('.submit-btn').addEventListener('click', function () {
+        const title = 'Grand Canyon Review'; // Page title dynamically or static
         const comment = document.querySelector('.review-input').value;
-        const content = { rating: rating };  // Add any extra data if necessary
-        const channel_id = 1;  // Static for now or dynamically set it based on the context
+        const channel_id = 13; // Static for now or dynamically assign
 
-        // Validate that the review has a comment
+        // Validate user inputs
         if (!comment.trim()) {
             alert('Please write a review.');
             return;
         }
 
-        // Create the review object
+        if (!rating) {
+            alert('Please select a star rating.');
+            return;
+        }
+
+        // Create the review
         const review = {
             title: title,
             comment: comment,
@@ -197,27 +205,50 @@ menu: nav/national_parks.html
             channel_id: channel_id
         };
 
-        // Send the review data to the backend
-        fetch('/api/review', {
+        fetch(`${pythonURI}/api/post`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('jwt_token') // Make sure the token is available
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt_token') // Ensure the JWT token is present
             },
             body: JSON.stringify(review)
         })
         .then(response => response.json())
-    .then(data => {
-    if (data.message) {
-        alert(data.message); // Handle error from backend
-    } else {
-        alert('Review submitted successfully!');
-    }
-})
+        .then(data => {
+            if (data.message) {
+                alert(data.message); // Handle errors from the backend
+            } else {
+                alert('Review submitted successfully! Now submitting your rating...');
+
+                // Submit the star rating
+                fetch('/api/rating', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+                    },
+                    body: JSON.stringify({
+                        stars: rating,
+                        post_id: data.id // Use post ID from the review creation response
+                    })
+                })
+                .then(ratingResponse => ratingResponse.json())
+                .then(ratingData => {
+                    if (ratingData.message) {
+                        alert(ratingData.message); // Handle backend errors
+                    } else {
+                        alert('Rating submitted successfully!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to submit rating.');
+                });
+            }
+        })
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to submit review.');
         });
     });
-
 </script>
