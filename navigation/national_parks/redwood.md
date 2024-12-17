@@ -151,100 +151,50 @@ menu: nav/national_parks.html
     </div>
 </div>
 
+
 <div class="review-section">
-    <h3>Leave a review</h3>
-    <textarea class="review-input" placeholder="Write your review here..."></textarea>
-    <button class="submit-btn">Submit Review</button>
-
+<form id="postForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <textarea class="review-input" id="comment" name="comment" placeholder="Write your review here..."></textarea>
+    <input type="hidden" id="group_id" name="group_id" value="national parks">
+    <input type="hidden" id="channel_id" name="channel_id" value="12">
     <div class="star-rating">
-        <span class="star" onclick="setRating(1)">&#9733;</span>
-        <span class="star" onclick="setRating(2)">&#9733;</span>
-        <span class="star" onclick="setRating(3)">&#9733;</span>
-        <span class="star" onclick="setRating(4)">&#9733;</span>
-        <span class="star" onclick="setRating(5)">&#9733;</span>
+        <span class="star" data-stars="1">&#9733;</span>
+        <span class="star" data-stars="2">&#9733;</span>
+        <span class="star" data-stars="3">&#9733;</span>
+        <span class="star" data-stars="4">&#9733;</span>
+        <span class="star" data-stars="5">&#9733;</span>
     </div>
+    <button class="submit-btn">Submit Review</button>
+</form>
 </div>
-<style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
 
-    .form-container, .post-item {
-        display: flex;
-        flex-direction: column;
-        width: 100%; /* Make both elements take up full width of their parent */
-        max-width: 800px; /* Limit the width to match the desired layout */
-        background-color: #2C3E50;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        color: #ECF0F1;
-        margin-bottom: 20px;
-        box-sizing: border-box; /* Ensure padding doesn't overflow the width */
-    }
-
-    .post-item h3, .post-item p {
-        margin: 0 0 10px;
-    }
-
-    .form-container label {
-        margin-bottom: 5px;
-    }
-    .form-container input, .form-container textarea {
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        width: 100%;
-    }
-    .form-container button {
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        background-color: #34495E;
-        color: #ECF0F1;
-        cursor: pointer;
-    }
-    .details {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .post-item h3 {
-        margin: 0 0 10px;
-    }
-    .post-item p {
-        margin: 5px 0;
-    }
-
-</style>
-
-<div class="container">
-    <div id="data" class="data">
-        <div class="left-side">
-            <p id="count"></p>
-        </div>
-        <div class="details" id="details"></div>
-    </div>
+<div>
+    <p id="count"></p>
+    <div class="details" id="details"></div>
 </div>
+<script>
+    let rating = 0; // Declare the rating variable and initialize it
+
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function () {
+            const stars = parseInt(this.getAttribute('data-stars'), 10);
+            setRating(stars);
+        });
+    });
+
+    function setRating(stars) {
+        rating = stars; // Update the global rating variable
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.style.color = (index < stars) ? '#ff0' : '#bbb';
+        });
+        console.log(`Rating set to: ${stars}`);
+    }
+</script>
 
 <script type="module">
     import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
-
-    /**
-     * Handle form submission for adding a post
-     */
     document.getElementById('postForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
@@ -258,6 +208,7 @@ menu: nav/national_parks.html
         const postData = {
             title: title,
             comment: comment,
+            content: rating,
             group_id: groupId,
             channel_id: channelId
         };
@@ -314,6 +265,7 @@ menu: nav/national_parks.html
                 postElement.innerHTML = `
                     <h3>${post.title}</h3>
                     <p><strong>Username:</strong> ${post.user_name}</p>
+                    <p><strong>Stars:</strong> ${post.content}</p>
                     <p><strong>Comment:</strong> ${post.comment}</p>
                 `;
                 detailsDiv.appendChild(postElement);
@@ -324,20 +276,7 @@ menu: nav/national_parks.html
     }
 
     // Fetch posts on page load
-    fetchData(17);
+    fetchData(12);
+
 </script>
 
-<div class="container">
-    <div class="form-container">
-        <h2>Add New Post to Redwood National Park</h2>
-        <form id="postForm">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-            <label for="comment">Comment:</label>
-            <textarea id="comment" name="comment" required></textarea>
-            <input type="hidden" id="group_id" name="group_id" value="national parks">
-            <input type="hidden" id="channel_id" name="channel_id" value="17">
-            <button type="submit">Add Post</button>
-        </form>
-    </div>
-</div>
