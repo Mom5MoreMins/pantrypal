@@ -154,6 +154,7 @@ menu: nav/national_parks.html
 
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/NationalParkImages/image.png" alt="Image 1">
+     <img src="{{ site.baseurl }}/images/NationalParkImages/GrandCanyonText1.png" alt="Hiking Trails" style="margin-left: 10px;">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic1.jpg" alt="Image 2">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic2.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
