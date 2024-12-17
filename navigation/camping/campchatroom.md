@@ -1,126 +1,170 @@
 ---
 layout: post 
-title: Camping Chatroom
+title: Camping Posts
 search_exclude: true
 permalink: /camping/page2
 ---
 <style>
-    .top-sections-wrapper {
+    .container {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        max-width: 1000px;
-        gap: 20px;
-        margin-top: 20px;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
     }
-    .chatroom-container {
+
+    .form-container, .post-item {
+        display: flex;
+        flex-direction: column;
+        width: 100%; 
+        max-width: 800px; 
         background-color: #a4ac86;
         padding: 20px;
-        border-radius: 10x;
-        border: 5px solid #414833;
-        flex: 1;
+        border-radius: 10px;
+        color: #414833;
+        margin-bottom: 20px;
+        box-sizing: border-box; 
     }
-    .chatroom-container h2 {
-        color: #656d4a;
-        text-align: center;
+
+    .post-item h3, .post-item p {
+        margin: 0 0 10px;
+    }
+
+    .form-container label {
+        margin-bottom: 5px;
+    }
+    .form-container input, .form-container textarea {
         margin-bottom: 10px;
-        text-shadow: 0px 2px 8px #a4ac86;
-    }
-    #username, #message {
-        width: 100%;
         padding: 10px;
-        margin: 5px 0;
-        border-radius: 4px;
-        border: 1px solid #333;
-        background-color: #333;
-        color: #e0e0e0;
-    }
-    .message-form button {
-        width: 100%;
-        padding: 10px;
+        border-radius: 5px;
         border: none;
-        border-radius: 4px;
-        background-color: #6b705c;
-        color: #1b1b1b;
-        font-weight: bold;
-        cursor: pointer;
-        text-shadow: 0px 2px 8px rgba(255, 209, 102, 0.6);
+        width: 100%;
     }
+    .form-container button {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #a4ac86;
+        color: #414833;
+        cursor: pointer;
+    }
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .post-item h3 {
+        margin: 0 0 10px;
+    }
+    .post-item p {
+        margin: 5px 0;
+    }
+
 </style>
 
-<div class="chatroom-container">
-    <h2>Send a message to enter the chat!</h2>
-    <div class="chat-area" id="messages">
-        <!-- Messages will appear here -->
+<div class="container">
+    <div class="form-container">
+        <h2>Add a post to the camping feed!</h2>
+        <form id="postForm">
+            <label for="comment">Type Here:</label>
+            <textarea id="comment" name="comment" required></textarea>
+            <input type="hidden" id="group_id" name="group_id" value="national parks">
+            <input type="hidden" id="channel_id" name="channel_id" value="17">
+            <button type="submit">Post</button>
+        </form>
     </div>
-    <form class="message-form" id="chat-form">
-        <input type="text" id="username" placeholder="Your Name" required>
-        <input type="text" id="message" placeholder="Type a message..." maxlength="200" required>
-        <button type="submit">Send</button>
-    </form>
 </div>
 
 <script type="module">
-    import { pythonURI, fetchOptions } from '../assets/js/api/config.js';
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
-    async function fetchPosts() {
-        try {
-            const response = await fetch(`${pythonURI}/api/posts`, fetchOptions);
-            if (!response.ok) {
-                throw new Error("Failed to fetch posts from the backend.");
-            }
-            const posts = await response.json();
-            renderPosts(posts);
-        } catch (error) {
-            console.error("Error fetching posts:", error);
-        }
-    }
-
-    function renderPosts(posts) {
-        document.getElementById('postsWrapper').innerHTML = posts.map(post => {
-            const username = post.username || "Anonymous"; // Default to "Anonymous" if undefined
-            const content = typeof post.content === 'string' ? post.content : JSON.stringify(post.content); // Display content as JSON if it's an object
-
-        }).join('');
-    }
-
-    async function addPost(event) {
+    /**
+     * Handle form submission for adding a post
+     */
+    document.getElementById('postForm').addEventListener('submit', async function(event) {
         event.preventDefault();
-        const username = document.getElementById('usernameInput').value || "Anonymous";
-        const content = document.getElementById('postInput').value;
-        const postData = { username, content };
+
+        // Extract data from form
+        const comment = document.getElementById('comment').value;
+        const groupId = document.getElementById('group_id').value;
+        const channelId = document.getElementById('channel_id').value;
+
+        // Create API payload
+        const postData = {
+            title: title,
+            comment: comment,
+            group_id: groupId,
+            channel_id: channelId
+        };
 
         try {
-            const response = await fetch(`${pythonURI}/api/posts`, {
+            // Send POST request to backend
+            const response = await fetch(`${pythonURI}/api/post`, {
                 ...fetchOptions,
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(postData)
             });
+
             if (!response.ok) {
-                throw new Error("Failed to add post to the backend.");
+                throw new Error('Failed to add post: ' + response.statusText);
             }
+
+            alert('Post added successfully!');
             document.getElementById('postForm').reset();
-            fetchPosts(); // Refresh posts after adding a new one
+            fetchData(channelId);
         } catch (error) {
-            console.error("Error adding post:", error);
+            console.error('Error adding post:', error);
+            alert('Error adding post: ' + error.message);
+        }
+    });
+
+    /**
+     * Fetch and display posts
+     */
+    async function fetchData(channelId) {
+        try {
+            const response = await fetch(`${pythonURI}/api/posts/filter`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ channel_id: channelId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts: ' + response.statusText);
+            }
+
+            const postData = await response.json();
+            document.getElementById('count').innerHTML = `<h4>Number of Reviews: ${postData.length || 0}</h4>`;
+            const detailsDiv = document.getElementById('details');
+            detailsDiv.innerHTML = '';
+
+            postData.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p><strong>Username:</strong> ${post.user_name}</p>
+                    <p><strong>Comment:</strong> ${post.comment}</p>
+                `;
+                detailsDiv.appendChild(postElement);
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchPosts();
-
-        document.getElementById('chat-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value || "Anonymous";
-            const message = document.getElementById('message').value;
-            const timestamp = new Date().toLocaleTimeString();
-            const messageHtml = `<p><span class="username">${username}</span>: ${message} <span class="timestamp">[${timestamp}]</span></p>`;
-            document.getElementById("messages").innerHTML += messageHtml;
-            event.target.reset();
-        
-        });
-    });
-
+    // Fetch posts on page load
+    fetchData(17);
 </script>
-
