@@ -145,7 +145,7 @@ menu: nav/national_parks.html
 
 <div class="group-theme">
         <h3>Wildlife and Nature</h3>
-        <p>Learn about the unique wildlife and ecosystems of the Grand Canyon National Park.</p>
+        <p>Buck Reef National Park in the Turks and Caicos Islands is home to vibrant coral reefs, tropical fish, and sea turtles, making it a haven for marine life. Its clear waters support diverse underwater ecosystems.</p>
     </div>
 </div>
 
