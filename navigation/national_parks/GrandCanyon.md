@@ -151,104 +151,132 @@ menu: nav/national_parks.html
     </div>
 </div>
 
+
 <div class="review-section">
-    <h3>Leave a Review</h3>
-    <textarea class="review-input" placeholder="Write your review here..."></textarea>
-
+<form id="postForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <textarea class="review-input" id="comment" name="comment" placeholder="Write your review here..."></textarea>
+    <input type="hidden" id="group_id" name="group_id" value="national parks">
+    <input type="hidden" id="channel_id" name="channel_id" value="13">
     <div class="star-rating">
-        <span class="star" onclick="setRating(1)">&#9733;</span>
-        <span class="star" onclick="setRating(2)">&#9733;</span>
-        <span class="star" onclick="setRating(3)">&#9733;</span>
-        <span class="star" onclick="setRating(4)">&#9733;</span>
-        <span class="star" onclick="setRating(5)">&#9733;</span>
+        <span class="star" data-stars="1">&#9733;</span>
+        <span class="star" data-stars="2">&#9733;</span>
+        <span class="star" data-stars="3">&#9733;</span>
+        <span class="star" data-stars="4">&#9733;</span>
+        <span class="star" data-stars="5">&#9733;</span>
     </div>
-
     <button class="submit-btn">Submit Review</button>
+</form>
 </div>
 
-<script src="{{ site.baseurl }}/assets/js/api/config.js"></script>
-
+<div>
+    <p id="count"></p>
+    <div class="details" id="details"></div>
+</div>
 <script>
-    let rating = 0;
+    let rating = 0; // Declare the rating variable and initialize it
 
-    // Function to set the rating
-    window.setRating = function (stars) {
-        const rating = stars;
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function () {
+            const stars = parseInt(this.getAttribute('data-stars'), 10);
+            setRating(stars);
+        });
+    });
+
+    function setRating(stars) {
+        rating = stars; // Update the global rating variable
         document.querySelectorAll('.star').forEach((star, index) => {
             star.style.color = (index < stars) ? '#ff0' : '#bbb';
         });
         console.log(`Rating set to: ${stars}`);
-    };
+    }
+</script>
 
-    // Handle review submission
-    document.querySelector('.submit-btn').addEventListener('click', function () {
-        const title = 'Grand Canyon Review'; // Page title dynamically or static
-        const comment = document.querySelector('.review-input').value;
-        const channel_id = 13; // Static for now or dynamically assign
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+    document.getElementById('postForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-        // Validate user inputs
-        if (!comment.trim()) {
-            alert('Please write a review.');
-            return;
-        }
+        // Extract data from form
+        const title = document.getElementById('title').value;
+        const comment = document.getElementById('comment').value;
+        const groupId = document.getElementById('group_id').value;
+        const channelId = document.getElementById('channel_id').value;
 
-        if (!rating) {
-            alert('Please select a star rating.');
-            return;
-        }
-
-        // Create the review
-        const review = {
+        // Create API payload
+        const postData = {
             title: title,
             comment: comment,
-            content: content,
-            channel_id: channel_id
+            content: rating,
+            group_id: groupId,
+            channel_id: channelId
         };
 
-        fetch(`${pythonURI}/api/post`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('jwt_token') // Ensure the JWT token is present
-            },
-            body: JSON.stringify(review)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message); // Handle errors from the backend
-            } else {
-                alert('Review submitted successfully! Now submitting your rating...');
+        try {
+            // Send POST request to backend
+            const response = await fetch(`${pythonURI}/api/post`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            });
 
-                // Submit the star rating
-                fetch('/api/rating', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
-                    },
-                    body: JSON.stringify({
-                        stars: rating,
-                        post_id: data.id // Use post ID from the review creation response
-                    })
-                })
-                .then(ratingResponse => ratingResponse.json())
-                .then(ratingData => {
-                    if (ratingData.message) {
-                        alert(ratingData.message); // Handle backend errors
-                    } else {
-                        alert('Rating submitted successfully!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to submit rating.');
-                });
+            if (!response.ok) {
+                throw new Error('Failed to add post: ' + response.statusText);
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to submit review.');
-        });
+
+            alert('Post added successfully!');
+            document.getElementById('postForm').reset();
+            fetchData(channelId);
+        } catch (error) {
+            console.error('Error adding post:', error);
+            alert('Error adding post: ' + error.message);
+        }
     });
+
+    /**
+     * Fetch and display posts
+     */
+    async function fetchData(channelId) {
+        try {
+            const response = await fetch(`${pythonURI}/api/posts/filter`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ channel_id: channelId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts: ' + response.statusText);
+            }
+
+            const postData = await response.json();
+            document.getElementById('count').innerHTML = `<h4>Number of Reviews: ${postData.length || 0}</h4>`;
+            const detailsDiv = document.getElementById('details');
+            detailsDiv.innerHTML = '';
+
+            postData.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p><strong>Username:</strong> ${post.user_name}</p>
+                    <p><strong>Stars:</strong> ${post.content}</p>
+                    <p><strong>Comment:</strong> ${post.comment}</p>
+                `;
+                detailsDiv.appendChild(postElement);
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // Fetch posts on page load
+    fetchData(13);
+
 </script>
+
