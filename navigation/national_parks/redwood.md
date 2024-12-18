@@ -160,19 +160,19 @@ menu: nav/national_parks.html
 </div>
 
 <div class="content">
-    <h2>Welcome to Grand Canyon National Park</h2>
-    <p>Explore the breathtaking landscapes, unique wildlife, and rich history of one of the most iconic natural wonders of the world. Whether you're planning a visit or just learning more, you're in the right place!</p>
+    <h2>Welcome to Redwood National Park</h2>
+    <p>Explore the stunning landscapes, towering trees, diverse wildlife, and rich history of Redwood National Park, home to some of the tallest trees on Earth. These ancient giants, some over 2,000 years old, create a breathtaking forest canopy that must be seen to be believed. Whether you're planning a visit to stand beneath the awe-inspiring redwoods or simply curious to learn more about this remarkable ecosystem, you've come to the perfect place!</p>
 
 {% include redwoodmaps.html %}
 
 <div class="group-theme">
         <h3>Hiking Trails</h3>
-        <p>Discover the best trails for breathtaking views and incredible experiences. The Grand Canyon has something for every level of hiker!</p>
+        <p>Discover the best trails for breathtaking views and unforgettable experiences in Redwood National Park, where you can hike among towering ancient trees, from easy walks through serene groves to more challenging treks up scenic ridges, offering something for every level of hiker!</p>
     </div>
 
 <div class="group-theme">
         <h3>Wildlife and Nature</h3>
-        <p>Learn about the unique wildlife and ecosystems of the Grand Canyon National Park.</p>
+        <p>Redwood National Park is a haven for diverse wildlife and lush nature, home to majestic redwoods, elk, black bears, and countless bird species, all thriving in its rich, vibrant ecosystems.</p>
     </div>
 </div>
 
