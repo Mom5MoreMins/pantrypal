@@ -3,6 +3,7 @@ layout: post
 title: Camping Posts
 search_exclude: true
 permalink: /camping/page2
+menu: nav/camping.html
 ---
 <style>
     .container {
