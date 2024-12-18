@@ -5,8 +5,6 @@ search_exclude: true
 permalink: /national_parks/buck_reef
 menu: nav/national_parks.html
 ---
-# All About Buck Reef National Park! 🌊🪸
-
 
 <style>
     body {

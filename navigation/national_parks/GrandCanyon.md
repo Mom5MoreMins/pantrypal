@@ -6,8 +6,6 @@ permalink: /national_parks/GrandCanyon
 menu: nav/national_parks.html
 ---
 
-<h1>Grand Canyon National Park 🏜️🌄</h1>
-
 <style>
     body {
         font-family: 'Poppins', sans-serif;
