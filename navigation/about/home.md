@@ -5,48 +5,55 @@ search_exclude: true
 menu: nav/about.html
 permalink: /about/home
 ---
-
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .table-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        .table-wrapper {
-            background: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            width: 300px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        td {
-            background-color: #fff;
-        }
-    </style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    .table-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    .table-wrapper {
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to the top */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 1px solid #ddd;
+        word-wrap: break-word; /* Ensure long text breaks into new lines */
+    }
+    th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+    td {
+        background-color: #fff;
+    }
+    /* Ensures consistent height across all .table-wrapper */
+    .table-container {
+        align-items: stretch; /* Ensures all items match the tallest one */
+    }
+</style>
 
 <div class="table-container" id="tableContainer">
     <!-- Tables will be dynamically injected here -->
@@ -54,7 +61,7 @@ permalink: /about/home
 
 <script>
     // Fetch data from Flask API
-    const apiUrl = 'http://127.0.0.1:5001/api/data';
+    const apiUrl = 'http://127.0.0.1:8887/api/data';
 
     fetch(apiUrl)
         .then(response => {
@@ -112,3 +119,4 @@ permalink: /about/home
             console.error('Error fetching data:', error);
         });
 </script>
+
