@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Camping Homepage
+title: Camping
 search_exclude: true
 permalink: /camping/home
 menu: nav/camping.html
