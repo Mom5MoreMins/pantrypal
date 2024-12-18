@@ -124,7 +124,35 @@ menu: nav/national_parks.html
     .star:hover ~ .star {
         color: #ff0;
     }
+
+    .post-item {
+        background-color: #111;
+        border: 1px solid #95becf;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .post-item h3 {
+        margin-top: 0;
+    }
+
+    .post-item p {
+        margin-bottom: 10px;
+    }
+
+    .post-item .star-rating {
+        font-size: 1.5rem;
+        color: gold;
+    }
+
+    .post-item .user-name {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-bottom: 10px;
+    }
 </style>
+
 
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/NationalParkImages/image.png" alt="Image 1">
@@ -241,39 +269,41 @@ menu: nav/national_parks.html
      * Fetch and display posts
      */
     async function fetchData(channelId) {
-        try {
-            const response = await fetch(`${pythonURI}/api/posts/filter`, {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ channel_id: channelId })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch posts: ' + response.statusText);
-            }
-
-            const postData = await response.json();
-            document.getElementById('count').innerHTML = `<h4>Number of Reviews: ${postData.length || 0}</h4>`;
-            const detailsDiv = document.getElementById('details');
-            detailsDiv.innerHTML = '';
-
-            postData.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post-item';
-                postElement.innerHTML = `
-                    <h3>${post.title}</h3>
-                    <p><strong>Username:</strong> ${post.user_name}</p>
-                    <p><strong>Stars:</strong> ${post.content}</p>
-                    <p><strong>Comment:</strong> ${post.comment}</p>
-                `;
-                detailsDiv.appendChild(postElement);
-            });
-        } catch (error) {
-            console.error('Error fetching data:', error);
+    try {
+        const response = await fetch(`${pythonURI}/api/posts/filter`, {
+            ...fetchOptions,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ channel_id: channelId })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts: ' + response.statusText);
         }
+
+        const postData = await response.json();
+        document.getElementById('count').innerHTML = `<h4>Total Reviews: ${postData.length || 0}</h4>`;
+        const detailsDiv = document.getElementById('details');
+        detailsDiv.innerHTML = '';
+
+        postData.forEach(post => {
+            const stars = '★'.repeat(post.content) + '☆'.repeat(5 - post.content); // Generate star rating
+            const postElement = document.createElement('div');
+            postElement.className = 'post-item';
+            postElement.style.marginBottom = "20px"; // Add spacing between reviews
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p style="font-size: 1.5rem; color: gold;">${stars}</p>
+                <p style="font-size: 0.9rem; color: #aaa;"><em>${post.user_name}</em></p>
+                <p>${post.comment}</p>
+            `; 
+            detailsDiv.appendChild(postElement);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
+}
 
     // Fetch posts on page load
     fetchData(13);
