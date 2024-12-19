@@ -1,20 +1,13 @@
 ---
 layout: post 
-<<<<<<< HEAD
-title: Denali National Park
-=======
 title: Denali
->>>>>>> 1aee91d (frontend)
 search_exclude: true
 permalink: /national_parks/Denali
 menu: nav/national_parks.html
 ---
 
-<<<<<<< HEAD
-=======
 <h1>Denali National Park</h1>
 
->>>>>>> 1aee91d (frontend)
 <style>
     body {
         font-family: 'Poppins', sans-serif;
