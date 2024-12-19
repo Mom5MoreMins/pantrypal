@@ -202,14 +202,12 @@ menu: nav/national_parks.html
 </div>
 <script>
     let rating = 0; // Declare the rating variable and initialize it
-
     document.querySelectorAll('.star').forEach(star => {
         star.addEventListener('click', function () {
             const stars = parseInt(this.getAttribute('data-stars'), 10);
             setRating(stars);
         });
     });
-
     function setRating(stars) {
         rating = stars; // Update the global rating variable
         document.querySelectorAll('.star').forEach((star, index) => {
