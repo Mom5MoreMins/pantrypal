@@ -152,16 +152,18 @@ menu: nav/national_parks.html
 </style>
 
 <div class="image-scroller">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/denalipic1.png" alt="Image 1">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic1.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic2.jpg" alt="Image 3">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/GrandCanyon5.jpg" alt="Image 5">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/Denali-summit.jpg" alt="Image 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/moose.jpg" alt="Image 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/Denali main.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/amazing.webp" alt="Image 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/denali.jpg" alt="Image 5">
 </div>
 
 <div class="content">
     <h2>Welcome to Grand Canyon National Park</h2>
     <p>Explore the breathtaking landscapes, unique wildlife, and rich history of one of the most iconic natural wonders of the world. Whether you're planning a visit or just learning more, you're in the right place!</p>
+
+{% include denalimaps.html %}
 
 <div class="group-theme">
         <h3>Hiking Trails</h3>
