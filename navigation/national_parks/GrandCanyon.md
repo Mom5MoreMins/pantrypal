@@ -305,5 +305,59 @@ menu: nav/national_parks.html
     // Fetch posts on page load
     fetchData(13);
 
+
+
+</script>
+
+
+
+<div id="analyticsSummary" class="group-theme">
+    <h3>Analytics Summary</h3>
+</div>
+
+<script>
+    /**
+     * Fetch and display analytics summary for all parks.
+     */
+    async function fetchAnalytics() {
+        try {
+            const response = await fetch('/api/analytics/summary', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `___`, // Replace with your actual token logic
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch analytics summary: ' + response.statusText);
+            }
+
+  
+            const analyticsData = await response.json();
+
+     
+            const analyticsDiv = document.getElementById('analyticsSummary');
+            analyticsDiv.innerHTML = ''; 
+
+     
+            analyticsData.forEach(entry => {
+                const summaryElement = document.createElement('div');
+                summaryElement.className = 'analytics-item';
+                summaryElement.innerHTML = `
+                    <h3>Park: ${entry.park_id}</h3>
+                    <p>Average Rating: ${entry.stars.toFixed(1)}</p>
+                    <p>Total Reviews: ${entry.total_reviews}</p>
+                `;
+                analyticsDiv.appendChild(summaryElement);
+            });
+        } catch (error) {
+            console.error('Error fetching analytics:', error);
+        }
+    }
+
+   
+    document.addEventListener('DOMContentLoaded', fetchAnalytics);
+    
 </script>
 
