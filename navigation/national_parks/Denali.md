@@ -156,14 +156,14 @@ menu: nav/national_parks.html
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/NationalParkImages/Denali-summit.jpg" alt="Image 1">
     <img src="{{ site.baseurl }}/images/NationalParkImages/moose.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Denali main.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/wildlife.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/amazing.webp" alt="Image 4">
     <img src="{{ site.baseurl }}/images/NationalParkImages/denali.jpg" alt="Image 5">
 </div>
 
 <div class="content">
-    <h2>Welcome to Grand Canyon National Park</h2>
-    <p>Explore the breathtaking landscapes, unique wildlife, and rich history of one of the most iconic natural wonders of the world. Whether you're planning a visit or just learning more, you're in the right place!</p>
+    <h2>Welcome to Denali National Park</h2>
+    <p>Denali National Park, located in Alaska, is renowned for its stunning landscapes, including North America's highest peak, Denali, and its diverse ecosystems that support a wide range of wildlife and outdoor adventures.</p>
 
 {% include denalimaps.html %}
 
@@ -174,7 +174,7 @@ menu: nav/national_parks.html
 
 <div class="group-theme">
         <h3>Wildlife and Nature</h3>
-        <p>Learn about the unique wildlife and ecosystems of the Grand Canyon National Park.</p>
+        <p>Denali National Park is home to diverse wildlife, including grizzly bears, moose, wolves, and caribou, surrounded by rugged mountains, pristine rivers, and expansive tundra, creating a breathtaking and untouched wilderness.</p>
     </div>
 </div>
 
