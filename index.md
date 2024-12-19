@@ -13,7 +13,6 @@ menu: nav/home.html
 Experience the thrill of camping and the breathtaking beauty of national parks. Whether you’re an adventurer seeking rugged trails or a family looking for peaceful getaways, this is your gateway to exploring the great outdoors.
 
 ---
-
 ### 🌟 Featured Parks
 
 #### **Denali National Park**
