@@ -55,8 +55,8 @@ h2 {
 <div class="bar">Your assigned national park is:</div>
 
 <div class="grid">
-    <img src="path_to_image1.jpg" alt="National Park 1">
-    <img src="path_to_image2.jpg" alt="National Park 2">
-    <img src="path_to_image3.jpg" alt="National Park 3">
-    <img src="path_to_image4.jpg" alt="National Park 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/reeef.jpg" alt="Park 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic1.jpg" alt="Park 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood.webp" alt="Park 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/amazing.webp" alt="Park 4">
 </div>

@@ -152,11 +152,11 @@ menu: nav/national_parks.html
 </style>
 
 <div class="image-scroller">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/rd.jpg" alt="Image 1">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/3874.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/123.jpg" alt="Image 3">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/Pic4.png" alt="Image 4">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/GrandCanyon5.jpg" alt="Image 5">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood.webp" alt="Image 1">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood2.jpg" alt="Image 2">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood3.jpg" alt="Image 3">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood4.jpg" alt="Image 4">
+    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood5.jpeg" alt="Image 5">
 </div>
 
 <div class="content">
@@ -201,14 +201,12 @@ menu: nav/national_parks.html
 </div>
 <script>
     let rating = 0; // Declare the rating variable and initialize it
-
     document.querySelectorAll('.star').forEach(star => {
         star.addEventListener('click', function () {
             const stars = parseInt(this.getAttribute('data-stars'), 10);
             setRating(stars);
         });
     });
-
     function setRating(stars) {
         rating = stars; // Update the global rating variable
         document.querySelectorAll('.star').forEach((star, index) => {
@@ -265,7 +263,7 @@ menu: nav/national_parks.html
     /**
      * Fetch and display posts
      */
-        async function fetchData(channelId) {
+    async function fetchData(channelId) {
     try {
         const response = await fetch(`${pythonURI}/api/posts/filter`, {
             ...fetchOptions,
@@ -305,5 +303,58 @@ menu: nav/national_parks.html
     // Fetch posts on page load
     fetchData(12);
 
+
+
 </script>
 
+
+
+<div id="analyticsSummary" class="group-theme">
+    <h3>Analytics Summary</h3>
+</div>
+
+<script>
+    /**
+     * Fetch and display analytics summary for all parks.
+     */
+    async function fetchAnalytics() {
+        try {
+            const response = await fetch('/api/analytics/summary', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `___`, // Replace with your actual token logic
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch analytics summary: ' + response.statusText);
+            }
+
+  
+            const analyticsData = await response.json();
+
+     
+            const analyticsDiv = document.getElementById('analyticsSummary');
+            analyticsDiv.innerHTML = ''; 
+
+     
+            analyticsData.forEach(entry => {
+                const summaryElement = document.createElement('div');
+                summaryElement.className = 'analytics-item';
+                summaryElement.innerHTML = `
+                    <h3>Park: ${entry.park_id}</h3>
+                    <p>Average Rating: ${entry.stars.toFixed(1)}</p>
+                    <p>Total Reviews: ${entry.total_reviews}</p>
+                `;
+                analyticsDiv.appendChild(summaryElement);
+            });
+        } catch (error) {
+            console.error('Error fetching analytics:', error);
+        }
+    }
+
+   
+    document.addEventListener('DOMContentLoaded', fetchAnalytics);
+    
+</script>
