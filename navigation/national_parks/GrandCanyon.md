@@ -316,15 +316,13 @@ menu: nav/national_parks.html
 </div>
 
 <script>
-    /**
-     * Fetch and display analytics summary for all parks.
-     */
+
     async function fetchAnalytics() {
         try {
             const response = await fetch('/api/analytics/summary', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `___`, // Replace with your actual token logic
+                    
                     'Content-Type': 'application/json'
                 }
             });

@@ -158,7 +158,6 @@ menu: nav/national_parks.html
     <img src="{{ site.baseurl }}/images/NationalParkImages/moose.jpg" alt="Image 2">
     <img src="{{ site.baseurl }}/images/NationalParkImages/wildlife.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/amazing.webp" alt="Image 4">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/denali.jpg" alt="Image 5">
 </div>
 
 <div class="content">
@@ -169,7 +168,7 @@ menu: nav/national_parks.html
 
 <div class="group-theme">
         <h3>Hiking Trails</h3>
-        <p>Discover the best trails for breathtaking views and incredible experiences. The Grand Canyon has something for every level of hiker!</p>
+        <p>Hiking in Denali offers an unparalleled adventure through Alaska's rugged wilderness, where expansive views of towering peaks, glaciers, and wildlife await. With trails ranging from accessible to challenging, hikers can immerse themselves in the raw beauty and serenity of North America's highest mountain, Denali.</p>
     </div>
 
 <div class="group-theme">
