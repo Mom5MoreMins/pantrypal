@@ -22,8 +22,10 @@ menu: nav/camping.html
         width: 100%; 
         max-width: 800px; 
         background-color: #a4ac86;
+        box-shadow: 0 4px 8px 0 #e9edc9, 0 6px 20px 0 #e9edc9;
         padding: 20px;
         border-radius: 10px;
+        border: 3px solid #3a5a40;
         color: #414833;
         margin-bottom: 20px;
         box-sizing: border-box; 
