@@ -72,27 +72,24 @@ menu: nav/camping.html
 
 <div class="container">
     <div class="form-container">
-        <h2>Add a post to the camping feed!</h2>
         <form id="postForm">
-            <label for="comment">Type Here:</label>
-            <textarea id="comment" name="comment" required></textarea>
-            <input type="hidden" id="group_id" name="group_id" value="national parks">
-            <input type="hidden" id="channel_id" name="channel_id" value="17">
-            <button type="submit">Post</button>
-        </form>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <textarea class="review-input" id="comment" name="comment" placeholder="Write your post about the Tundra here..."></textarea>
+    <input type="hidden" id="group_id" name="group_id" value="Camping">
+    <input type="hidden" id="channel_id" name="channel_id" value="5">
+    <button class="submit-btn">Submit Post</button>
+</form>
     </div>
 </div>
 
 <script type="module">
     import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
-
-    /**
-     * Handle form submission for adding a post
-     */
     document.getElementById('postForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
         // Extract data from form
+        const title = document.getElementById('title').value;
         const comment = document.getElementById('comment').value;
         const groupId = document.getElementById('group_id').value;
         const channelId = document.getElementById('channel_id').value;
@@ -101,6 +98,7 @@ menu: nav/camping.html
         const postData = {
             title: title,
             comment: comment,
+            content: rating,
             group_id: groupId,
             channel_id: channelId
         };
@@ -133,39 +131,45 @@ menu: nav/camping.html
      * Fetch and display posts
      */
     async function fetchData(channelId) {
-        try {
-            const response = await fetch(`${pythonURI}/api/posts/filter`, {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ channel_id: channelId })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch posts: ' + response.statusText);
-            }
-
-            const postData = await response.json();
-            document.getElementById('count').innerHTML = `<h4>Number of Reviews: ${postData.length || 0}</h4>`;
-            const detailsDiv = document.getElementById('details');
-            detailsDiv.innerHTML = '';
-
-            postData.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post-item';
-                postElement.innerHTML = `
-                    <h3>${post.title}</h3>
-                    <p><strong>Username:</strong> ${post.user_name}</p>
-                    <p><strong>Comment:</strong> ${post.comment}</p>
-                `;
-                detailsDiv.appendChild(postElement);
-            });
-        } catch (error) {
-            console.error('Error fetching data:', error);
+    try {
+        const response = await fetch(`${pythonURI}/api/posts/filter`, {
+            ...fetchOptions,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ channel_id: channelId })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts: ' + response.statusText);
         }
+
+        const postData = await response.json();
+        document.getElementById('count').innerHTML = `<h4>Total Reviews: ${postData.length || 0}</h4>`;
+        const detailsDiv = document.getElementById('details');
+        detailsDiv.innerHTML = '';
+
+        postData.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'post-item';
+            postElement.style.marginBottom = "20px"; // Add spacing between reviews
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p style="font-size: 0.9rem; color: #aaa;"><em>${post.user_name}</em></p>
+                <p>${post.comment}</p>
+            `; 
+            detailsDiv.appendChild(postElement);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
+}
 
     // Fetch posts on page load
-    fetchData(17);
+    fetchData(5);
+
+
+
 </script>
+
+
