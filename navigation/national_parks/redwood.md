@@ -154,7 +154,6 @@ menu: nav/national_parks.html
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/NationalParkImages/redwood.webp" alt="Image 1">
     <img src="{{ site.baseurl }}/images/NationalParkImages/redwood2.jpg" alt="Image 2">
-    <img src="{{ site.baseurl }}/images/NationalParkImages/redwood3.jpg" alt="Image 3">
     <img src="{{ site.baseurl }}/images/NationalParkImages/redwood4.jpg" alt="Image 4">
     <img src="{{ site.baseurl }}/images/NationalParkImages/redwood5.jpeg" alt="Image 5">
 </div>

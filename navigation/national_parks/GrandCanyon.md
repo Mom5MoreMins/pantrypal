@@ -169,7 +169,7 @@ menu: nav/national_parks.html
 
 <div class="group-theme">
         <h3>Hiking Trails</h3>
-        <p>Discover the best trails for breathtaking views and incredible experiences. The Grand Canyon has something for every level of hiker!</p>
+        <p>The Grand Canyon is home to diverse wildlife, including species such as bighorn sheep, mule deer, and a variety of birds like the California condor. Its unique ecosystems, from the desert floor to the forested rim, support a rich array of plants and animals adapted to the extreme conditions of this iconic landscape.</p>
     </div>
 
 <div class="group-theme">
