@@ -1,100 +1,114 @@
-<h1>Grand Canyon Points of Interest</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Canyon Points of Interest</title>
+    <style>
+        #map {
+            height: 500px; /* You can change the height as needed */
+        }
+    </style>
+</head>
+<body>
+    <h1>Grand Canyon Points of Interest</h1>
 
-<div id="map" style="height: 500px;"></div>
+    <div id="map"></div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" async defer></script>
 
-<script>
-    let map;
-    let markers = [];
-    let infoWindow;
+    <script>
+        let map;
+        let markers = [];
+        let infoWindow;
 
-    function initMap() {
-        const grandCanyon = { lat: 36.1069, lng: -112.1129 };
+        function initMap() {
+            const grandCanyon = { lat: 36.1069, lng: -112.1129 };
 
-        map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: grandCanyon,
-        });
-
-        infoWindow = new google.maps.InfoWindow();
-
-        // Predefined locations
-        const locations = [
-            { lat: 36.0544, lng: -112.1401, title: "Grand Canyon Village", info: "Grand Canyon Village, located on the South Rim..." },
-            { lat: 36.0529, lng: -112.08304, title: "South Kaibab Trail", info: "A scenic and challenging hiking trail..." },
-            { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Stunning panoramic views of the canyon..." }
-        ];
-
-        // Create predefined markers
-        locations.forEach(function(location) {
-            const marker = new google.maps.Marker({
-                position: { lat: location.lat, lng: location.lng },
-                map: map,
-                title: location.title,
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: grandCanyon,
             });
 
-            const infowindow = new google.maps.InfoWindow({
-                content: `<h3 style="color: #b36a32;">${location.title}</h3><p style="color: #b36a32;">${location.info}</p>`,
+            infoWindow = new google.maps.InfoWindow();
+
+            // Predefined locations
+            const locations = [
+                { lat: 36.0544, lng: -112.1401, title: "Grand Canyon Village", info: "Grand Canyon Village, located on the South Rim..." },
+                { lat: 36.0529, lng: -112.08304, title: "South Kaibab Trail", info: "A scenic and challenging hiking trail..." },
+                { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Stunning panoramic views of the canyon..." }
+            ];
+
+            // Create predefined markers
+            locations.forEach(function(location) {
+                const marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.title,
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: `<h3 style="color: #b36a32;">${location.title}</h3><p style="color: #b36a32;">${location.info}</p>`,
+                });
+
+                marker.addListener("click", function() {
+                    infowindow.open(map, marker);
+                });
             });
 
-            marker.addListener("click", function() {
-                infowindow.open(map, marker);
+            // Add a listener for map clicks to add new pins (markers)
+            map.addListener("click", function(event) {
+                placeMarker(event.latLng);
             });
-        });
-
-        // Add a listener for map clicks to add new pins (markers)
-        map.addListener("click", function(event) {
-            placeMarker(event.latLng);
-        });
-    }
-
-    // Function to place a marker on the map and send its location to the backend
-function placeMarker(location) {
-    // Create a marker at the clicked location
-    const marker = new google.maps.Marker({
-        position: location,
-        map: map,
-    });
-
-    // Push the marker to the markers array for future management (optional)
-    markers.push(marker);
-
-    // Show an info window with the coordinates
-    const latLng = location.lat() + ", " + location.lng();
-    const infowindow = new google.maps.InfoWindow({
-        content: `
-            <h3>New Location</h3>
-            <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
-        `, // Apply black color to the latitude and longitude text
-    });
-    infowindow.open(map, marker);
-
-    // Send location data to the backend
-    saveLocationToBackend(location);
-}
-
-
-async function saveLocationToBackend(location) {
-    try {
-        const response = await fetch("/api/save-location", { L
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                lat: location.lat(),
-                lng: location.lng(),
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to save location");
         }
 
-        alert("Location saved successfully!");
-    } catch (error) {
-        console.error("Error saving location:", error);
-    }
-}
+        // Function to place a marker on the map and send its location to the backend
+        function placeMarker(location) {
+            // Create a marker at the clicked location
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+            });
 
+            // Push the marker to the markers array for future management (optional)
+            markers.push(marker);
+
+            // Show an info window with the coordinates
+            const latLng = location.lat() + ", " + location.lng();
+            const infowindow = new google.maps.InfoWindow({
+                content: `
+                    <h3>New Location</h3>
+                    <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
+                `, // Apply black color to the latitude and longitude text
+            });
+            infowindow.open(map, marker);
+
+            // Send location data to the backend
+            saveLocationToBackend(location);
+        }
+
+        async function saveLocationToBackend(location) {
+            try {
+                const response = await fetch("/api/save-location", { // Modify with your actual backend URL
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        lat: location.lat(),
+                        lng: location.lng(),
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to save location");
+                }
+
+                alert("Location saved successfully!");
+            } catch (error) {
+                console.error("Error saving location:", error);
+            }
+        }
+    </script>
+</body>
+</html>
