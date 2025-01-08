@@ -50,48 +50,51 @@
     }
 
     // Function to place a marker on the map and send its location to the backend
-    function placeMarker(location) {
-        // Create a marker at the clicked location
-        const marker = new google.maps.Marker({
-            position: location,
-            map: map,
+function placeMarker(location) {
+    // Create a marker at the clicked location
+    const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+    });
+
+    // Push the marker to the markers array for future management (optional)
+    markers.push(marker);
+
+    // Show an info window with the coordinates
+    const latLng = location.lat() + ", " + location.lng();
+    const infowindow = new google.maps.InfoWindow({
+        content: `
+            <h3>New Location</h3>
+            <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
+        `, // Apply black color to the latitude and longitude text
+    });
+    infowindow.open(map, marker);
+
+    // Send location data to the backend
+    saveLocationToBackend(location);
+}
+
+
+async function saveLocationToBackend(location) {
+    try {
+        const response = await fetch("/api/save-location", { L
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                lat: location.lat(),
+                lng: location.lng(),
+            }),
         });
 
-        // Push the marker to the markers array for future management (optional)
-        markers.push(marker);
-
-        // Show an info window with the coordinates
-        const latLng = location.lat() + ", " + location.lng();
-        const infowindow = new google.maps.InfoWindow({
-            content: `<h3>New Location</h3><p>Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>`,
-        });
-        infowindow.open(map, marker);
-
-        // Send location data to the backend
-        saveLocationToBackend(location);
-    }
-
-    // Function to save the location to the backend
-    async function saveLocationToBackend(location) {
-        try {
-            const response = await fetch("/api/save-location", { // Modify with your actual backend URL
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    lat: location.lat(),
-                    lng: location.lng(),
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to save location");
-            }
-
-            alert("Location saved successfully!");
-        } catch (error) {
-            console.error("Error saving location:", error);
+        if (!response.ok) {
+            throw new Error("Failed to save location");
         }
+
+        alert("Location saved successfully!");
+    } catch (error) {
+        console.error("Error saving location:", error);
     }
-</script>
+}
+
