@@ -120,3 +120,9 @@ permalink: /about/home
         });
 </script>
 
+
+<h3> Planning and Personal Contribution Video </h3>
+
+<iframe width="560" height="315" src="{{site.baseurl}}/images/videos/frostbyte_vid.mp4" 
+title="Frostbyt video player" frameborder="0" allow="accelerometer; autoplay; 
+clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
