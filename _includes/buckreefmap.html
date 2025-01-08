@@ -33,5 +33,52 @@
                 infowindow.open(map, marker);
             });
         });
-    }
+        map.addListener("click", function(event) {
+                placeMarker(event.latLng);
+            });
+        }
+
+        function placeMarker(location) {
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+
+            markers.push(marker);
+
+            const latLng = location.lat() + ", " + location.lng();
+            const infowindow = new google.maps.InfoWindow({
+                content: `
+                    <h3>New Location</h3>
+                    <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
+                `,
+            });
+            infowindow.open(map, marker);
+
+            saveLocationToBackend(location);
+        }
+
+        async function saveLocationToBackend(location) {
+            try {
+                const response = await fetch("/api/save-location", { 
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        lat: location.lat(),
+                        lng: location.lng(),
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to save location");
+                }
+
+                alert("Location saved successfully!");
+            } catch (error) {
+                console.error("Error saving location:", error);
+            }
+        }
+    
 </script>
