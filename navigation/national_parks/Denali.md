@@ -355,3 +355,204 @@ menu: nav/national_parks.html
     document.addEventListener('DOMContentLoaded', fetchAnalytics);
     
 </script>
+
+<!-- Add this widget at the bottom of your HTML page -->
+<div id="weather-widget" style="
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    color: #333;
+">
+    <h3 style="margin: 0; text-align: center;">Weather in Denali</h3>
+    <div id="weather-info" style="text-align: center; font-size: 14px;">
+        Loading weather information...
+    </div>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #weather-widget {
+            background-color: #2e2e2e;
+            border: 4px solid #39ff14; /* Neon green border */
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 255, 0, 0.3);
+        }
+
+        #weather-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #39ff14;
+        }
+
+        .forecast {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3a3a3a;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .forecast-day {
+            font-weight: bold;
+        }
+
+        .forecast-temp {
+            font-size: 14px;
+        }
+
+        .forecast-condition {
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        .forecast-wind {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Weather Forecast: San Diego</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .weather-widget {
+            background-color: #333;
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .weather-widget h2 {
+            color: #39ff14;
+            margin-bottom: 20px;
+        }
+
+        .weather-day {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .weather-container {
+            background-color: #333;
+            border: 2px solid #39ff14; /* Neon green */
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 10px #39ff14;
+        }
+        .weather-container h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .weather-container p {
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1>Weather in Denali</h1>
+        <p id="temperature">Temperature: Loading...</p>
+        <p id="wind">Wind Speed: Loading...</p>
+        <p id="direction">Wind Direction: Loading...</p>
+        <p id="time">Time: Loading...</p>
+        <p id="day-status">Day/Night: Loading...</p>
+        <p id="weathercode">Weather Code: Loading...</p>
+    </div>
+
+    <script>
+        async function fetchWeather() {
+            try {
+                const response = await fetch('http://127.0.0.1:8887/api/weather?location=San%20Diego&type=current');
+                const data = await response.json();
+
+                if (response.ok) {
+                    const currentWeather = data.current_weather;
+
+                    // Update the DOM with weather data
+                    document.getElementById('temperature').textContent = `Temperature: ${currentWeather.temperature}°C`;
+                    document.getElementById('wind').textContent = `Wind Speed: ${currentWeather.windspeed} km/h`;
+                    document.getElementById('direction').textContent = `Wind Direction: ${currentWeather.winddirection}°`;
+                    document.getElementById('time').textContent = `Time: ${currentWeather.time}`;
+                    document.getElementById('day-status').textContent = `Day/Night: ${currentWeather.is_day ? 'Day' : 'Night'}`;
+                    document.getElementById('weathercode').textContent = `Weather Code: ${currentWeather.weathercode}`;
+                } else {
+                    alert('Failed to fetch weather data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                alert('Error fetching weather data.');
+            }
+        }
+
+        // Fetch weather data on page load
+        fetchWeather();
+    </script>
+</body>
+</html>

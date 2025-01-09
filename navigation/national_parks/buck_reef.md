@@ -355,3 +355,44 @@ menu: nav/national_parks.html
     document.addEventListener('DOMContentLoaded', fetchAnalytics);
     
 </script>
+<body>
+    <div class="weather-container">
+        <h1>Weather in Buck Reef</h1>
+        <p id="temperature">Temperature: Loading...</p>
+        <p id="wind">Wind Speed: Loading...</p>
+        <p id="direction">Wind Direction: Loading...</p>
+        <p id="time">Time: Loading...</p>
+        <p id="day-status">Day/Night: Loading...</p>
+        <p id="weathercode">Weather Code: Loading...</p>
+    </div>
+
+    <script>
+        async function fetchWeather() {
+            try {
+                const response = await fetch('http://127.0.0.1:8887/api/weather?location=San%20Diego&type=current');
+                const data = await response.json();
+
+                if (response.ok) {
+                    const currentWeather = data.current_weather;
+
+                    // Update the DOM with weather data
+                    document.getElementById('temperature').textContent = `Temperature: ${currentWeather.temperature}°C`;
+                    document.getElementById('wind').textContent = `Wind Speed: ${currentWeather.windspeed} km/h`;
+                    document.getElementById('direction').textContent = `Wind Direction: ${currentWeather.winddirection}°`;
+                    document.getElementById('time').textContent = `Time: ${currentWeather.time}`;
+                    document.getElementById('day-status').textContent = `Day/Night: ${currentWeather.is_day ? 'Day' : 'Night'}`;
+                    document.getElementById('weathercode').textContent = `Weather Code: ${currentWeather.weathercode}`;
+                } else {
+                    alert('Failed to fetch weather data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                alert('Error fetching weather data.');
+            }
+        }
+
+        // Fetch weather data on page load
+        fetchWeather();
+    </script>
+</body>
+</html>
