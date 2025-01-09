@@ -80,7 +80,7 @@
 
         async function saveLocationToBackend(location) {
             try {
-                const response = await fetch("/api/save-location", { 
+                const response = await fetch("http://127.0.0.1:4887/frostbyte_frontend/api/save-location", { 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
