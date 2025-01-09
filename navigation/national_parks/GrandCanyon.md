@@ -316,29 +316,37 @@ menu: nav/national_parks.html
 </div>
 
 <script>
-
     async function fetchAnalytics() {
         try {
             const response = await fetch('/api/analytics/summary', {
                 method: 'GET',
                 headers: {
-                    
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with your token logic
                     'Content-Type': 'application/json'
                 }
             });
 
+            const analyticsDiv = document.getElementById('analyticsSummary');
+            const title = analyticsDiv.querySelector('h3');
+            analyticsDiv.innerHTML = ''; 
+            analyticsDiv.appendChild(title); 
+
             if (!response.ok) {
+                const errorMessage = document.createElement('p');
+                errorMessage.innerText = `Error: ${response.statusText}`;
+                analyticsDiv.appendChild(errorMessage);
                 throw new Error('Failed to fetch analytics summary: ' + response.statusText);
             }
 
-  
             const analyticsData = await response.json();
 
-     
-            const analyticsDiv = document.getElementById('analyticsSummary');
-            analyticsDiv.innerHTML = ''; 
+            if (analyticsData.length === 0) {
+                const noDataMessage = document.createElement('p');
+                noDataMessage.innerText = 'No analytics data available.';
+                analyticsDiv.appendChild(noDataMessage);
+                return;
+            }
 
-     
             analyticsData.forEach(entry => {
                 const summaryElement = document.createElement('div');
                 summaryElement.className = 'analytics-item';
@@ -354,8 +362,7 @@ menu: nav/national_parks.html
         }
     }
 
-   
     document.addEventListener('DOMContentLoaded', fetchAnalytics);
-    
 </script>
+
 

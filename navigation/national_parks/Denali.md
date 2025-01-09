@@ -5,9 +5,6 @@ search_exclude: true
 permalink: /national_parks/Denali
 menu: nav/national_parks.html
 ---
-
-<h1>Denali National Park</h1>
-
 <style>
     body {
         font-family: 'Poppins', sans-serif;
