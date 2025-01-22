@@ -64,7 +64,7 @@
         // Function to save location to backend
         async function saveLocationToBackend(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:5001/frostbyte_frontend/api/save-location", { 
+                const response = await fetch("http://127.0.0.1:5002/frostbyte_frontend/api/save-location", { 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -88,7 +88,7 @@
         // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:5001/frostbyte_frontend/api/get-locations");
+                const response = await fetch("http://127.0.0.1:5002/frostbyte_frontend/api/get-locations");
                 if (!response.ok) {
                     throw new Error("Failed to fetch locations");
                 }
@@ -123,7 +123,7 @@
         // Delete a location
         async function deleteLocation(locationId) {
             try {
-                const response = await fetch(`http://127.0.0.1:5001/frostbyte_frontend/api/delete-location/${locationId}`, {
+                const response = await fetch(`http://127.0.0.1:5002/frostbyte_frontend/api/delete-location/${locationId}`, {
                     method: "DELETE",
                 });
 
@@ -144,7 +144,7 @@
 
             if (newLat && newLng) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5001/frostbyte_frontend/api/update-location/${locationId}`, {
+                    const response = await fetch(`http://127.0.0.1:5002/frostbyte_frontend/api/update-location/${locationId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
