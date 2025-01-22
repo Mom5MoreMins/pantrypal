@@ -7,21 +7,22 @@ menu: nav/camping.html
 ---
 
 <style>
-    .container {
+    /* Shared Flex Container */
+    .flex-column-centered {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        max-width: 1200px;
         padding: 20px;
         box-sizing: border-box;
     }
 
+    /* Shared Form and Post Styles */
     .form-container, .post-item {
         display: flex;
         flex-direction: column;
-        width: 100%; 
-        max-width: 800px; 
+        width: 100%;
+        max-width: 800px;
         background-color: #a4ac86;
         box-shadow: 0 4px 8px 0 #e9edc9, 0 6px 20px 0 #e9edc9;
         padding: 20px;
@@ -29,16 +30,21 @@ menu: nav/camping.html
         border: 3px solid #3a5a40;
         color: #414833;
         margin-bottom: 20px;
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
 
+    /* Text Styling for Post Items */
     .post-item h3, .post-item p {
         margin: 0 0 10px;
+        width: 100%;
     }
 
+    /* Styling for Form Labels */
     .form-container label {
         margin-bottom: 5px;
     }
+
+    /* Styling for Form Inputs and Textareas */
     .form-container input, .form-container textarea {
         margin-bottom: 10px;
         padding: 10px;
@@ -46,6 +52,8 @@ menu: nav/camping.html
         border: none;
         width: 100%;
     }
+
+    /* Button Styling for Form */
     .form-container button {
         padding: 10px;
         border-radius: 5px;
@@ -54,6 +62,8 @@ menu: nav/camping.html
         color: #414833;
         cursor: pointer;
     }
+
+    /* Shared Container for Details Section */
     .details {
         display: flex;
         flex-direction: column;
@@ -63,15 +73,8 @@ menu: nav/camping.html
         padding: 20px;
         box-sizing: border-box;
     }
-
-    .post-item h3 {
-        margin: 0 0 10px;
-    }
-    .post-item p {
-        margin: 5px 0;
-    }
-
 </style>
+
 
 # Choose a biome to post about!
 <!-- try new post function -->
@@ -103,6 +106,11 @@ menu: nav/camping.html
 
     <button type="submit">Add Post</button>
   </form>
+  </div>
+
+  <div>
+    <p id="count"></p>
+    <div class="details" id="details"></div>
   </div>
 
   <script>
@@ -212,10 +220,58 @@ menu: nav/camping.html
       if (!response.ok) throw new Error('Failed to add post: ' + response.statusText);
       alert("Post added successfully!");
 
+      await fetchData(channelID); // Refresh posts for the current channel
+
     } catch (error) {
       console.error('Error adding post:', error);
     }
   });
+
+  /**
+     * Fetch and display posts
+     */
+    async function fetchData(channelId) {
+    try {
+        const response = await fetch(`${pythonURI}/api/posts/filter`, {
+            ...fetchOptions,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ channel_id: channelId })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts: ' + response.statusText);
+        }
+
+        const postData = await response.json();
+        document.getElementById('count').innerHTML = `<h4>Total Posts: ${postData.length || 0}</h4>`;
+        const detailsDiv = document.getElementById('details');
+        detailsDiv.innerHTML = '';
+
+        postData.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'post-item';
+            postElement.style.marginBottom = "20px"; // Add spacing between reviews
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p style="font-size: 0.9rem; color: #000000;"><em>${post.user_name}</em></p>
+                <p>${post.comment}</p>
+            `; 
+            detailsDiv.appendChild(postElement);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+    // Fetch posts on page load
+    const selectedChannels = [5, 6, 7, 8]; 
+
+    selectedChannels.forEach(channelId => {
+    fetchData(channelId);
+});
+
 </script>
 
 
