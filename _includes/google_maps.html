@@ -48,12 +48,14 @@
 
             markers.push(marker);
 
-            const latLng = location.lat() + ", " + location.lng();
+            const lat = location.lat();
+            const lng = location.lng();
+
             const infowindow = new google.maps.InfoWindow({
                 content: `
                     <h3>New Location</h3>
-                    <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
-                    <button onclick="saveLocationToBackend(${location.lat().toFixed(5)}, ${location.lng().toFixed(5)})">Save Location</button>
+                    <p style="color: black;">Latitude: ${lat.toFixed(5)}, Longitude: ${lng.toFixed(5)}</p>
+                    <button onclick="saveLocationToBackend(${lat}, ${lng})">Save Location</button>
                 `,
             });
             infowindow.open(map, marker);
@@ -130,9 +132,6 @@
                 }
 
                 alert("Location deleted successfully!");
-
-                // Optionally, you can remove the marker from the map
-                markers = markers.filter(marker => marker.id !== locationId); // Update the markers array
             } catch (error) {
                 console.error("Error deleting location:", error);
             }
