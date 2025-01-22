@@ -31,29 +31,6 @@
 
             infoWindow = new google.maps.InfoWindow();
 
-            const locations = [
-                { lat: 36.0544, lng: -112.1401, title: "Grand Canyon Village", info: "Grand Canyon Village, located on the South Rim serves as the heart of the Grand Canyon National Park, offering a range of services, including historic hotels, restaurants, gift shops, and the Grand Canyon Railway depot." },
-                { lat: 36.0529, lng: -112.08304, title: "South Kaibab Trail", info: "A scenic and challenging hiking trail offering stunning views of the canyon's cliffs, rock formations, and the river below, known for its steep descent that leads adventurers to the Colorado River at the canyon’s floor." },
-                { lat: 36.1333, lng: -112.0998, title: "Mather Point", info: "Stunning panoramic views of the canyon's vast expanse, offering visitors a breathtaking perspective of its colorful rock formations, deep gorges, and the Colorado River winding far below." }
-            ];
-
-            // Create markers for pre-defined locations
-            locations.forEach(function(location) {
-                const marker = new google.maps.Marker({
-                    position: { lat: location.lat, lng: location.lng },
-                    map: map,
-                    title: location.title,
-                });
-
-                const infowindow = new google.maps.InfoWindow({
-                    content: `<h3 style="color: #b36a32;">${location.title}</h3><p style="color: #b36a32;">${location.info}</p>`,
-                });
-
-                marker.addListener("click", function() {
-                    infowindow.open(map, marker);
-                });
-            });
-
             // Fetch saved locations from the backend and add them to the map
             fetchSavedLocations();
 
@@ -76,16 +53,14 @@
                 content: `
                     <h3>New Location</h3>
                     <p style="color: black;">Latitude: ${location.lat().toFixed(5)}, Longitude: ${location.lng().toFixed(5)}</p>
+                    <button onclick="saveLocationToBackend(${location.lat().toFixed(5)}, ${location.lng().toFixed(5)})">Save Location</button>
                 `,
             });
             infowindow.open(map, marker);
-
-            // Save the new location to the backend
-            saveLocationToBackend(location);
         }
 
         // Function to save location to backend
-        async function saveLocationToBackend(location) {
+        async function saveLocationToBackend(lat, lng) {
             try {
                 const response = await fetch("http://127.0.0.1:5001/frostbyte_frontend/api/save-location", { 
                     method: "POST",
@@ -93,8 +68,8 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        lat: location.lat(),
-                        lng: location.lng(),
+                        lat: lat,
+                        lng: lng,
                     }),
                 });
 
@@ -126,7 +101,12 @@
                     });
 
                     const infowindow = new google.maps.InfoWindow({
-                        content: `<h3>Saved Location</h3><p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>`,
+                        content: `
+                            <h3>Saved Location</h3>
+                            <p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>
+                            <button onclick="deleteLocation(${location.id})">Delete</button>
+                            <button onclick="updateLocation(${location.id})">Update</button>
+                        `,
                     });
 
                     marker.addListener("click", function() {
@@ -135,6 +115,55 @@
                 });
             } catch (error) {
                 console.error("Error fetching locations:", error);
+            }
+        }
+
+        // Delete a location
+        async function deleteLocation(locationId) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5001/frostbyte_frontend/api/delete-location/${locationId}`, {
+                    method: "DELETE",
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to delete location");
+                }
+
+                alert("Location deleted successfully!");
+
+                // Optionally, you can remove the marker from the map
+                markers = markers.filter(marker => marker.id !== locationId); // Update the markers array
+            } catch (error) {
+                console.error("Error deleting location:", error);
+            }
+        }
+
+        // Update a location (show a simple edit prompt)
+        async function updateLocation(locationId) {
+            const newLat = prompt("Enter new latitude:");
+            const newLng = prompt("Enter new longitude:");
+
+            if (newLat && newLng) {
+                try {
+                    const response = await fetch(`http://127.0.0.1:5001/frostbyte_frontend/api/update-location/${locationId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            lat: newLat,
+                            lng: newLng,
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to update location");
+                    }
+
+                    alert("Location updated successfully!");
+                } catch (error) {
+                    console.error("Error updating location:", error);
+                }
             }
         }
     </script>
