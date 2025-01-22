@@ -53,7 +53,7 @@
 
             const infowindow = new google.maps.InfoWindow({
                 content: `
-                    <h3>New Location</h3>
+                    <h3 style="color: black;">New Location</h3> <!-- Updated color style to black -->
                     <p style="color: black;">Latitude: ${lat.toFixed(5)}, Longitude: ${lng.toFixed(5)}</p>
                     <button onclick="saveLocationToBackend(${lat}, ${lng})">Save Location</button>
                 `,
