@@ -191,6 +191,9 @@ menu: nav/national_parks.html
 
 <div class="starring-section">
     <h3> Overall Rating </h3>
+    <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">
+            🗑️
+        </button>
     <p> Based on your experiences and the reviews below, submit your overall rating of the Grand Canyon National Park here! </p>
     <div class="star-rating">
         <span class="star" data-stars-overall="1" data-rating-type="overall">&#9733;</span>
@@ -342,6 +345,7 @@ function setRating(stars, type) {
                 if (!ratingResponse.ok) {
                     throw new Error('Failed to submit rating: ' + ratingResponse.statusText);
                 }
+                alert('Rating submitted successfully!');
                 console.log('Rating submitted successfully!');
             } catch (error) {
                 console.error('Error submitting rating:', error);
@@ -350,8 +354,6 @@ function setRating(stars, type) {
             alert('Please select an overall rating before submitting.');
         }
     });
-
-
 
     /**
      * Fetch and display posts
@@ -432,6 +434,40 @@ async function fetchAndFillOverallStars(channelId) {
         console.error('Error fetching overall stars:', error);
     }
 }
+
+document.getElementById('deleteRatingBtn').addEventListener('click', async function () {
+    const userId = localStorage.getItem('uid'); // Assume user ID is stored in local storage
+    const confirmed = confirm("Are you sure you want to delete your ratings?");
+
+    if (confirmed) {
+        try {
+            // Send DELETE request to backend
+            const response = await fetch(`${pythonURI}/api/rating`, {
+                ...fetchOptions,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: userId })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete ratings: ' + response.statusText);
+            }
+
+            alert('Your ratings have been deleted.');
+
+            // Reset the stars to be blank
+            document.querySelectorAll('.star[data-rating-type="overall"]').forEach(star => {
+                star.style.color = '#bbb'; // Set stars to default color
+            });
+        } catch (error) {
+            console.error('Error deleting ratings:', error);
+            alert('Error deleting your ratings: ' + error.message);
+        }
+    }
+});
+
 
 // Call the function on page load
 document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)); // Replace 13 with your desired channel ID
