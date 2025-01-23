@@ -202,7 +202,7 @@ menu: nav/camping.html
     setInterval(() => plusSlides(1), 5000);
 </script>
 
-<!-->gemini code <!-->
+
 <style>
   /* Style for the chat button */
   .chat-button {
@@ -272,7 +272,7 @@ menu: nav/camping.html
     cursor: pointer;
   }
 
-     /* Chatbox content area */
+  /* Chatbox content area */
   .chatbox-content {
     flex-grow: 1;
     padding: 10px;
@@ -293,9 +293,9 @@ menu: nav/camping.html
     display: inline-block; /* Make the bubble only as wide as its content */
   }
 
-  /* User's message bubble */
-  .chat-message-user {
-    background-color: #d4f8d4; /* Light green */
+  /* AI's message bubble (on the left now) */
+  .chat-message-ai {
+    background-color: #f4a460; /* Sandy brown */
     color: #000; /* Black text */
     align-self: flex-start; /* Align to the left */
     text-align: left; /* Align text inside to the left */
@@ -303,9 +303,9 @@ menu: nav/camping.html
     border-bottom-left-radius: 0; /* Flat bottom-left corner */
   }
 
-  /* AI's message bubble */
-  .chat-message-ai {
-    background-color: #f4a460; /* Sandy brown */
+  /* User's message bubble (on the right now) */
+  .chat-message-user {
+    background-color: #d4f8d4; /* Light green */
     color: #000; /* Black text */
     align-self: flex-end; /* Align to the right */
     text-align: left; /* Align text inside to the left */
@@ -314,6 +314,7 @@ menu: nav/camping.html
   }
 
 </style>
+
 
 <body>
   <!-- Chat Button -->
@@ -330,11 +331,9 @@ menu: nav/camping.html
       <button>Send</button>
     </div>
   </div>
-
-  <script>
+<script>
     // Chatbot message visibility flag
     let chatbotMessageShown = false;
-
     // Function to toggle the chatbox visibility
     function toggleChatbox() {
         const chatbox = document.getElementById('chatbox');
@@ -346,7 +345,6 @@ menu: nav/camping.html
             chatbox.style.display = 'none';
         }
     }
-
     // Function to show the initial chatbot message
     function showChatbotMessage(content) {
         if (!chatbotMessageShown) {
@@ -356,7 +354,6 @@ menu: nav/camping.html
             chatbotMessageShown = true;
         }
     }
-
     // Function to create a message element
     function createMessage(text, className) {
         const message = document.createElement('div');
@@ -364,27 +361,23 @@ menu: nav/camping.html
         message.textContent = text;
         return message;
     }
-
     // Function to scroll to the bottom of the chatbox
     function scrollToBottom(content) {
         content.scrollTop = content.scrollHeight;
     }
-
     // Function to fetch Gemini API response
     async function fetchGeminiResponse(userInput) {
         try {
-            const response = await fetch(`http://127.0.0.1:8887/api/gemini`, {
+            const response = await fetch(`http://127.0.0.1:8887/api/chatbot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ user_input: userInput })
             });
-
             if (!response.ok) {
                 throw new Error('Failed to fetch Gemini response: ' + response.statusText);
             }
-
             const data = await response.json();
             return data.model_response;
         } catch (error) {
@@ -392,20 +385,17 @@ menu: nav/camping.html
             return null;
         }
     }
-
     // Function to send a message
     function sendMessage() {
         const input = document.querySelector('.chatbox-input input');
         const content = document.querySelector('.chatbox-content');
         const message = input.value.trim();
-
         if (message) {
             // Display user message
             const userMessage = createMessage(`You: ${message}`, 'chat-message-user');
             content.appendChild(userMessage);
             scrollToBottom(content);
             input.value = '';
-
             // Fetch AI response
             fetchGeminiResponse(message).then((response) => {
                 const aiMessage = createMessage(
@@ -423,7 +413,6 @@ menu: nav/camping.html
             alert('Please enter a message before sending.');
         }
     }
-
     // Initialize event listeners
     document.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector('.chatbox-input input');
