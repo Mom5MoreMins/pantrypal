@@ -64,7 +64,7 @@
         // Function to save location to backend
         async function saveLocationToBackend(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:5001/api/location", { 
+                const response = await fetch("http://127.0.0.1:8887/api/location", { 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -72,8 +72,8 @@
                     body: JSON.stringify({
                         lat: lat,
                         lng: lng,
-                        user_id: 1,  // Assuming user_id is 1, you need to replace this with actual dynamic value
-                        channel_id: 1 // Assuming channel_id is 1, adjust this as necessary
+                        user_id: 1,  // Replace with actual dynamic user ID
+                        channel_id: 1 // Replace with actual dynamic channel ID
                     }),
                 });
 
@@ -82,6 +82,7 @@
                 }
 
                 alert("Location saved successfully!");
+                fetchSavedLocations(); // Refresh the map
             } catch (error) {
                 console.error("Error saving location:", error);
             }
@@ -90,12 +91,16 @@
         // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:5001/api/location");
+                const response = await fetch("http://127.0.0.1:8887/api/location");
                 if (!response.ok) {
                     throw new Error("Failed to fetch locations");
                 }
 
                 const data = await response.json();
+
+                // Clear existing markers before adding new ones
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
 
                 data.forEach(location => {
                     const marker = new google.maps.Marker({
@@ -108,7 +113,7 @@
                         content: `
                             <h3>Saved Location</h3>
                             <p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>
-                            <button onclick="deleteLocation(${location.id}, this)">Delete</button>
+                            <button onclick="deleteLocation(${location.id}, ${marker})">Delete</button>
                             <button onclick="updateLocation(${location.id})">Update</button>
                         `,
                     });
@@ -116,6 +121,8 @@
                     marker.addListener("click", function() {
                         infowindow.open(map, marker);
                     });
+
+                    markers.push(marker);
                 });
             } catch (error) {
                 console.error("Error fetching locations:", error);
@@ -123,9 +130,9 @@
         }
 
         // Delete a location
-        async function deleteLocation(locationId, infowindowButton) {
+        async function deleteLocation(locationId, marker) {
             try {
-                const response = await fetch(`http://127.0.0.1:5001/api/location/${locationId}`, {
+                const response = await fetch(`http://127.0.0.1:8887/api/location/${locationId}`, {
                     method: "DELETE",
                 });
 
@@ -134,8 +141,7 @@
                 }
 
                 alert("Location deleted successfully!");
-                // Close the infoWindow
-                infoWindow.close();
+                marker.setMap(null); // Remove the marker from the map
                 fetchSavedLocations(); // Refresh the map to reflect the deletion
             } catch (error) {
                 console.error("Error deleting location:", error);
@@ -149,7 +155,7 @@
 
             if (newLat && newLng) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5001/api/location/${locationId}`, {
+                    const response = await fetch(`http://127.0.0.1:8887/api/location/${locationId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
