@@ -108,7 +108,7 @@
                         content: `
                             <h3>Saved Location</h3>
                             <p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>
-                            <button onclick="deleteLocation(${location.id})">Delete</button>
+                            <button onclick="deleteLocation(${location.id}, this)">Delete</button>
                             <button onclick="updateLocation(${location.id})">Update</button>
                         `,
                     });
@@ -123,7 +123,7 @@
         }
 
         // Delete a location
-        async function deleteLocation(locationId) {
+        async function deleteLocation(locationId, infowindowButton) {
             try {
                 const response = await fetch(`http://127.0.0.1:5001/api/location/${locationId}`, {
                     method: "DELETE",
@@ -134,7 +134,9 @@
                 }
 
                 alert("Location deleted successfully!");
-                fetchSavedLocations(); // Refresh the map
+                // Close the infoWindow
+                infoWindow.close();
+                fetchSavedLocations(); // Refresh the map to reflect the deletion
             } catch (error) {
                 console.error("Error deleting location:", error);
             }
@@ -163,7 +165,7 @@
                     }
 
                     alert("Location updated successfully!");
-                    fetchSavedLocations(); // Refresh the map
+                    fetchSavedLocations(); // Refresh the map to reflect the update
                 } catch (error) {
                     console.error("Error updating location:", error);
                 }
