@@ -52,8 +52,8 @@
             const lng = location.lng();
 
             const infowindow = new google.maps.InfoWindow({
-                content: `
-                    <h3 style="color: black;">New Location</h3> <!-- Updated color style to black -->
+                content: ` 
+                    <h3 style="color: black;">New Location</h3>
                     <p style="color: black;">Latitude: ${lat.toFixed(5)}, Longitude: ${lng.toFixed(5)}</p>
                     <button onclick="saveLocationToBackend(${lat}, ${lng})">Save Location</button>
                 `,
@@ -64,7 +64,7 @@
         // Function to save location to backend
         async function saveLocationToBackend(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:5002/frostbyte_frontend/api/save-location", { 
+                const response = await fetch("http://127.0.0.1:5002/api/location", { 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -72,6 +72,8 @@
                     body: JSON.stringify({
                         lat: lat,
                         lng: lng,
+                        user_id: 1,  // Assuming user_id is 1, you need to replace this with actual dynamic value
+                        channel_id: 1 // Assuming channel_id is 1, adjust this as necessary
                     }),
                 });
 
@@ -88,14 +90,14 @@
         // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:5002/frostbyte_frontend/api/get-locations");
+                const response = await fetch("http://127.0.0.1:5002/api/location");
                 if (!response.ok) {
                     throw new Error("Failed to fetch locations");
                 }
 
                 const data = await response.json();
 
-                data.locations.forEach(location => {
+                data.forEach(location => {
                     const marker = new google.maps.Marker({
                         position: { lat: location.lat, lng: location.lng },
                         map: map,
@@ -123,7 +125,7 @@
         // Delete a location
         async function deleteLocation(locationId) {
             try {
-                const response = await fetch(`http://127.0.0.1:5002/frostbyte_frontend/api/delete-location/${locationId}`, {
+                const response = await fetch(`http://127.0.0.1:5002/api/location/${locationId}`, {
                     method: "DELETE",
                 });
 
@@ -132,6 +134,7 @@
                 }
 
                 alert("Location deleted successfully!");
+                fetchSavedLocations(); // Refresh the map
             } catch (error) {
                 console.error("Error deleting location:", error);
             }
@@ -144,7 +147,7 @@
 
             if (newLat && newLng) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5002/frostbyte_frontend/api/update-location/${locationId}`, {
+                    const response = await fetch(`http://127.0.0.1:5002/api/location/${locationId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
@@ -160,6 +163,7 @@
                     }
 
                     alert("Location updated successfully!");
+                    fetchSavedLocations(); // Refresh the map
                 } catch (error) {
                     console.error("Error updating location:", error);
                 }
