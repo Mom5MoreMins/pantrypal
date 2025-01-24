@@ -5,7 +5,15 @@
     <title>Grand Canyon Points of Interest</title>
     <style>
         #map {
-            height: 500px; 
+            height: 500px;
+        }
+
+        /* Style for the delete button */
+        .delete-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -113,7 +121,8 @@
                         content: `
                             <h3>Saved Location</h3>
                             <p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>
-                            <button onclick="deleteLocation(${location.id}, ${marker})">Delete</button>
+                            <!-- Add trash can emoji to delete button -->
+                            <button class="delete-button" onclick="deleteLocation(${location.id}, ${marker})">🗑️ Delete</button>
                             <button onclick="updateLocation(${location.id})">Update</button>
                         `,
                     });
