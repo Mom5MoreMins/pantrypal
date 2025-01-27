@@ -479,45 +479,62 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 </script>
 
+<div class="analytics-section">
+    <h2>Analytics</h2>
+    <table id="analyticsTable" border="1" style="width: 100%; text-align: center; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Channel ID</th>
+                <th>Stars</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically loaded here -->
+        </tbody>
+    </table>
+</div>
 
-
-<div id="analyticsSummary" class="group-theme">
-    <h3>Analytics Summary</h3>
+<div class="submit-section">
+    <h3>Submit New Analytics</h3>
+    <form id="analyticsForm">
+        <label for="user_id">User ID:</label>
+        <input type="number" id="user_id" name="user_id" required>
+        <br><br>
+        <label for="channel_id">Channel ID:</label>
+        <input type="number" id="channel_id" name="channel_id" required>
+        <br><br>
+        <label for="stars">Stars:</label>
+        <input type="number" id="stars" name="stars" min="1" max="5" required>
+        <br><br>
+        <button type="submit">Submit Analytics</button>
+    </form>
 </div>
 
 <script>
-    async function fetchAnalytics() {
+    const pythonURI = "http://127.0.0.1:8887"; // Replace with your backend URL
+
+    // Fetch and display analytics data
+    async function fetchAnalyticsData() {
         try {
-            const response = await fetch('/api/analytics/summary', {
+            const response = await fetch(`${pythonURI}/api/analytics`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with your token logic
                     'Content-Type': 'application/json'
                 }
             });
 
-            const analyticsDiv = document.getElementById('analyticsSummary');
-            const title = analyticsDiv.querySelector('h3');
-            analyticsDiv.innerHTML = ''; 
-            analyticsDiv.appendChild(title); 
-
             if (!response.ok) {
-                const errorMessage = document.createElement('p');
-                errorMessage.innerText = `Error: ${response.statusText}`;
-                analyticsDiv.appendChild(errorMessage);
-                throw new Error('Failed to fetch analytics summary: ' + response.statusText);
+                throw new Error('Failed to fetch analytics data');
             }
 
             const analyticsData = await response.json();
 
-            if (analyticsData.length === 0) {
-                const noDataMessage = document.createElement('p');
-                noDataMessage.innerText = 'No analytics data available.';
-                analyticsDiv.appendChild(noDataMessage);
-                return;
-            }
-
+            // Populate the table
+            const tableBody = document.querySelector('#analyticsTable tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
             analyticsData.forEach(entry => {
+<<<<<<< HEAD
                 const summaryElement = document.createElement('div');
                 summaryElement.className = 'analytics-item';
                 summaryElement.innerHTML = 
@@ -525,11 +542,122 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
                     <p>Average Rating: ${entry.stars.toFixed(1)}</p>
                     <p>Total Reviews: ${entry.total_reviews}</p>`;
                 analyticsDiv.appendChild(summaryElement);
+=======
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.user_id}</td>
+                    <td>${entry.channel_id}</td>
+                    <td>${entry.stars}</td>
+                `;
+                tableBody.appendChild(row);
+>>>>>>> 898fec3 (frontend)
             });
         } catch (error) {
-            console.error('Error fetching analytics:', error);
+            console.error('Error fetching analytics data:', error);
+            alert('Error fetching analytics data: ' + error.message);
         }
     }
 
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', fetchAnalytics);
 </script>
+=======
+    // Handle form submission
+    document.getElementById('analyticsForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        // Get form data
+        const userId = document.getElementById('user_id').value;
+        const channelId = document.getElementById('channel_id').value;
+        const stars = document.getElementById('stars').value;
+
+        const postData = {
+            user_id: parseInt(userId, 10),
+            channel_id: parseInt(channelId, 10),
+            stars: parseInt(stars, 10),
+        };
+
+        try {
+            const response = await fetch(`${pythonURI}/api/analytics`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add analytics entry');
+            }
+
+            alert('Analytics entry added successfully!');
+            document.getElementById('analyticsForm').reset();
+            fetchAnalyticsData(); // Refresh the table
+        } catch (error) {
+            console.error('Error adding analytics entry:', error);
+            alert('Error adding analytics entry: ' + error.message);
+        }
+    });
+
+    // Load data on page load
+    fetchAnalyticsData();
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1b1b1b;
+        color: #f0f0f0;
+        margin: 20px;
+    }
+
+    .analytics-section, .submit-section {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        border: 1px solid #444;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #444;
+    }
+
+    th {
+        background-color: #444;
+    }
+
+    form label {
+        display: inline-block;
+        width: 100px;
+        margin-bottom: 5px;
+    }
+
+    form input {
+        padding: 8px;
+        width: 200px;
+        border: 1px solid #444;
+        background-color: #333;
+        color: #fff;
+    }
+
+    form button {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+    form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+>>>>>>> 898fec3 (frontend)
