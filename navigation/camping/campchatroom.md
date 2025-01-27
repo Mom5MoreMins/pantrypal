@@ -73,6 +73,11 @@ menu: nav/camping.html
         padding: 20px;
         box-sizing: border-box;
     }
+
+    .button {
+        display: block !important; /* Force the button to display */
+    }
+
 </style>
 
 
@@ -144,12 +149,49 @@ menu: nav/camping.html
 </script>
 
 <script type="module">
+  // delete function in its own script tag to put it in a global scope/independent 
+  import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    console.log('deletePost function is defined:', typeof deletePost === 'function');
+    
+    //attatch deletePost defintion to global window so that deletePost can still globally be defined under a script module 
+    window.deletePost = async function deletePost(postId) {
+      
+      const token = localStorage.getItem('token'); 
+        try {
+          
+            const response = await fetch(`${pythonURI}/api/campingPost`, {
+              ...fetchOptions,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id: postId })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete post: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            console.log('Post deleted successfully:', data.message);
+
+            // Remove the deleted post from the UI
+            document.querySelector(`#post-${postId}`).remove();
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
+    }
+</script>
+
+<script type="module">
   import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // Fetch all arguments for a specific channel
   async function fetchArguments(channelId) {
     try {
-      const response = await fetch(`${pythonURI}/api/posts/filter`, {
+      const response = await fetch(`${pythonURI}/api/campingPosts/filter`, {
         ...fetchOptions,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -210,7 +252,7 @@ menu: nav/camping.html
     console.log(postData) // add this temporarily to see what comes up in inspect console 
 
     try {
-      const response = await fetch(`${pythonURI}/api/post`, {
+      const response = await fetch(`${pythonURI}/api/campingPost`, {
         ...fetchOptions,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,13 +269,14 @@ menu: nav/camping.html
     }
   });
 
-  /**
+
+    /**
      * Fetch and display posts
      */
-    async function fetchData(channelId) {
+  async function fetchData(channelId) {
     try {
-        const response = await fetch(`${pythonURI}/api/posts/filter`, {
-            ...fetchOptions,
+      const response = await fetch(`${pythonURI}/api/campingPosts/filter`, {
+        ...fetchOptions,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,25 +295,25 @@ menu: nav/camping.html
         postData.forEach(post => {
             const postElement = document.createElement('div');
             postElement.className = 'post-item';
-            postElement.style.marginBottom = "20px"; // Add spacing between reviews
+            postElement.style.marginBottom = "20px";
+
+            // Always create the delete button
+            const deleteButton = `<button onclick="deletePost(${post.id})">Delete</button>`;
+            console.log('Delete button created:', deleteButton);
+
             postElement.innerHTML = `
                 <h3>${post.title}</h3>
                 <p style="font-size: 0.9rem; color: #000000;"><em>${post.user_name}</em></p>
                 <p>${post.comment}</p>
-            `; 
+                ${deleteButton}
+            `;
+
             detailsDiv.appendChild(postElement);
         });
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 }
-
-    // Fetch posts on page load
-    const selectedChannels = [5, 6, 7, 8]; 
-
-    selectedChannels.forEach(channelId => {
-    fetchData(channelId);
-});
 
 </script>
 
