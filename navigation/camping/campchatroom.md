@@ -296,10 +296,16 @@ menu: nav/camping.html
             const postElement = document.createElement('div');
             postElement.className = 'post-item';
             postElement.style.marginBottom = "20px";
+            postElement.id = `post-${post.id}`;
 
-            // Always create the delete button
+             // Create the delete button
             const deleteButton = `<button onclick="deletePost(${post.id})">Delete</button>`;
-            console.log('Delete button created:', deleteButton);
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p style="font-size: 0.9rem; color: #000000;"><em>${post.user_name}</em></p>
+                <p>${post.comment}</p>
+                ${deleteButton}
+            `;
 
             postElement.innerHTML = `
                 <h3>${post.title}</h3>
@@ -314,6 +320,34 @@ menu: nav/camping.html
         console.error('Error fetching data:', error);
     }
 }
+
+window.deletePost = async function deletePost(postId) {
+    const token = localStorage.getItem('token');  // Get token from localStorage
+    try {
+        const response = await fetch(`${pythonURI}/api/campingPost`, {
+            ...fetchOptions,
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  
+            },
+            body: JSON.stringify({ id: postId })  // Send the postId to delete the specific post
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete post: ' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log('Post deleted successfully:', data.message);
+
+        //remove post from dom by postid
+        document.querySelector(`#post-${postId}`).remove();  
+    } catch (error) {
+        console.error('Error deleting post:', error);
+    }
+}
+
 
 </script>
 
