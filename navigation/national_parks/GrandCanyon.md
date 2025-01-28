@@ -478,7 +478,6 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 
 </script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -487,84 +486,91 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     <title>Analytics Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #e0e0e0;
+            padding: 20px;
         }
         .dashboard {
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #111;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
+            border: 1px solid #bbf14f;
         }
         h1 {
             text-align: center;
+            color: #00d4ff;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: white;
-            color: black;
+            background-color: #222;
+            color: #e0e0e0;
         }
         table th, table td {
             padding: 10px;
             text-align: left;
-            border: 1px solid #ddd;
+            border: 1px solid #bbf14f;
         }
         table th {
-            background-color: #f9f9f9;
-            color: black;
+            background-color: #333;
+            color: #bbf14f;
         }
         .form-section {
             margin-bottom: 20px;
+            background: #111;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #bbf14f;
         }
         .form-section label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: black;
+            color: #bbf14f;
         }
         .form-section input, .form-section button {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #bbf14f;
             border-radius: 4px;
-            background-color: white;
-            color: black;
+            background-color: #222;
+            color: #e0e0e0;
         }
         .form-section button {
-            background-color: #007BFF;
+            background-color: #00d4ff;
             color: white;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-family: 'Poppins', sans-serif;
         }
         .form-section button:hover {
-            background-color: #0056b3;
+            background-color: #007a99;
         }
-    </style>
+  </style>
 </head>
 <body>
 
 <div class="dashboard">
     <h1>Analytics Dashboard</h1>
 
- <div class="form-section">
+<div class="form-section">
         <label for="channel_id">Channel ID</label>
         <input type="text" id="channel_id" placeholder="Enter Channel ID">
-      <label for="user_id">User ID</label>
+ <label for="user_id">User ID</label>
         <input type="text" id="user_id" placeholder="Enter User ID">
-
- <label for="stars">Stars</label>
+  <label for="stars">Stars</label>
         <input type="number" id="stars" placeholder="Enter Stars (1-5)" min="1" max="5">
-
-   <button id="submitAnalytics">Submit Analytics</button>
+        <button id="submitAnalytics">Submit Analytics</button>
     </div>
-
- <h2>Analytics Summary</h2>
+    <h2>Analytics Summary</h2>
     <table>
         <thead>
             <tr>
@@ -632,4 +638,3 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 </body>
 </html>
-
