@@ -479,185 +479,157 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 </script>
 
-<div class="analytics-section">
-    <h2>Analytics</h2>
-    <table id="analyticsTable" border="1" style="width: 100%; text-align: center; border-collapse: collapse;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .dashboard {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            color: black;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f9f9f9;
+            color: black;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: black;
+        }
+        .form-section input, .form-section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            color: black;
+        }
+        .form-section button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>Analytics Dashboard</h1>
+
+ <div class="form-section">
+        <label for="channel_id">Channel ID</label>
+        <input type="text" id="channel_id" placeholder="Enter Channel ID">
+      <label for="user_id">User ID</label>
+        <input type="text" id="user_id" placeholder="Enter User ID">
+
+ <label for="stars">Stars</label>
+        <input type="number" id="stars" placeholder="Enter Stars (1-5)" min="1" max="5">
+
+   <button id="submitAnalytics">Submit Analytics</button>
+    </div>
+
+ <h2>Analytics Summary</h2>
+    <table>
         <thead>
             <tr>
-                <th>User ID</th>
                 <th>Channel ID</th>
-                <th>Stars</th>
+                <th>Average Stars</th>
+                <th>Total Reviews</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Data will be dynamically loaded here -->
+        <tbody id="analyticsSummary">
+            <!-- Data will be dynamically inserted here -->
         </tbody>
     </table>
 </div>
 
-<div class="submit-section">
-    <h3>Submit New Analytics</h3>
-    <form id="analyticsForm">
-        <label for="user_id">User ID:</label>
-        <input type="number" id="user_id" name="user_id" required>
-        <br><br>
-        <label for="channel_id">Channel ID:</label>
-        <input type="number" id="channel_id" name="channel_id" required>
-        <br><br>
-        <label for="stars">Stars:</label>
-        <input type="number" id="stars" name="stars" min="1" max="5" required>
-        <br><br>
-        <button type="submit">Submit Analytics</button>
-    </form>
-</div>
-
 <script>
-    const pythonURI = "http://127.0.0.1:8887"; // Replace with your backend URL
+    // Placeholder for storing analytics data locally
+    const analyticsData = [];
 
-    // Fetch and display analytics data
-    async function fetchAnalyticsData() {
-        try {
-            const response = await fetch(`${pythonURI}/api/analytics`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch analytics data');
-            }
-
-            const analyticsData = await response.json();
-
-            // Populate the table
-            const tableBody = document.querySelector('#analyticsTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
-            analyticsData.forEach(entry => {
-<<<<<<< HEAD
-                const summaryElement = document.createElement('div');
-                summaryElement.className = 'analytics-item';
-                summaryElement.innerHTML = 
-                    `<h3>Park: ${entry.park_id}</h3>
-                    <p>Average Rating: ${entry.stars.toFixed(1)}</p>
-                    <p>Total Reviews: ${entry.total_reviews}</p>`;
-                analyticsDiv.appendChild(summaryElement);
-=======
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${entry.user_id}</td>
-                    <td>${entry.channel_id}</td>
-                    <td>${entry.stars}</td>
-                `;
-                tableBody.appendChild(row);
->>>>>>> 898fec3 (frontend)
-            });
-        } catch (error) {
-            console.error('Error fetching analytics data:', error);
-            alert('Error fetching analytics data: ' + error.message);
-        }
-    }
-
-<<<<<<< HEAD
-    document.addEventListener('DOMContentLoaded', fetchAnalytics);
-</script>
-=======
-    // Handle form submission
-    document.getElementById('analyticsForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        // Get form data
-        const userId = document.getElementById('user_id').value;
+    document.getElementById('submitAnalytics').addEventListener('click', () => {
         const channelId = document.getElementById('channel_id').value;
-        const stars = document.getElementById('stars').value;
+        const userId = document.getElementById('user_id').value;
+        const stars = parseInt(document.getElementById('stars').value, 10);
 
-        const postData = {
-            user_id: parseInt(userId, 10),
-            channel_id: parseInt(channelId, 10),
-            stars: parseInt(stars, 10),
-        };
-
-        try {
-            const response = await fetch(`${pythonURI}/api/analytics`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(postData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add analytics entry');
-            }
-
-            alert('Analytics entry added successfully!');
-            document.getElementById('analyticsForm').reset();
-            fetchAnalyticsData(); // Refresh the table
-        } catch (error) {
-            console.error('Error adding analytics entry:', error);
-            alert('Error adding analytics entry: ' + error.message);
+        if (!channelId || !userId || isNaN(stars) || stars < 1 || stars > 5) {
+            alert('Please fill all fields correctly.');
+            return;
         }
+
+        // Add analytics data to the array
+        analyticsData.push({ channel_id: channelId, user_id: userId, stars });
+        alert('Analytics submitted successfully!');
+        updateAnalyticsSummary();
     });
 
-    // Load data on page load
-    fetchAnalyticsData();
+    function updateAnalyticsSummary() {
+        const summaryTable = document.getElementById('analyticsSummary');
+        summaryTable.innerHTML = '';
+
+        // Calculate summary data grouped by channel_id
+        const summary = {};
+        analyticsData.forEach(entry => {
+            if (!summary[entry.channel_id]) {
+                summary[entry.channel_id] = { totalStars: 0, count: 0 };
+            }
+            summary[entry.channel_id].totalStars += entry.stars;
+            summary[entry.channel_id].count += 1;
+        });
+
+        // Populate the table with summary data
+        for (const channelId in summary) {
+            const { totalStars, count } = summary[channelId];
+            const avgStars = (totalStars / count).toFixed(1);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${channelId}</td>
+                <td>${avgStars}</td>
+                <td>${count}</td>
+            `;
+
+            summaryTable.appendChild(row);
+        }
+    }
 </script>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #1b1b1b;
-        color: #f0f0f0;
-        margin: 20px;
-    }
+</body>
+</html>
 
-    .analytics-section, .submit-section {
-        margin-bottom: 20px;
-    }
-
-    table {
-        width: 100%;
-        background-color: #333;
-        color: #fff;
-        border: 1px solid #444;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 10px;
-        border: 1px solid #444;
-    }
-
-    th {
-        background-color: #444;
-    }
-
-    form label {
-        display: inline-block;
-        width: 100px;
-        margin-bottom: 5px;
-    }
-
-    form input {
-        padding: 8px;
-        width: 200px;
-        border: 1px solid #444;
-        background-color: #333;
-        color: #fff;
-    }
-
-    form button {
-        padding: 10px 20px;
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-        border-radius: 5px;
-    }
-
-    form button:hover {
-        background-color: #0056b3;
-    }
-</style>
->>>>>>> 898fec3 (frontend)
