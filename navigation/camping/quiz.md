@@ -5,6 +5,7 @@ search_exclude: true
 permalink: /camping/quiz
 menu: nav/camping.html
 ---
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,28 +14,29 @@ menu: nav/camping.html
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f9;
-            padding: 20px;
+            background-color: #1e1e1e;
+            color: #fff;
             max-width: 800px;
             margin: auto;
-            color: #000; /* Text color set to black */
+            padding: 20px;
         }
+
         h1 {
             text-align: center;
-            color: #000; /* Text color set to black */
+            color: #39ff14;
         }
+
         .question {
+            background-color: #333;
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            padding: 20px;
             margin-bottom: 20px;
-            padding: 15px;
-            background: #fff; /* White background for questions */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            color: #000; /* Text color set to black */
         }
-        label {
-            color: #000; /* Text color set to black */
+
+        .question label {
+            color: #fff;
             font-size: 16px;
-            line-height: 1.5;
         }
 
         input[type="radio"] {
@@ -42,22 +44,27 @@ menu: nav/camping.html
         }
 
         button {
-            background: #5cb85c;
-            color: white;
+            background-color: #39ff14;
+            color: #1e1e1e;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            display: block;
+            margin: 20px auto;
         }
+
         button:hover {
-            background: #4cae4c;
+            background-color: #2ecc71;
         }
+
         #result {
             font-size: 18px;
-            color: #000; /* Text color set to black */
+            color: #39ff14;
             font-weight: bold;
             margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -129,13 +136,30 @@ menu: nav/camping.html
     <script>
         async function submitQuiz() {
             const formData = new FormData(document.getElementById("quizForm"));
-            let points = 0;
+            let total_points = 0;
 
             for (let [key, value] of formData.entries()) {
-                points += parseInt(value);
+                total_points += parseInt(value);
             }
 
-            document.getElementById("result").innerText = `You scored ${points} points.`;
+            try {
+                const response = await fetch('http://127.0.0.1:8887/api/quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_TOKEN_HERE'
+                    },
+                    body: JSON.stringify({ total_points })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send quiz result');
+                }
+                document.getElementById("result").innerText = `Quiz result sent successfully! You scored ${total_points} points.`;
+            } catch (error) {
+                console.error('Error sending quiz result:', error);
+                document.getElementById("result").innerText = 'Error sending quiz result. Please try again.';
+            }
         }
     </script>
 </body>
