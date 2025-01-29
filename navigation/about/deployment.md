@@ -7,15 +7,7 @@ permalink: /about/deployment
 author: Risha, Aranya, Abby, Ava, Elliot, Shriya
 comments: true
 ---
-
-## DEPLOYMENT BLOG
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Carousel</title>
-    <style>
+<style>
         .carousel-container {
             display: flex;
             overflow-x: auto;
@@ -58,19 +50,20 @@ comments: true
             max-height: 90%;
             border-radius: 10px;
         }
-    </style>
-</head>
-<body>
+</style>
+
+
+<img src="{{ site.baseurl }}/images/deployment_page/Frostbyte_Deployment_Diagram.png" alt="Backend Diagram">
 
 <div class="carousel-container">
-<img src="../../images/risha frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="../../images/risha code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/risha frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/risha code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">RISHA</div>
-<img src="../../images/shriya frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="../../images/shriya code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/shriya frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/shriya code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">SHRIYA</div>
-<img src="../../images/ava frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="../../images/ava code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/ava frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="images/ava code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">AVA</div>
 
 </div>
