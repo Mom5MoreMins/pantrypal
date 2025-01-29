@@ -269,6 +269,58 @@ menu: nav/camping.html
     }
   });
 
+async function fetchPost(channelId) {
+    try {
+        // Fetch posts from the endpoint
+        const response = await fetch(`${pythonURI}/api/campingPost`, {
+            ...fetchOptions,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ channel_id: channelId, user_id: userId }) // Adjust payload as needed
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts: ' + response.statusText);
+        }
+
+        // Parse the response to get the posts data
+        const posts = await response.json();
+
+        // Update the total posts count
+        const countDiv = document.getElementById('count');
+        countDiv.innerHTML = `<h4>Total Posts: ${posts.length || 0}</h4>`;
+
+        // Clear and update the details section with the fetched posts
+        const detailsDiv = document.getElementById('details');
+        detailsDiv.innerHTML = ''; // Clear existing content
+
+        // Loop through the posts and display them
+        posts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'post-item';
+            postElement.style.marginBottom = '20px';
+            postElement.id = `post-${post.id}`;
+
+            // Create the delete button
+            const deleteButton = `<button onclick="deletePost(${post.id})">Delete</button>`;
+
+            // Add post content
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p style="font-size: 0.9rem; color: #000000;"><em>${post.user_name}</em></p>
+                <p>${post.comment}</p>
+                ${deleteButton}
+            `;
+
+            detailsDiv.appendChild(postElement);
+        });
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+    }
+}
+
 
     /**
      * Fetch and display posts
@@ -347,6 +399,11 @@ window.deletePost = async function deletePost(postId) {
         console.error('Error deleting post:', error);
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const channelId = document.getElementById('channel-select').value; // get channel used
+    fetchData(channelId); // fetch and display loads 
+});
 
 
 </script>
