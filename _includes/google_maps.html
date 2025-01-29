@@ -72,7 +72,7 @@
         // Function to save location to backend
         async function saveLocationToBackend(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:8887/api/location", { 
+                const response = await fetch("http://127.0.0.1:8887/api/locations", {  // Update to use /locations
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -80,8 +80,8 @@
                     body: JSON.stringify({
                         lat: lat,
                         lng: lng,
-                        user_id: 1,  // Replace with actual dynamic user ID
-                        channel_id: 1 // Replace with actual dynamic channel ID
+                        user_id: 1,  // Replace with dynamic user ID
+                        channel_id: 1 // Replace with dynamic channel ID
                     }),
                 });
 
@@ -99,7 +99,7 @@
         // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:8887/api/location");
+                const response = await fetch("http://127.0.0.1:8887/api/locations");  // Fetch from /locations endpoint
                 if (!response.ok) {
                     throw new Error("Failed to fetch locations");
                 }
