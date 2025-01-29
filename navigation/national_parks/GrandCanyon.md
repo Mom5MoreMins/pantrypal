@@ -478,163 +478,184 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 
 </script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Dashboard</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #000;
-            color: #e0e0e0;
-            padding: 20px;
-        }
-        .dashboard {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #111;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
-            border: 1px solid #bbf14f;
-        }
-        h1 {
-            text-align: center;
-            color: #00d4ff;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #222;
-            color: #e0e0e0;
-        }
-        table th, table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #bbf14f;
-        }
-        table th {
-            background-color: #333;
-            color: #bbf14f;
-        }
-        .form-section {
-            margin-bottom: 20px;
-            background: #111;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #bbf14f;
-        }
-        .form-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #bbf14f;
-        }
-        .form-section input, .form-section button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #bbf14f;
-            border-radius: 4px;
-            background-color: #222;
-            color: #e0e0e0;
-        }
-        .form-section button {
-            background-color: #00d4ff;
-            color: white;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-        .form-section button:hover {
-            background-color: #007a99;
-        }
-  </style>
-</head>
-<body>
-
-<div class="dashboard">
-    <h1>Analytics Dashboard</h1>
-
-<div class="form-section">
-        <label for="channel_id">Channel ID</label>
-        <input type="text" id="channel_id" placeholder="Enter Channel ID">
- <label for="user_id">User ID</label>
-        <input type="text" id="user_id" placeholder="Enter User ID">
-  <label for="stars">Stars</label>
-        <input type="number" id="stars" placeholder="Enter Stars (1-5)" min="1" max="5">
-        <button id="submitAnalytics">Submit Analytics</button>
-    </div>
-    <h2>Analytics Summary</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Channel ID</th>
-                <th>Average Stars</th>
-                <th>Total Reviews</th>
-            </tr>
-        </thead>
-        <tbody id="analyticsSummary">
-            <!-- Data will be dynamically inserted here -->
-        </tbody>
-    </table>
-</div>
-
 <script>
-    // Placeholder for storing analytics data locally
-    const analyticsData = [];
+    const pythonURI = "http://127.0.0.1:8887"; // Backend API URL
 
-    document.getElementById('submitAnalytics').addEventListener('click', () => {
-        const channelId = document.getElementById('channel_id').value;
-        const userId = document.getElementById('user_id').value;
-        const stars = parseInt(document.getElementById('stars').value, 10);
+    let overall_rating = 0;
+    let review_rating = 0;
+    const userId = localStorage.getItem('uid');
+    const channelId = parseInt(document.getElementById('channel_id').value, 10);
 
-        if (!channelId || !userId || isNaN(stars) || stars < 1 || stars > 5) {
-            alert('Please fill all fields correctly.');
-            return;
-        }
-
-        // Add analytics data to the array
-        analyticsData.push({ channel_id: channelId, user_id: userId, stars });
-        alert('Analytics submitted successfully!');
-        updateAnalyticsSummary();
+    // Handle review star rating click
+    document.querySelectorAll('.star[data-rating-type="review"]').forEach(star => {
+        star.addEventListener('click', function () {
+            review_rating = parseInt(this.getAttribute('data-stars-review'), 10);
+            updateStars('review', review_rating);
+        });
     });
 
-    function updateAnalyticsSummary() {
-        const summaryTable = document.getElementById('analyticsSummary');
-        summaryTable.innerHTML = '';
-
-        // Calculate summary data grouped by channel_id
-        const summary = {};
-        analyticsData.forEach(entry => {
-            if (!summary[entry.channel_id]) {
-                summary[entry.channel_id] = { totalStars: 0, count: 0 };
-            }
-            summary[entry.channel_id].totalStars += entry.stars;
-            summary[entry.channel_id].count += 1;
+    // Handle overall star rating click
+    document.querySelectorAll('.star[data-rating-type="overall"]').forEach(star => {
+        star.addEventListener('click', function () {
+            overall_rating = parseInt(this.getAttribute('data-stars-overall'), 10);
+            updateStars('overall', overall_rating);
         });
+    });
 
-        // Populate the table with summary data
-        for (const channelId in summary) {
-            const { totalStars, count } = summary[channelId];
-            const avgStars = (totalStars / count).toFixed(1);
+    // Update stars visually
+    function updateStars(type, rating) {
+        document.querySelectorAll(`.star[data-rating-type="${type}"]`).forEach((star, index) => {
+            star.style.color = index < rating ? '#ff0' : '#bbb';
+        });
+    }
 
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${channelId}</td>
-                <td>${avgStars}</td>
-                <td>${count}</td>
-            `;
+    // Submit a new review
+    document.getElementById('postForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-            summaryTable.appendChild(row);
+        const title = document.getElementById('title').value;
+        const comment = document.getElementById('comment').value;
+        const groupId = document.getElementById('group_id').value;
+
+        const postData = {
+            title: title,
+            comment: comment,
+            content: review_rating,
+            group_id: groupId,
+            channel_id: channelId
+        };
+
+        try {
+            const response = await fetch(`${pythonURI}/post`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData)
+            });
+
+            if (!response.ok) throw new Error(`Failed to add post: ${response.statusText}`);
+
+            alert('Post added successfully!');
+            document.getElementById('postForm').reset();
+            fetchData(); // Refresh frontend immediately
+        } catch (error) {
+            console.error('Error adding post:', error);
+            alert(`Error: ${error.message}`);
+        }
+    });
+
+    // Submit an overall rating
+    document.querySelector('.submit-btn').addEventListener('click', async function(event) {
+        event.preventDefault();
+
+        if (overall_rating > 0) {
+            try {
+                const ratingData = {
+                    user_id: userId,
+                    channel_id: channelId,
+                    stars: overall_rating
+                };
+
+                const response = await fetch(`${pythonURI}/analytics`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ratingData)
+                });
+
+                if (!response.ok) throw new Error(`Failed to submit rating: ${response.statusText}`);
+
+                alert('Rating submitted successfully!');
+                fetchAndFillOverallStars(); // Refresh UI immediately
+            } catch (error) {
+                console.error('Error submitting rating:', error);
+                alert(`Error: ${error.message}`);
+            }
+        } else {
+            alert('Please select an overall rating before submitting.');
+        }
+    });
+
+    // Fetch and display reviews
+    async function fetchData() {
+        try {
+            const response = await fetch(`${pythonURI}/posts/filter`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ channel_id: channelId })
+            });
+
+            if (!response.ok) throw new Error(`Failed to fetch posts: ${response.statusText}`);
+
+            const postData = await response.json();
+            document.getElementById('count').innerHTML = `<h4>Total Reviews: ${postData.length || 0}</h4>`;
+            const detailsDiv = document.getElementById('details');
+            detailsDiv.innerHTML = '';
+
+            postData.forEach(post => {
+                const stars = '★'.repeat(post.content) + '☆'.repeat(5 - post.content);
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.style.marginBottom = "20px";
+                postElement.innerHTML = 
+                    `<h3>${post.title}</h3>
+                    <p style="font-size: 1.5rem; color: gold;">${stars}</p>
+                    <p style="font-size: 0.9rem; color: #aaa;"><em>${post.user_name || 'Anonymous'}</em></p>
+                    <p>${post.comment}</p>`;
+                detailsDiv.appendChild(postElement);
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
     }
-</script>
 
-</body>
-</html>
+    // Fetch and fill overall rating stars
+    async function fetchAndFillOverallStars() {
+        try {
+            const response = await fetch(`${pythonURI}/analytics?channel_id=${channelId}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) throw new Error(`Failed to fetch overall rating: ${response.statusText}`);
+
+            const analyticsData = await response.json();
+            const userRating = analyticsData.find(entry => entry.user_id == userId);
+
+            if (userRating) {
+                overall_rating = userRating.stars;
+                updateStars('overall', overall_rating);
+            }
+        } catch (error) {
+            console.error('Error fetching overall stars:', error);
+        }
+    }
+
+    // Delete user's rating
+    document.getElementById('deleteRatingBtn').addEventListener('click', async function () {
+        const confirmed = confirm("Are you sure you want to delete your ratings?");
+
+        if (confirmed) {
+            try {
+                const response = await fetch(`${pythonURI}/analytics`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                if (!response.ok) throw new Error(`Failed to delete ratings: ${response.statusText}`);
+
+                alert('Your ratings have been deleted.');
+                updateStars('overall', 0);
+                overall_rating = 0;
+            } catch (error) {
+                console.error('Error deleting ratings:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndFillOverallStars();
+        fetchData();
+    });
+</script>
