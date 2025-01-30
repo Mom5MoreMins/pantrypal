@@ -72,7 +72,7 @@
         // Function to save location to backend
         async function saveLocationToBackend(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:8887/api/locations", {  // Update to use /locations
+                const response = await fetch("http://127.0.0.1:5000/api/locations", {  // Update to use /locations
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -99,7 +99,7 @@
         // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:8887/api/locations");  // Fetch from /locations endpoint
+                const response = await fetch("http://127.0.0.1:5000/api/locations");  // Fetch from /locations endpoint
                 if (!response.ok) {
                     throw new Error("Failed to fetch locations");
                 }
@@ -141,7 +141,7 @@
         // Delete a location
         async function deleteLocation(locationId, marker) {
             try {
-                const response = await fetch(`http://127.0.0.1:8887/api/location/${locationId}`, {
+                const response = await fetch(`http://127.0.0.1:5000/api/location/${locationId}`, {
                     method: "DELETE",
                 });
 
@@ -164,7 +164,7 @@
 
             if (newLat && newLng) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8887/api/location/${locationId}`, {
+                    const response = await fetch(`http://127.0.0.1:5000/api/location/${locationId}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
