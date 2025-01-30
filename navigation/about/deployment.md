@@ -111,6 +111,7 @@ Our project is structured to provide a seamless integration between the frontend
 
 ### **Ideal final project**
 
+<<<<<<< HEAD
 -> Host both the Flask backend and frontend on an AWS EC2 instance, ensuring communication between the two. The deployment should support:  
   
 Scalability: Handling Multiple Users Efficiently
@@ -174,3 +175,7 @@ Deployment Process Using Docker & Cockpit for a GitHub Pages Frontend & Backend 
         Automate deployment with GitHub Actions to update the backend when pushing new changes.
 
 This setup ensures a smooth deployment process, with GitHub Pages serving the frontend and Docker + Cockpit managing the backend efficiently. 🚀
+=======
+ 
+
+>>>>>>> 4579278 (change)
