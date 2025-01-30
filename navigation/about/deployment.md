@@ -102,6 +102,8 @@ Our project is structured to provide a seamless integration between the frontend
 
 - ANALYTICS API: The Analytics API allows the frontend to send and retrieve analytics data related to user reviews, such as star ratings for specific channels. Users can submit individual or bulk analytics entries, which are stored in the database, while the frontend can also request an overall summary of average ratings and review counts for each channel. The backend ensures proper validation and error handling for all requests, and provides CRUD operations for managing analytics data, which is stored in the Analytics model and can be queried for reporting purposes.
 
+- POST API: The Post API allows the frontend to create, update, retrieve, and delete posts associated with specific channels and users. The backend handles these requests by interacting with the Post model, which is stored in a SQL database using SQLAlchemy, ensuring each post has a title, comment, content, and references to the user and channel. Through CRUD operations, the frontend can send requests to create posts, view individual or multiple posts, or delete posts, with responses being returned in JSON format for seamless integration with the frontend interface.
+
 **Subdomain** To ensure that the frontend can communicate with the backend during development, we configure Cross-Origin Resource Sharing (CORS). Since the frontend and backend are running on different ports, we need to explicitly allow the frontend to make requests to the backend. CORS Configuration in Flask: The Flask backend is configured to allow requests from the frontend port (127.0.0.1:4887). This ensures that the browser doesn’t block the API requests due to cross-origin restrictions.
 
 
