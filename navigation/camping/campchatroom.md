@@ -179,6 +179,10 @@ menu: nav/camping.html
 
             // Remove the deleted post from the UI
             document.querySelector(`#post-${postId}`).remove();
+
+            // Update post count
+            document.getElementById('count').innerHTML = `<h4>Total Posts: ${posts.length || 0}</h4>`;
+
         } catch (error) {
             console.error('Error deleting post:', error);
         }
@@ -186,6 +190,12 @@ menu: nav/camping.html
 </script>
 
 <script type="module">
+document.addEventListener('DOMContentLoaded', async () => {
+    const channelSelect = document.getElementById('channel-select');
+    const selectedChannelId = channelSelect.value; // Get the selected channel from dropdown
+    await fetchData(selectedChannelId); // Fetch posts BEFORE anything else
+});
+
   import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // Fetch all arguments for a specific channel
@@ -401,8 +411,14 @@ window.deletePost = async function deletePost(postId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const channelId = document.getElementById('channel-select').value; // get channel used
-    fetchData(channelId); // fetch and display loads 
+    const channelSelect = document.getElementById('channel-select');
+    const selectedChannelId = channelSelect.value; // Get the selected channel from dropdown
+    fetchData(selectedChannelId); // Fetch posts for the selected channel
+});
+
+document.getElementById('channel-select').addEventListener('change', function () {
+    const selectedChannelId = this.value; // Get the selected channel
+    fetchData(selectedChannelId); // Fetch posts for the new selection
 });
 
 
