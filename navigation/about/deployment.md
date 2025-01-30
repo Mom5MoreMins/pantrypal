@@ -109,4 +109,9 @@ Our project is structured to provide a seamless integration between the frontend
 
 
 
- 
+ -Ideal final project -> Host both the Flask backend and frontend on an AWS EC2 instance, ensuring communication between the two. The deployment should support :  Scalability: Ability to handle multiple users
+ efficiently.
+ Security: Proper firewall rules, SSL/TLS encryption, and authentication.
+ Reliability: Automated deployment, logging, and monitoring.
+ Domain Integration: Use subdomains or a reverse proxy to route traffic properly.
+
