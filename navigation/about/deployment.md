@@ -87,12 +87,14 @@ comments: true
 </body>
 </html>
 
+Our project is structured to provide a seamless integration between the frontend and backend. Below is an outline of the current repository setup, including subdomains, and frontend/backend port configuration.
+
+**Backend:** Our backend repository is Flask based and runs on the port 8887 which is used for API requests and is the port we use to test it in postman. It is responsible for processing data, interactign with the database, and sending responses to frontend (JSON). The backend contains each of our APIs under the folder .py which all work through our main.py. Each of our APIs has a corresponding model under the model folder.
+
+**Frontend:** Our frontend communicates the backend through RESTful APIs. The frontend runs on 4887 and sends HTTP requests to the backend. Our frontend is configured to fetch data from backend, process user data, then display it. The frontend 4887 sends API requests to the backend 8887. The backend processes the request, and interacts with the database. The frontend then updates the user interface based on the request.
+
+**Subdomain** To ensure that the frontend can communicate with the backend during development, we configure Cross-Origin Resource Sharing (CORS). Since the frontend and backend are running on different ports, we need to explicitly allow the frontend to make requests to the backend. CORS Configuration in Flask: The Flask backend is configured to allow requests from the frontend port (127.0.0.1:4887). This ensures that the browser doesn’t block the API requests due to cross-origin restrictions.
 
 
-https://nighthawkcoders.github.io/portfolio_2025/csp/sprint5/objectives
-
-link from slack he wants us to read https://nighthawkcoders.github.io/portfolio_2025/2024/12/03/aws-deployment_IPYNB_2_.html#pulling-changes-into-aws-ec2-deployment
-
- 
 
  
