@@ -127,40 +127,55 @@ menu: nav/camping.html
             <input type="radio" name="q7" value="30"> Birds or smaller creatures (30 points)<br>
             <input type="radio" name="q7" value="20"> Not interested – I’d rather focus on the landscapes (20 points)<br>
         </div>
+ <button type="button" id="submitQuizBtn">Submit Quiz</button>
+</form>
 
-        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
-    </form>
+<p id="result"></p>
 
-    <p id="result"></p>
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
-    <script>
-        async function submitQuiz() {
-            const formData = new FormData(document.getElementById("quizForm"));
-            let total_points = 0;
+    // Function to calculate total points from the quiz
+    function calculateTotalPoints() {
+        let totalPoints = 0;
+        document.querySelectorAll("input[type='radio']:checked").forEach(input => {
+            totalPoints += parseInt(input.value, 10);
+        });
+        return totalPoints;
+    }
 
-            for (let [key, value] of formData.entries()) {
-                total_points += parseInt(value);
-            }
+    // Function to submit quiz results to the API
+    async function submitQuiz(event) {
+        event.preventDefault();  // ✅ Prevent default form submission
 
-            try {
-                const response = await fetch('http://127.0.0.1:8887/api/quiz', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer YOUR_TOKEN_HERE'
-                    },
-                    body: JSON.stringify({ total_points })
-                });
+        const totalPoints = calculateTotalPoints();
+        const quizData = { total_points: totalPoints };
 
-                if (!response.ok) {
-                    throw new Error('Failed to send quiz result');
-                }
-                document.getElementById("result").innerText = `Quiz result sent successfully! You scored ${total_points} points.`;
-            } catch (error) {
-                console.error('Error sending quiz result:', error);
-                document.getElementById("result").innerText = 'Error sending quiz result. Please try again.';
-            }
+        try {
+            console.log("Sending request to:", `${pythonURI}/api/quiz`);
+            console.log("Payload:", quizData);
+
+            // ✅ Fetch call follows postForm structure
+            const response = await fetch(`${pythonURI}/api/quiz/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(quizData)
+            });
+
+            if (!response.ok) throw new Error(`Failed to submit quiz: ${response.statusText}`);
+
+            const data = await response.json();
+            console.log("Quiz submitted successfully:", data);
+
+            // ✅ Update UI with assigned national park
+            document.getElementById("result").innerText = `You got: ${data.assigned_park}`;
+
+        } catch (error) {
+            console.error("Error submitting quiz:", error);
+            document.getElementById("result").innerText = "Error submitting quiz. Please try again.";
         }
-    </script>
-</body>
-</html>
+    }
+
+    // ✅ Attach event listener properly (instead of inline onclick)
+    document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
+</script>
