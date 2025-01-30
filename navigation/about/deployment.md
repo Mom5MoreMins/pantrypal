@@ -84,8 +84,6 @@ comments: true
     }
 </script>
 
-</body>
-</html>
 
 Our project is structured to provide a seamless integration between the frontend and backend. Below is an outline of the current repository setup, including subdomains, and frontend/backend port configuration.
 
@@ -93,7 +91,7 @@ Our project is structured to provide a seamless integration between the frontend
 
 **Frontend:** Our frontend communicates the backend through RESTful APIs. The frontend runs on 4887 and sends HTTP requests to the backend. Our frontend is configured to fetch data from backend, process user data, then display it. The frontend 4887 sends API requests to the backend 8887. The backend processes the request, and interacts with the database. The frontend then updates the user interface based on the request.
 
-**How our Features Interact with the Frontend and Backend**
+### **How our Features Interact with the Frontend and Backend**
 - REVIEW FEATURE: The backend API handles CRUD operations for the Review model, allowing users to create, read, update, and delete reviews through routes like /api/review. The frontend interacts with these endpoints by sending HTTP requests, such as POST for creating reviews and GET for fetching them, often passing a JWT token for authentication. The backend processes these requests, interacting with the database via SQLAlchemy and returning relevant data to the frontend.
 
 - GEMINI API: The Gemini API integrates with Google Generative AI to provide a chatbot that generates camping-related advice based on user inputs. When a user sends a message, the backend uses the AI model to generate a response, updates the conversation history, and stores both the user input and AI response in the database. The backend supports CRUD operations, allowing users to interact with the chatbot, update messages, and delete them via HTTP requests, while maintaining a persistent chat session.
