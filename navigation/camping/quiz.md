@@ -5,7 +5,6 @@ search_exclude: true
 permalink: /camping/quiz
 menu: nav/camping.html
 ---
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
