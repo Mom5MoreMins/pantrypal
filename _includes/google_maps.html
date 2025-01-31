@@ -1,14 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grand Canyon Points of Interest</title>
     <style>
-        #map {
-            height: 500px;
-        }
-
-        /* Style for the delete button */
+        #map { height: 500px; }
         .delete-button {
             background: none;
             border: none;
@@ -19,15 +16,16 @@
 </head>
 <body>
     <h1>Grand Canyon Points of Interest</h1>
-
     <div id="map"></div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALCBEmY4lxg_h-YsAU1_tX44hoOz9-6D4&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 
     <script>
+        const API_URL = "http://127.0.0.1:8102/api";
+        const AUTH_TOKEN = "YOUR_JWT_TOKEN";  // Replace with actual JWT token
+
         let map;
         let markers = [];
-        let infoWindow;
 
         function initMap() {
             const grandCanyon = { lat: 36.1069, lng: -112.1129 };
@@ -37,15 +35,11 @@
                 center: grandCanyon,
             });
 
-            infoWindow = new google.maps.InfoWindow();
-
-            // Fetch saved locations from the backend and add them to the map
-            fetchSavedLocations();
-
-            // Add click event to place a new marker and save it to the backend
             map.addListener("click", function(event) {
                 placeMarker(event.latLng);
             });
+
+            fetchSavedLocations();
         }
 
         function placeMarker(location) {
@@ -54,65 +48,60 @@
                 map: map,
             });
 
-            markers.push(marker);
-
             const lat = location.lat();
             const lng = location.lng();
 
             const infowindow = new google.maps.InfoWindow({
-                content: ` 
+                content: `
                     <h3 style="color: black;">New Location</h3>
                     <p style="color: black;">Latitude: ${lat.toFixed(5)}, Longitude: ${lng.toFixed(5)}</p>
-                    <button onclick="saveLocationToBackend(${lat}, ${lng})">Save Location</button>
+                    <button onclick="saveLocation(${lat}, ${lng})">Save Location</button>
                 `,
             });
+
             infowindow.open(map, marker);
+            markers.push(marker);
         }
 
-        // Function to save location to backend
-        async function saveLocationToBackend(lat, lng) {
+        async function saveLocation(lat, lng) {
             try {
-                const response = await fetch("http://127.0.0.1:5000/api/locations", {  // Update to use /locations
+                const response = await fetch(`${API_URL}/location`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Authorization": `Bearer ${AUTH_TOKEN}`
                     },
                     body: JSON.stringify({
-                        lat: lat,
-                        lng: lng,
-                        user_id: 1,  // Replace with dynamic user ID
-                        channel_id: 1 // Replace with dynamic channel ID
+                        latitude: lat,
+                        longitude: lng,
+                        channel_id: 1  // Replace with actual channel_id if needed
                     }),
                 });
 
-                if (!response.ok) {
-                    throw new Error("Failed to save location");
-                }
+                if (!response.ok) throw new Error("Failed to save location");
 
                 alert("Location saved successfully!");
-                fetchSavedLocations(); // Refresh the map
+                fetchSavedLocations();
             } catch (error) {
                 console.error("Error saving location:", error);
             }
         }
 
-        // Fetch and display saved locations from the backend
         async function fetchSavedLocations() {
             try {
-                const response = await fetch("http://127.0.0.1:5000/api/locations");  // Fetch from /locations endpoint
-                if (!response.ok) {
-                    throw new Error("Failed to fetch locations");
-                }
+                const response = await fetch(`${API_URL}/locations`, {
+                    headers: { "Authorization": `Bearer ${AUTH_TOKEN}` }
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch locations");
 
                 const data = await response.json();
-
-                // Clear existing markers before adding new ones
                 markers.forEach(marker => marker.setMap(null));
                 markers = [];
 
                 data.forEach(location => {
                     const marker = new google.maps.Marker({
-                        position: { lat: location.lat, lng: location.lng },
+                        position: { lat: location.latitude, lng: location.longitude },
                         map: map,
                         title: "Saved Location",
                     });
@@ -120,8 +109,7 @@
                     const infowindow = new google.maps.InfoWindow({
                         content: `
                             <h3>Saved Location</h3>
-                            <p>Latitude: ${location.lat}, Longitude: ${location.lng}</p>
-                            <!-- Add trash can emoji to delete button -->
+                            <p>Latitude: ${location.latitude}, Longitude: ${location.longitude}</p>
                             <button class="delete-button" onclick="deleteLocation(${location.id}, ${marker})">🗑️ Delete</button>
                             <button onclick="updateLocation(${location.id})">Update</button>
                         `,
@@ -138,52 +126,48 @@
             }
         }
 
-        // Delete a location
         async function deleteLocation(locationId, marker) {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/api/location/${locationId}`, {
+                const response = await fetch(`${API_URL}/location/${locationId}`, {
                     method: "DELETE",
+                    headers: { "Authorization": `Bearer ${AUTH_TOKEN}` }
                 });
 
-                if (!response.ok) {
-                    throw new Error("Failed to delete location");
-                }
+                if (!response.ok) throw new Error("Failed to delete location");
 
                 alert("Location deleted successfully!");
-                marker.setMap(null); // Remove the marker from the map
-                fetchSavedLocations(); // Refresh the map to reflect the deletion
+                marker.setMap(null);
+                fetchSavedLocations();
             } catch (error) {
                 console.error("Error deleting location:", error);
             }
         }
 
-        // Update a location (show a simple edit prompt)
         async function updateLocation(locationId) {
-            const newLat = prompt("Enter new latitude:");
-            const newLng = prompt("Enter new longitude:");
+            const newLat = parseFloat(prompt("Enter new latitude:"));
+            const newLng = parseFloat(prompt("Enter new longitude:"));
 
-            if (newLat && newLng) {
-                try {
-                    const response = await fetch(`http://127.0.0.1:5000/api/location/${locationId}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            lat: newLat,
-                            lng: newLng,
-                        }),
-                    });
+            if (isNaN(newLat) || isNaN(newLng)) {
+                alert("Invalid coordinates");
+                return;
+            }
 
-                    if (!response.ok) {
-                        throw new Error("Failed to update location");
-                    }
+            try {
+                const response = await fetch(`${API_URL}/location/${locationId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${AUTH_TOKEN}`
+                    },
+                    body: JSON.stringify({ latitude: newLat, longitude: newLng }),
+                });
 
-                    alert("Location updated successfully!");
-                    fetchSavedLocations(); // Refresh the map to reflect the update
-                } catch (error) {
-                    console.error("Error updating location:", error);
-                }
+                if (!response.ok) throw new Error("Failed to update location");
+
+                alert("Location updated successfully!");
+                fetchSavedLocations();
+            } catch (error) {
+                console.error("Error updating location:", error);
             }
         }
     </script>
