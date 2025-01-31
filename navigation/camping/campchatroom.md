@@ -78,11 +78,42 @@ menu: nav/camping.html
         display: block !important; /* Force the button to display */
     }
 
+
+    .image-scroller {
+        width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        background-color: #111;
+        border: 1px solid #a4ac86;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 #a4ac86, 0 6px 20px 0 #a4ac86;
+        margin: 20px auto;
+        padding: 10px 0;
+    }
+
+    .image-scroller img {
+        display: inline-block;
+        width: 400px;
+        height: 300px;
+        margin-right: 10px;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
 </style>
 
 
 # Choose a biome to post about!
 <!-- try new post function -->
+
+
+<div class="image-scroller">
+    <img src="{{ site.baseurl }}/images/camping/beachcamping.jpg" alt="Beach Biome">
+     <img src="{{ site.baseurl }}/images/camping/desertcamping.png" alt="Desert Biome" style="margin-left: 10px;">
+    <img src="{{ site.baseurl }}/images/camping/forestcamping.jpg" alt="Forest Biome">
+    <img src="{{ site.baseurl }}/images/camping/tundracamping.jpg" alt="Tundra Biome">
+</div>
 
 
 <div class="container">
