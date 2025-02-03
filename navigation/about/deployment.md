@@ -52,19 +52,29 @@ comments: true
         }
 </style>
 
+## Operating Structure of Our Backend Database
 
 <img src="{{ site.baseurl }}/images/deployment_page/Frostbyte_Deployment_Diagram.png" alt="Backend Diagram">
 
 <div class="carousel-container">
-<img src="images/risha frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="images/risha code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">RISHA</div>
-<img src="images/shriya frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="images/shriya code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/risha_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/risha_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">SHRIYA</div>
-<img src="images/about/screenshot1.jpg" class="carousel-item" onclick="openFullscreen(this.src)">
-<img src="images/about/screenshot2.jpg" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/shriya_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/shriya_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
 <div class="text-item">AVA</div>
+<img src="{{ site.baseurl }}/images/deployment_page/ava_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/ava_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<div class="text-item">ELLIOT</div>
+<img src="{{ site.baseurl }}/images/deployment_page/elliot_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/elliot_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<div class="text-item">ABBY</div>
+<img src="{{ site.baseurl }}/images/deployment_page/abby_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/abby_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<div class="text-item">ARANYA</div>
+<img src="{{ site.baseurl }}/images/deployment_page/aranya_code.png" class="carousel-item" onclick="openFullscreen(this.src)">
+<img src="{{ site.baseurl }}/images/deployment_page/aranya_frontend.png" class="carousel-item" onclick="openFullscreen(this.src)">
 
 </div>
 
@@ -175,7 +185,115 @@ Deployment Process Using Docker & Cockpit for a GitHub Pages Frontend & Backend 
         Automate deployment with GitHub Actions to update the backend when pushing new changes.
 
 This setup ensures a smooth deployment process, with GitHub Pages serving the frontend and Docker + Cockpit managing the backend efficiently. 🚀
-=======
- 
 
->>>>>>> 4579278 (change)
+
+# Deployment Process
+
+### Frontend and Backend Setup: Port 8102
+
+We have set the following configuration in config.yml in frontend: 
+
+<code>```yml
+Server: https://flask2025.nighthawkcodingsociety.com/
+Domain: nighthawkcodingsociety.com
+Subdomain: flask2025
+```</code>
+
+In assets/api/config.js, we set: 
+
+<code>
+  export var pythonURI;
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+      pythonURI = "http://localhost:8087";  // Same URI for localhost or 127.0.0.1
+  } else {
+      pythonURI = "https://flask2025.nighthawkcodingsociety.com";
+  }
+</code>
+
+In the backend, we set these configurations: 
+
+- main.py
+
+    <code>
+      if __name__ == "__main__":
+          # change name for testing
+          app.run(debug=True, host="0.0.0.0", port="8102")
+    </code>
+
+- Dockerfile
+
+      <code> 
+      FROM docker.io/python:3.11
+
+      WORKDIR /
+      RUN apt-get update && apt-get upgrade -y && \
+          apt-get install -y python3 python3-pip git
+      COPY . /
+
+      RUN pip install --no-cache-dir -r requirements.txt
+      RUN pip install gunicorn
+
+      ENV GUNICORN_CMD_ARGS="--workers=1 --bind=0.0.0.0:8102"
+
+      EXPOSE 8102
+      ENV FLASK_ENV=production
+
+      CMD [ "gunicorn", "main:app" ] 
+      </code>
+
+- docker-compose.yml
+
+    <code>      
+          version: '3'
+          services:
+                  web:
+                          image: flask2025
+                          build: .
+                          env_file:
+                                  - .env
+                          ports:
+                                  - "8102:8102"
+                          volumes:
+                                  - ./instance:/instance
+                          restart: unless-stopped
+    </code>
+
+- nginx_file 
+
+    <code>
+      server {
+          listen 80;
+          listen [::]:80;
+          server_name flask2025.nighthawkcodingsociety.com;
+
+          location / {
+              proxy_pass http://localhost:8102;
+
+              # Preflighted requests
+              if ($request_method = OPTIONS) {
+                  add_header "Access-Control-Allow-Credentials" "true" always;
+                  add_header "Access-Control-Allow-Origin"  "https://nighthawkcoders.github.io" always;
+                  add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS, HEAD" always;
+                  add_header "Access-Control-Allow-MaxAge" 600 always;
+                  add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Origin, X-Requested-With, Content-Type, Accept" always;
+                  return 204;
+              }
+          }
+      }
+    </code>
+
+
+
+### How We Will Set UP AWS: 
+
+1. Login with provided credentials
+2. Clone our backend repo: (blackstar3092/frostbyte_backend)
+3. Our .env file will contain our passwords and Gemini API key, and we will initialize our database with ./scripts/db_init.py
+4. To build the docker environment: docker-compose build & docker-compose up -d
+5. Finally, we will test our server with curl
+        docker ps # looking for port 8102
+        curl localhost:8102
+
+Next, we will set up our domain on Route53 (domain will be frostbyte.flask.nighthawkscsp.com) and test DNS through WSL.
+
+Finally, we have already set up Nginx on our backend; we will work on setting it up on the AWS server to function with our backend database, as well as setting up Certbot for authentication. 
