@@ -21,6 +21,6 @@ header_pages:
   - navigation/camping/home.md
   - navigation/national_parks/home.md
 
-Server: https://flask2025.nighthawkcodingsociety.com/
-Domain: nighthawkcodingsociety.com
-Subdomain: flask2025
+Server: https://frostbyte.stu.nighthawkcodingsociety.com/
+Domain: stu.nighthawkcodingsociety.com
+Subdomain: frostbyte

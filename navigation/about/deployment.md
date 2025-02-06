@@ -54,7 +54,7 @@ comments: true
 
 ## Operating Structure of Our Backend Database
 
-<img src="{{ site.baseurl }}/images/deployment_page/Frostbyte_Deployment_Diagram.png" alt="Backend Diagram">
+<img src="{{ site.baseurl }}/images/deployment_page/AWS_deploy.png" alt="Backend Diagram">
 
 <div class="carousel-container">
 <div class="text-item">RISHA</div>
@@ -297,3 +297,17 @@ In the backend, we set these configurations:
 Next, we will set up our domain on Route53 (domain will be frostbyte.flask.nighthawkscsp.com) and test DNS through WSL.
 
 Finally, we have already set up Nginx on our backend; we will work on setting it up on the AWS server to function with our backend database, as well as setting up Certbot for authentication. 
+
+
+### Notes from Deployment Tech Talk
+
+#### AWS EC2 Instance:
+
+- In hosted zones: domains are listed (the ones under stu.nighthawkcodingsociety.com is the place to create)
+- A-type DNS records: Map record name directly to an IP address
+- NS: maps to a name service (DNS Lookup sites) --> Database of names to IPs
+- IP address needed: 3.129.120.200
+- Nginx configuration file: listener for internet
+- We need a .env file (with passwords and our gemini key)
+- consider creating another user
+- Instance is kept outside of virtual machine so the database doesn't clear upon every restart of the virtual machine
