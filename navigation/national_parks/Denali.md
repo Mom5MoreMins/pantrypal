@@ -474,6 +474,8 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 
 </script>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -584,6 +586,77 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     </table>
 </div>
 
+<<<<<<< HEAD
+=======
+
+<div class="analytics-section">
+    <h2>Analytics Summary</h2>
+    <table id="analyticsTable">
+        <thead>
+            <tr>
+                <th>Total Reviews</th>
+                <th>Average Stars</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="total-reviews">Loading...</td>
+                <td id="average-stars">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    async function fetchAnalytics(channelId) {
+        try {
+            console.log("Fetching analytics for channel:", channelId);
+
+            const response = await fetch(`${pythonURI}/api/rating`, {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ channel_id: channelId })
+            });
+
+            console.log("Response Status:", response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            let ratingsData = await response.json();
+            console.log("API Response:", ratingsData);
+
+            if (ratingsData.ratings && ratingsData.ratings.length > 0) {
+                const totalReviews = ratingsData.ratings.length;
+                const averageStars = (ratingsData.ratings.reduce((sum, r) => sum + r.stars, 0) / totalReviews).toFixed(1);
+
+                document.getElementById('total-reviews').innerText = totalReviews;
+                document.getElementById('average-stars').innerText = averageStars;
+            } else {
+                document.getElementById('total-reviews').innerText = "0";
+                document.getElementById('average-stars').innerText = "N/A";
+            }
+        } catch (error) {
+            console.error("Error fetching analytics:", error);
+            document.getElementById('total-reviews').innerText = "Error";
+            document.getElementById('average-stars').innerText = "Error";
+        }
+    }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchAnalytics(13);  // Replace 13 with your actual channel ID
+});
+</script>
+
+
+<!DOCTYPE html>
+>>>>>>> d26a519 (commmiting)
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -636,7 +709,7 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
         // 📊 Fetch Analytics Data from Star API
         async function fetchStarAnalytics() {
             try {
-                let response = await fetch(`${API_BASE_URL}/analytics/summary`);
+                let response = await fetch(`${API_BASE_URL}/star/rating`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status} - ${response.statusText}`);
                 }
