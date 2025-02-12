@@ -194,9 +194,9 @@ This setup ensures a smooth deployment process, with GitHub Pages serving the fr
 We have set the following configuration in config.yml in frontend: 
 
 <code>```yml
-Server: https://flask2025.nighthawkcodingsociety.com/
+Server: https://frostbyte.stu.nighthawkcodingsociety.com/
 Domain: nighthawkcodingsociety.com
-Subdomain: flask2025
+Subdomain: frostbyte.stu
 ```</code>
 
 In assets/api/config.js, we set: 
@@ -204,9 +204,9 @@ In assets/api/config.js, we set:
 <code>
   export var pythonURI;
   if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-      pythonURI = "http://localhost:8087";  // Same URI for localhost or 127.0.0.1
+      pythonURI = "http://localhost:8102";  // Same URI for localhost or 127.0.0.1
   } else {
-      pythonURI = "https://flask2025.nighthawkcodingsociety.com";
+      pythonURI = "https://frostbyte.stu.nighthawkcodingsociety.com";
   }
 </code>
 
@@ -247,7 +247,7 @@ In the backend, we set these configurations:
           version: '3'
           services:
                   web:
-                          image: flask2025
+                          image: frostbyte
                           build: .
                           env_file:
                                   - .env
@@ -264,7 +264,7 @@ In the backend, we set these configurations:
       server {
           listen 80;
           listen [::]:80;
-          server_name flask2025.nighthawkcodingsociety.com;
+          server_name frostbyte.stu.nighthawkcodingsociety.com;
 
           location / {
               proxy_pass http://localhost:8102;
@@ -311,3 +311,6 @@ Finally, we have already set up Nginx on our backend; we will work on setting it
 - We need a .env file (with passwords and our gemini key)
 - consider creating another user
 - Instance is kept outside of virtual machine so the database doesn't clear upon every restart of the virtual machine
+
+- Make sure blogs are succinct
+- Stand Up meetings: go to the whiteboards
