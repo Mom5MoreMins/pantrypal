@@ -474,7 +474,6 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 
 </script>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -560,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 <div class="dashboard">
     <h1>Analytics Dashboard</h1>
 
-    <div class="form-section">
+ <div class="form-section">
         <label for="channel_id">Channel ID</label>
         <input type="text" id="channel_id" placeholder="Enter Channel ID">
         <label for="user_id">User ID</label>
@@ -570,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
         <button id="submitAnalytics">Submit Analytics</button>
     </div>
 
-    <h2>Analytics Summary</h2>
+ <h2>Analytics Summary</h2>
     <table>
         <thead>
             <tr>
@@ -585,57 +584,88 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     </table>
 </div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Ratings Analytics</title>
+    <style>
+        body {
+            background-color: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #333;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #666;
+        }
+        th {
+            background-color: limegreen;
+            color: black;
+        }
+        tr:nth-child(even) {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+<h2>Analytics Summary (Star Ratings per Channel)</h2>
+    <table id="analytics-table">
+        <thead>
+            <tr>
+                <th>Channel ID</th>
+                <th>Average Stars</th>
+                <th>Total Reviews</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
 <script>
-    // Placeholder for storing analytics data locally
-    const analyticsData = [];
+        const API_BASE_URL = "http://127.0.0.1:8102/api"; // Update as needed
 
-    document.getElementById('submitAnalytics').addEventListener('click', () => {
-        const channelId = document.getElementById('channel_id').value;
-        const userId = document.getElementById('user_id').value;
-        const stars = parseInt(document.getElementById('stars').value, 10);
+        // 📊 Fetch Analytics Data from Star API
+        async function fetchStarAnalytics() {
+            try {
+                let response = await fetch(`${API_BASE_URL}/analytics/summary`);
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
 
-        if (!channelId || !userId || isNaN(stars) || stars < 1 || stars > 5) {
-            alert('Please fill all fields correctly.');
-            return;
-        }
+                let analyticsData = await response.json();
+                let tableBody = document.querySelector("#analytics-table tbody");
+                tableBody.innerHTML = ""; // Clear table before inserting
 
-        // Add analytics data to the array
-        analyticsData.push({ channel_id: channelId, user_id: userId, stars });
-        alert('Analytics submitted successfully!');
-        updateAnalyticsSummary();
-    });
+                analyticsData.forEach(entry => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${entry.channel_id}</td>
+                        <td>⭐ ${entry.stars.toFixed(1)}</td>
+                        <td>${entry.total_reviews}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
 
-    function updateAnalyticsSummary() {
-        const summaryTable = document.getElementById('analyticsSummary');
-        summaryTable.innerHTML = '';
-
-        // Calculate summary data grouped by channel_id
-        const summary = {};
-        analyticsData.forEach(entry => {
-            if (!summary[entry.channel_id]) {
-                summary[entry.channel_id] = { totalStars: 0, count: 0 };
+            } catch (error) {
+                console.error("Error fetching analytics:", error);
+                alert("Failed to load analytics data. Check the backend connection.");
             }
-            summary[entry.channel_id].totalStars += entry.stars;
-            summary[entry.channel_id].count += 1;
-        });
-
-        // Populate the table with summary data
-        for (const channelId in summary) {
-            const { totalStars, count } = summary[channelId];
-            const avgStars = (totalStars / count).toFixed(1);
-
-            const row = document.createElement('tr');
-            row.innerHTML = 
-                `<td>${channelId}</td>
-                <td>${avgStars}</td>
-                <td>${count}</td>`;
-
-            summaryTable.appendChild(row);
         }
-    }
-</script>
+
+        // ⏳ Load Data on Page Load
+        document.addEventListener("DOMContentLoaded", fetchStarAnalytics);
+    </script>
 
 </body>
-
-
+</html>
 
