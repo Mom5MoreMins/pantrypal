@@ -589,7 +589,6 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     </table>
 </div>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
