@@ -119,7 +119,7 @@ menu: nav/camping.html
   border-bottom-left-radius: 0; /* Flat bottom-left corner */
 }
 
-/* User's message bubble (aligned to the far right) */
+/* User's message bubble (on the right) */
 .chat-message-user {
   background-color: #d4f8d4; /* Light green */
   color: #000; /* Black text */
@@ -127,8 +127,25 @@ menu: nav/camping.html
   text-align: right; /* Align text inside to the right */
   max-width: 75%; /* Maximum width for the bubble */
   border-bottom-right-radius: 0; /* Flat bottom-right corner */
-  margin-left: auto; /* Push the message to the rightmost side */
+  margin-left: auto; /* Push it further right */
+  margin-right: 0; /* Move it closer to the right border */
 }
+
+/* DELETED USER MESSAGES - Also Right-Aligned */
+.chat-message-user.deleted {
+  background-color: rgba(212, 248, 212, 0.5); /* Light green with transparency */
+  color: #666; /* Slightly faded text */
+  font-style: italic; /* Italicized for deleted messages */
+  opacity: 0.7; /* Make it look faded */
+  align-self: flex-end; /* Keep deleted messages on the right */
+  text-align: right; /* Ensure text stays right-aligned */
+  max-width: 75%; /* Consistency with user messages */
+  margin-left: auto; /* Push to the right */
+  margin-right: 0; /* Keep it aligned with user messages */
+  padding: 12px 16px;
+  display: block; /* Ensures it takes full width */
+}
+
 /* Hide buttons by default */
 .update-button,
 .delete-button {
@@ -233,6 +250,7 @@ menu: nav/camping.html
 
         return messageContainer;
     }
+
     // Function to scroll to the bottom of the chatbox
     function scrollToBottom(content) {
         content.scrollTop = content.scrollHeight;
