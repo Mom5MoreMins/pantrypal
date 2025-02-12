@@ -641,7 +641,7 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
         // 📊 Fetch Analytics Data from Star API
         async function fetchStarAnalytics() {
             try {
-                let response = await fetch(`${API_BASE_URL}/analytics/summary`);
+                let response = await fetch(`${API_BASE_URL}/star/rating`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status} - ${response.statusText}`);
                 }
