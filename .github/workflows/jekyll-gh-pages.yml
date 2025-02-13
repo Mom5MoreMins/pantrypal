@@ -51,8 +51,7 @@ jobs:
         run: |
           bundle exec jekyll build  # Build your Jekyll site
       - name: Upload artifact
-          with:
-          path: _site/  # Jekyll output directory (fixes "Input required and not supplied: path" error)
+        uses: actions/upload-pages-artifact@v3
         
 
   # Deployment job
