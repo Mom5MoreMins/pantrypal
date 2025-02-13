@@ -6,11 +6,16 @@ if (location.hostname === "localhost") {
 } else {
         pythonURI =  "https://frostbyte.stu.nighthawkcodingsociety.com";
 }
+
+// Log the value of pythonURI to the console
+console.log('pythonURI:', pythonURI);
+console.log('Script loaded successfully');
+
 export var javaURI;
 if (location.hostname === "localhost") {
-        javaURI = "http://localhost:8102";
+        javaURI = "http://localhost:8885";
 } else if (location.hostname === "127.0.0.1") {
-        javaURI = "http://127.0.0.1:8102"; //rey
+        javaURI = "http://127.0.0.1:8885"; //rey
 } else {
         javaURI = "https://flocker-j.nighthawkcodingsociety.com";
 }
@@ -58,4 +63,3 @@ export function login(options) {
                 document.getElementById(options.message).textContent = 'Possible CORS or service down error: ' + error;
         });
 }
-
