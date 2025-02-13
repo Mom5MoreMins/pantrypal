@@ -191,7 +191,7 @@ menu: nav/national_parks.html
     <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">
             🗑️
         </button>
-    <p> Based on your experiences and the reviews below, submit your overall rating of the Grand Canyon National Park here! </p>
+    <p> Based on your experiences and the reviews below, submit your overall rating of the Denali National Park here! </p>
     <div class="star-rating">
         <span class="star" data-stars-overall="1" data-rating-type="overall">&#9733;</span>
         <span class="star" data-stars-overall="2" data-rating-type="overall">&#9733;</span>
