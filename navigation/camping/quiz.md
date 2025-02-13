@@ -115,53 +115,7 @@ menu: nav/camping.html
  <button type="button" id="submitQuizBtn">Submit Quiz</button>
 </form>
 <p id="result"></p>
-
-<script>
-    document.getElementById("submitQuizBtn").addEventListener("click", function() {
-        let total_points = 0;
-        const questions = document.querySelectorAll("form .question");
-
-        questions.forEach(question => {
-            const selectedOption = question.querySelector("input[type='radio']:checked");
-            if (selectedOption) {
-                total_points += parseInt(selectedOption.value, 10);
-            }
-        });
-
-        document.getElementById("result").innerText = "Total Points: " + total_points;
-    });
-
-    function calculateTotalPoints() {
-        let total_points = 0;
-        const questions = document.querySelectorAll("form .question");
-
-        questions.forEach(question => {
-            const selectedOption = question.querySelector("input[type='radio']:checked");
-            if (selectedOption) {
-                total_points += parseInt(selectedOption.value, 10);
-            }
-        });
-
-        return total_points;
-    }
-
-    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
-
-    function calculateTotalPoints() {
-        let total_points = 0;
-        const questions = document.querySelectorAll("form .question");
-
-        questions.forEach(question => {
-            const selectedOption = question.querySelector("input[type='radio']:checked");
-            if (selectedOption) {
-                total_points += parseInt(selectedOption.value, 10);
-            }
-        });
-
-        return total_points;
-    }
-</script>
-
+</body>
 
 <script type="module">
     import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
@@ -183,7 +137,7 @@ menu: nav/camping.html
     function submitQuiz() {
         const total_points = calculateTotalPoints(); // Call the function to get total points
 
-        fetch(`${pythonURI}/api/quiz`, {
+        fetch(`${pythonURI}/api/quiz/`, {
             ...fetchOptions,  // Use predefined fetch options
             method: "POST",
             body: JSON.stringify({ total_points: total_points })
