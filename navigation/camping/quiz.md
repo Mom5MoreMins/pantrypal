@@ -113,6 +113,7 @@ menu: nav/camping.html
             <input type="radio" name="q7" value="20"> Not interested – I’d rather focus on the landscapes (20 points)<br>
         </div>
  <button type="button" id="submitQuizBtn">Submit Quiz</button>
+ <button id="deleteQuizBtn">Delete Quiz Result</button>
 </form>
 <p id="result"></p>
 </body>
@@ -161,4 +162,34 @@ menu: nav/camping.html
 
     // Attach the submit function to the button
     document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
+</script>
+
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    async function deleteLatestQuizResult() {
+        try {
+            const response = await fetch(`${pythonURI}/api/quiz/`, {
+                ...fetchOptions,
+                method: "DELETE"
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            document.getElementById("result").innerText = 
+                `🗑️ ${data.message}`;
+            console.log("Quiz result deleted:", data);
+
+        } catch (error) {
+            document.getElementById("result").innerText = 
+                `❌ Error deleting quiz result: ${error.message}`;
+            console.error("Request failed:", error);
+        }
+    }
+
+    // Attach event listener to the delete button
+    document.getElementById("deleteQuizBtn").addEventListener("click", deleteLatestQuizResult);
 </script>
