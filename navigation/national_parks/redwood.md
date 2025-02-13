@@ -176,19 +176,35 @@ menu: nav/national_parks.html
 </div>
 
 
+<div class="starring-section">
+    <h3> Overall Rating </h3>
+    <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">
+            🗑️
+        </button>
+    <p> Based on your experiences and the reviews below, submit your overall rating of the Grand Canyon National Park here! </p>
+    <div class="star-rating">
+        <span class="star" data-stars-overall="1" data-rating-type="overall">&#9733;</span>
+        <span class="star" data-stars-overall="2" data-rating-type="overall">&#9733;</span>
+        <span class="star" data-stars-overall="3" data-rating-type="overall">&#9733;</span>
+        <span class="star" data-stars-overall="4" data-rating-type="overall">&#9733;</span>
+        <span class="star" data-stars-overall="5" data-rating-type="overall">&#9733;</span>
+    </div>
+    <button class="submit-btn" type="overall">Submit Overall Star Rating</button>
+</div>
+
 <div class="review-section">
 <form id="postForm">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" required>
     <textarea class="review-input" id="comment" name="comment" placeholder="Write your review here..."></textarea>
     <input type="hidden" id="group_id" name="group_id" value="national parks">
-    <input type="hidden" id="channel_id" name="channel_id" value="12">
+    <input type="hidden" id="channel_id" name="channel_id" value="13">
     <div class="star-rating">
-        <span class="star" data-stars="1">&#9733;</span>
-        <span class="star" data-stars="2">&#9733;</span>
-        <span class="star" data-stars="3">&#9733;</span>
-        <span class="star" data-stars="4">&#9733;</span>
-        <span class="star" data-stars="5">&#9733;</span>
+        <span class="star" data-stars-review="1" data-rating-type="review">&#9733;</span>
+        <span class="star" data-stars-review="2" data-rating-type="review">&#9733;</span>
+        <span class="star" data-stars-review="3" data-rating-type="review">&#9733;</span>
+        <span class="star" data-stars-review="4" data-rating-type="review">&#9733;</span>
+        <span class="star" data-stars-review="5" data-rating-type="review">&#9733;</span>
     </div>
     <button class="submit-btn">Submit Review</button>
 </form>
@@ -198,21 +214,51 @@ menu: nav/national_parks.html
     <p id="count"></p>
     <div class="details" id="details"></div>
 </div>
+
 <script>
-    let rating = 0; // Declare the rating variable and initialize it
-    document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function () {
-            const stars = parseInt(this.getAttribute('data-stars'), 10);
-            setRating(stars);
-        });
+
+// Declare the rating variable and initialize it for overall and review separately
+let overall_rating = 0;
+let review_rating = 0;
+
+// Set up the star click functionality for overall rating
+document.querySelectorAll('.star[data-rating-type="overall"]').forEach(star => {
+    star.addEventListener('click', function () {
+        const overall_stars = parseInt(this.getAttribute('data-stars-overall'), 12);
+        setRating(overall_stars, 'overall');
     });
-    function setRating(stars) {
-        rating = stars; // Update the global rating variable
-        document.querySelectorAll('.star').forEach((star, index) => {
+});
+
+// Set up the star click functionality for review rating
+document.querySelectorAll('.star[data-rating-type="review"]').forEach(star => {
+    star.addEventListener('click', function () {
+        const review_stars = this.getAttribute('data-stars-review');
+        console.log(`Review star clicked with value: ${review_stars}`);  // Log value
+        const review_stars_int = parseInt(review_stars, 12);
+        if (!isNaN(review_stars_int)) {
+            setRating(review_stars_int, 'review');
+        } else {
+            console.error("Invalid rating value", review_stars);  // Log invalid value
+        }
+    });
+});
+
+// Function to update the rating and highlight the stars for different rating types
+function setRating(stars, type) {
+    if (type === 'overall') {
+        overall_rating = stars;
+        document.querySelectorAll('.star[data-rating-type="overall"]').forEach((star, index) => {
             star.style.color = (index < stars) ? '#ff0' : '#bbb';
         });
-        console.log(`Rating set to: ${stars}`);
+        console.log(`Overall Rating set to: ${stars}`);
+    } else if (type === 'review') {
+        review_rating = stars;
+        document.querySelectorAll('.star[data-rating-type="review"]').forEach((star, index) => {
+            star.style.color = (index < stars) ? '#ff0' : '#bbb';
+        });
+        console.log(`Review Rating set to: ${stars}`);
     }
+}
 </script>
 
 <script type="module">

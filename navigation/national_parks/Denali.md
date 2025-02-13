@@ -185,6 +185,7 @@ menu: nav/national_parks.html
 </div>
 
 
+
 <div class="starring-section">
     <h3> Overall Rating </h3>
     <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">
@@ -207,7 +208,7 @@ menu: nav/national_parks.html
     <input type="text" id="title" name="title" required>
     <textarea class="review-input" id="comment" name="comment" placeholder="Write your review here..."></textarea>
     <input type="hidden" id="group_id" name="group_id" value="national parks">
-    <input type="hidden" id="channel_id" name="channel_id" value="13">
+    <input type="hidden" id="channel_id" name="channel_id" value="10">
     <div class="star-rating">
         <span class="star" data-stars-review="1" data-rating-type="review">&#9733;</span>
         <span class="star" data-stars-review="2" data-rating-type="review">&#9733;</span>
