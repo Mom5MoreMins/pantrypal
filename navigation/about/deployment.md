@@ -319,3 +319,10 @@ In order to make changes to our site, we will follow the following process:
 1. Make changes in our VSCode to the repository. Each change (to either the frontend or backend) will be tested thoroughly using `make` or `docker-compose up`
 2. Each change will be documented by Elliot and Abby to the respective running documents for frontend-backend integration. This way, we will be able to track and find potential errors in previous commits.
 3. Finally, we will commit to the deployed site. Through the cockpit terminal, we will first shut down our server, git pull, then restart the server to ensure changes are deployed. 
+
+### Certbot Config
+
+We are able to make the site secure with https using certbot.
+in the terminal, run this command: <code>sudo certbot --nginx</code>
+if the command is successful, then our site will be https.
+otherwise, we must follow the prompt given.
