@@ -312,5 +312,10 @@ Finally, we have already set up Nginx on our backend; we will work on setting it
 - consider creating another user
 - Instance is kept outside of virtual machine so the database doesn't clear upon every restart of the virtual machine
 
-- Make sure blogs are succinct
-- Stand Up meetings: go to the whiteboards
+### Updating our Site
+
+In order to make changes to our site, we will follow the following process:
+
+1. Make changes in our VSCode to the repository. Each change (to either the frontend or backend) will be tested thoroughly using `make` or `docker-compose up`
+2. Each change will be documented by Elliot and Abby to the respective running documents for frontend-backend integration. This way, we will be able to track and find potential errors in previous commits.
+3. Finally, we will commit to the deployed site. Through the cockpit terminal, we will first shut down our server, git pull, then restart the server to ensure changes are deployed. 
