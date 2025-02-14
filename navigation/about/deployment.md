@@ -312,6 +312,92 @@ Finally, we have already set up Nginx on our backend; we will work on setting it
 - consider creating another user
 - Instance is kept outside of virtual machine so the database doesn't clear upon every restart of the virtual machine
 
+
+
+
+**CollegeBoard Main Ideas**
+
+
+Understanding Computing Systems
+
+Components of a Computing System: A computing system is made up of hardware and software 
+
+components that work together to perform tasks.
+
+Hardware: Physical devices such as processors (CPU), memory (RAM), 
+
+storage, input/output devices, etc.
+
+Software: Programs and applications that tell the hardware what to do, 
+
+such as operating systems, applications, and system software.
+
+Operating Systems: Understand how the operating system manages hardware 
+
+resources and provides an interface for users and other programs. Key tasks
+
+ include memory management, process scheduling, file management, etc.
+
+
+
+2. Computer Networks
+
+Basic Network Types:
+
+Local Area Network (LAN): A network that connects devices in a limited area, 
+
+like a home or office.
+Wide Area Network (WAN): A network that spans a larger geographical area, such as the internet.
+
+Wireless Networks: Networks that allow devices to connect without physical cables, 
+
+such as Wi-Fi and cellular networks.
+
+Network Communication:
+
+Data Transmission: Understanding how data is sent across networks in the form
+
+ of packets and how devices communicate over these networks.
+Protocols: Rules or standards that define how devices communicate. Examples include:
+TCP/IP (Transmission Control Protocol/Internet Protocol) is fundamental for communication on the Internet.
+HTTP/HTTPS for web browsing and communication between servers and clients.
+DNS (Domain Name System) for translating domain names to IP addresses.
+Wi-Fi, Bluetooth for local wireless communication.
+3. Data Transmission and Networking Models
+Packet Switching: Data is broken into smaller packets that are sent across the network independently and reassembled at the destination. This approach allows for efficient and flexible use of network resources.
+Client-Server Model: In this model, clients (devices) send requests to servers (computers providing services) and receive responses.
+Peer-to-Peer Networks (P2P): Devices act as both clients and servers, sharing resources directly without a central server.
+Bandwidth and Latency:
+Bandwidth refers to the amount of data that can be transmitted in a given time frame.
+Latency refers to the delay before a transfer of data begins following an instruction.
+Transmission Medium: The physical or wireless medium through which data travels, such as fiber optics, coaxial cables, or radio waves for wireless communication.
+4. Internet and Its Impact
+The Internet: A vast network of networks that connects millions of computing devices worldwide. The Internet is built on top of TCP/IP protocols and is essential for web browsing, email, and many modern applications.
+The Web and Websites: The web is a collection of websites accessible over the internet, utilizing protocols like HTTP/HTTPS for communication.
+Cloud Computing: A model where data and applications are stored on remote servers (the cloud) and accessed via the internet, offering flexibility and scalability.
+5. Security and Privacy in Networks
+Security Threats: Networks and computing systems are vulnerable to various security threats, such as:
+Malware: Software designed to harm or exploit systems (viruses, worms, ransomware).
+Phishing: Scams that trick individuals into revealing sensitive information.
+Denial of Service (DoS) attacks: Attacks aimed at overwhelming a network or system to make it unavailable to users.
+Encryption: Protecting data by converting it into an unreadable format using cryptography, ensuring privacy and security in communication.
+SSL/TLS: Protocols for securing data transfer over the web (HTTPS).
+Firewalls: Systems that monitor and control incoming and outgoing network traffic based on predetermined security rules.
+6. Impact of Networks and Computing Systems
+Global Connectivity: The internet connects the world, enabling global communication, collaboration, and access to resources.
+Distributed Computing: Computing tasks are shared across multiple computers in a network (e.g., cloud computing, distributed databases).
+Internet of Things (IoT): Refers to the interconnection of everyday physical devices (such as smart thermostats, wearables, etc.) via the internet, allowing them to collect and exchange data.
+Ethical Considerations: The use of computing systems and networks raises important ethical questions regarding:
+Privacy: Protecting users’ personal data.
+Accessibility: Ensuring equitable access to technology and networks.
+Digital Divide: Addressing inequalities in access to computing and network resources.
+Key Concepts to Remember:
+IP Address: A unique identifier for a device on a network.
+HTTP vs HTTPS: HTTP is unencrypted, while HTTPS ensures encrypted communication over the web.
+Network Topology: The physical or logical arrangement of devices in a network (e.g., star, bus, mesh).
+Cloud Computing: A computing model where services are delivered over the internet, often in a scalable, on-demand way.
+DNS: A system for translating human-readable domain names into machine-readable IP addresses.
+
 ### Updating our Site
 
 In order to make changes to our site, we will follow the following process:
