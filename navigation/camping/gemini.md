@@ -183,7 +183,6 @@ menu: nav/camping.html
 }
 </style>
 
-
 <body>
   <!-- Chat Button -->
   <button class="chat-button" onclick="toggleChatbox()">
@@ -205,6 +204,7 @@ menu: nav/camping.html
 
     // Chatbot message visibility flag
     let chatbotMessageShown = false;
+
     // Function to toggle the chatbox visibility
     function toggleChatbox() {
         const chatbox = document.getElementById('chatbox');
@@ -216,6 +216,7 @@ menu: nav/camping.html
             chatbox.style.display = 'none';
         }
     }
+
     // Function to show the initial chatbot message
     function showChatbotMessage(content) {
         if (!chatbotMessageShown) {
@@ -225,152 +226,118 @@ menu: nav/camping.html
             chatbotMessageShown = true;
         }
     }
-    
-    // Function to create a message element with update and delete buttons
-    function createMessage(text, className, messageId) {
-        const messageContainer = document.createElement('div');
-        messageContainer.classList.add('chat-message-container');
 
+    // Function to create a message element
+    function createMessage(text, className, messageId = null) {
         const message = document.createElement('div');
         message.classList.add('chat-message', className);
         message.textContent = text;
-        message.dataset.messageId = messageId;
-
-        const updateButton = document.createElement('button');
-        updateButton.textContent = 'Update';
-        updateButton.classList.add('update-button');
-        updateButton.addEventListener('click', () => updateMessage(messageId));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('delete-button');
-        deleteButton.addEventListener('click', () => deleteMessage(messageId));
-
-        messageContainer.appendChild(message);
-        messageContainer.appendChild(updateButton);
-        messageContainer.appendChild(deleteButton);
-
-        return messageContainer;
+        if (messageId) {
+            message.dataset.messageId = messageId;
+        }
+        return message;
     }
 
     // Function to scroll to the bottom of the chatbox
     function scrollToBottom(content) {
         content.scrollTop = content.scrollHeight;
     }
-    // Function to fetch Gemini API response
-    async function fetchGeminiResponse(userInput) {
-        try {
-            const response = await fetch(`${pythonURI}/api/chatbot`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_input: userInput })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch Gemini response: ' + response.statusText);
+
+    // Function to send a message
+    async function sendMessage() {
+        const input = document.querySelector('.chatbox-input input');
+        const content = document.querySelector('.chatbox-content');
+        const message = input.value.trim();
+
+        if (message) {
+            input.value = '';
+
+            try {
+                // Send message to backend
+                const response = await fetch(`${pythonURI}/api/chatbot`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_input: message }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send message: ' + response.statusText);
+                }
+
+                const data = await response.json();
+                console.log('Backend Response:', data); // Debugging
+
+                // Display user message
+                const userMessage = createMessage(`You: ${message}`, 'chat-message-user', data.user_message_id);
+                content.appendChild(userMessage);
+
+                // Display AI response
+                const aiMessage = createMessage(`RangerAI: ${data.model_response}`, 'chat-message-ai', data.ai_message_id);
+                content.appendChild(aiMessage);
+
+                scrollToBottom(content);
+            } catch (error) {
+                console.error('Error sending message:', error);
+                const errorMessage = createMessage('Error: Failed to connect to the AI service.', 'chat-message-ai');
+                content.appendChild(errorMessage);
+                scrollToBottom(content);
             }
-            const data = await response.json();
-            return data.model_response;
-        } catch (error) {
-            console.error('Error fetching Gemini response:', error);
-            return null;
+        } else {
+            alert('Please enter a message before sending.');
         }
     }
-    
-   async function sendMessage() {
-    const input = document.querySelector('.chatbox-input input');
-    const content = document.querySelector('.chatbox-content');
-    const message = input.value.trim();
 
-    if (message) {
-        input.value = '';
-
-        try {
-            // Send message to backend
-            const response = await fetch(`${pythonURI}/api/chatbot`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user_input: message }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to send message: ' + response.statusText);
-            }
-
-            const data = await response.json();
-            console.log('Backend Response:', data); // Debugging
-
-            // Use the backend-provided ID to create the user message
-            const userMessage = createMessage(`You: ${message}`, 'chat-message-user', data.user_message_id);
-            content.appendChild(userMessage);
-
-            // Display the AI response with the correct ID
-            const aiMessage = createMessage(`RangerAI: ${data.model_response}`, 'chat-message-ai', data.ai_message_id);
-            content.appendChild(aiMessage);
-
-            scrollToBottom(content);
-        } catch (error) {
-            console.error('Error sending message:', error);
-            const errorMessage = createMessage('Error: Failed to connect to the AI service.', 'chat-message-ai', 'error-id');
-            content.appendChild(errorMessage);
-            scrollToBottom(content);
-        }
-    } else {
-        alert('Please enter a message before sending.');
-    }
-
-}
+    // Function to update a message
     async function updateMessage(messageId) {
-    const newMessage = prompt("Enter the new message:");
-    if (newMessage) {
+        const newMessage = prompt("Enter the new message:");
+        if (newMessage) {
+            try {
+                const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: newMessage }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update message: ' + response.statusText);
+                }
+
+                const data = await response.json();
+                const messageElement = document.querySelector(`.chat-message[data-message-id="${messageId}"]`);
+                if (messageElement) {
+                    messageElement.textContent = `You: ${newMessage}`; // Update the message content
+                }
+            } catch (error) {
+                console.error('Error updating message:', error);
+            }
+        }
+    }
+
+    // Function to delete a message
+    async function deleteMessage(messageId) {
         try {
-            const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: newMessage }),
+            const response = await fetch(`${pythonURI}/api/chatbot/delete/${messageId}`, {
+                method: 'DELETE',
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update message: ' + response.statusText);
+                throw new Error('Failed to delete message: ' + response.statusText);
             }
 
-            const data = await response.json();
             const messageElement = document.querySelector(`.chat-message[data-message-id="${messageId}"]`);
             if (messageElement) {
-                messageElement.textContent = `You: ${newMessage}`; // Update the message content
+                messageElement.textContent = "This message was deleted by the user.";
+                messageElement.style.opacity = '0.5';
+                messageElement.style.fontStyle = 'italic';
             }
         } catch (error) {
-            console.error('Error updating message:', error);
+            console.error('Error deleting message:', error);
         }
     }
-}
-    async function deleteMessage(messageId) {
-    try {
-        const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
-            method: 'DELETE',
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to delete message: ' + response.statusText);
-        }
-
-        const messageElement = document.querySelector(`.chat-message[data-message-id="${messageId}"]`);
-        if (messageElement) {
-            messageElement.textContent = "This message was deleted by the user.";
-            messageElement.style.opacity = '0.5';
-            messageElement.style.fontStyle = 'italic';
-            messageElement.parentElement.querySelector('.update-button').remove();
-            messageElement.parentElement.querySelector('.delete-button').remove();
-        }
-    } catch (error) {
-        console.error('Error deleting message:', error);
-    }
-}
 
     // Initialize event listeners
     document.addEventListener('DOMContentLoaded', () => {
