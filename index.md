@@ -82,3 +82,10 @@ Camping is more than an activity – it’s a chance to disconnect, recharge, an
 
 Plan your next trip and create unforgettable memories. Whether it’s gazing at the stars, conquering a mountain trail, or simply enjoying the serenity of nature, the great outdoors awaits!
 
+#### Proceed:
+
+[Camping Homepage: Learn about camping in different biomes!](https://https://blackstar3092.github.io/frostbyte_frontend/camping/home)
+
+[Camping Posts: Post about your experience camping in different biomes!](https://https://blackstar3092.github.io/frostbyte_frontend/camping/page2)
+
+[National Park Quiz: Take the quiz to find out which national park is best for you!](https://blackstar3092.github.io/frostbyte_frontend/camping/quiz)

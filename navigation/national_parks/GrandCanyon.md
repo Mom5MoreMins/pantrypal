@@ -589,7 +589,6 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     </table>
 </div>
 
-<<<<<<< HEAD
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -674,5 +673,3 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 </body>
 </html>
 
-=======
->>>>>>> d26a519 (commmiting)
