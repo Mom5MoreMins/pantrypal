@@ -200,7 +200,9 @@ menu: nav/camping.html
     </div>
   </div>
 
-<script>
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
     // Chatbot message visibility flag
     let chatbotMessageShown = false;
     // Function to toggle the chatbox visibility
@@ -258,7 +260,7 @@ menu: nav/camping.html
     // Function to fetch Gemini API response
     async function fetchGeminiResponse(userInput) {
         try {
-            const response = await fetch(`http://127.0.0.1:8102/api/chatbot`, {
+            const response = await fetch(`${pythonURI}/api/chatbot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -286,7 +288,7 @@ menu: nav/camping.html
 
         try {
             // Send message to backend
-            const response = await fetch('http://127.0.0.1:8102/api/chatbot', {
+            const response = await fetch(`${pythonURI}/api/chatbot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -325,7 +327,7 @@ menu: nav/camping.html
     const newMessage = prompt("Enter the new message:");
     if (newMessage) {
         try {
-            const response = await fetch(`http://127.0.0.1:8102/api/chatbot/update/${messageId}`, {
+            const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -349,7 +351,7 @@ menu: nav/camping.html
 }
     async function deleteMessage(messageId) {
     try {
-        const response = await fetch(`http://127.0.0.1:8102/api/chatbot/delete/${messageId}`, {
+        const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
             method: 'DELETE',
         });
 
