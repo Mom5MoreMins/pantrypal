@@ -189,6 +189,8 @@ menu: nav/national_parks.html
     </div>
 </div>
 
+{% include weather.html %}
+
 <div class="starring-section">
     <h3> Overall Rating </h3>
     <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">

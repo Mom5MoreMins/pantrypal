@@ -412,3 +412,27 @@ We are able to make the site secure with https using certbot.
 in the terminal, run this command: <code>sudo certbot --nginx</code>
 if the command is successful, then our site will be https.
 otherwise, we must follow the prompt given.
+
+
+
+NATM COLLEGEBOARD REQUIREMENTS
+
+The project we created is linked to College Board's Big Idea 4 in a few key ways.  
+
+Big Idea 4 which is computing systems and networks, focuses on using computing to innovate and create solutions to problems.
+
+By building our various APIs, we have created a platform that encourages user interaction and feedback. Our site is 
+
+innovative because it allows visitors to contribute their experiences, which can help future visitors make informed decisions about which park to visit along 
+
+with taking a quiz to find out which park is right for you.
+
+Our project involves the design and development of multiple components, including the interface, user experience (UX), and backend logic for the apis 
+
+including post, analytics, our quiz, reviews, stars, location, and google gemini. Each of these have a database table that display dynamic content  
+
+demonstrating knowledge of algorithms and data structures. Deploying our project using AWS EC2 aligns with College Board's Big Idea 4 (Creating and 
+
+Innovating) by demonstrating how our site is accessible in the real world, allowing users to interact with and benefit from our 
+
+application.
