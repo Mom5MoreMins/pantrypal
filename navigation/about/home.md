@@ -126,3 +126,33 @@ permalink: /about/home
 <iframe width="560" height="315" src="{{site.baseurl}}/images/videos/frostbyte_vid.mp4" 
 title="Frostbyte video player" frameborder="0" allow="accelerometer; autoplay; 
 clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Challenges</title>
+</head>
+<body>
+    <h2>Team Challenges</h2>
+    <p>In the process of creating our social media site, we faced many challenges.</p>
+    <h3>1. Lack of Communication</h3>
+    <ul>
+        <li>To overcome this challenge, we held several meetings and discussed issues in our code during class.</li>
+        <li>We frequently used Slack to communicate and inform each other when to pull, preventing merge errors.</li>
+        <li>The Live Share feature on VSCode allowed us to collaborate effectively, even with overlapping work.</li>
+    </ul>
+    <h3>2. Organization Difficulties</h3>
+    <ul>
+        <li>With six people working together, organization was not easy.</li>
+        <li>A Kanban board helped us track progress and view pending tasks.</li>
+        <li>Personal burndown lists allowed us to check the next steps for our individual features.</li>
+    </ul>
+    <h3>3. Code Issues and Errors</h3>
+    <ul>
+        <li>We collaborated to ensure correct formatting and sought help from the coding tutoring club.</li>
+        <li>We formed groups with members working on similar features to troubleshoot problems together.</li>
+        <li>We tested our functions on different computers to improve the overall user experience.</li>
+    </ul>
+</body>
+</html>
