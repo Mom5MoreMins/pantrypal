@@ -6,6 +6,60 @@ description: Take a fun quiz to find out the national park that is perfect for y
 hide: true
 menu: nav/home.html
 ---
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            background: #0a1c08; /* Soft green for a nature theme */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Zoom-in effect */
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .location {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .activities {
+            margin-top: 10px;
+            padding-left: 20px; /* Ensure left alignment */
+        }
+
+        .activities li {
+            margin: 5px 0;
+            text-align: left; /* Explicitly left-align */
+        }
+    </style>
+
+
+
 # Welcome to the Great Outdoors
 
 ## Discover Nature’s Wonders
@@ -15,37 +69,52 @@ Experience the thrill of camping and the breathtaking beauty of national parks. 
 ---
 ### 🌟 Featured Parks
 
-#### **Denali National Park**
-- **Location**: Alaska
-- **Highlights**: Towering Denali peak, pristine wilderness, and incredible wildlife.
-- **Activities**:
-  - 🥾 Hiking rugged trails and alpine meadows.
-  - 🐻 Wildlife spotting: bears, moose, wolves, and more.
-  - 🎒 Backcountry adventures for seasoned explorers.
+<div class="grid-container">
+        <a href="https://blackstar3092.github.io/frostbyte_frontend/national_parks/Denali" class="card">
+            <h2>Denali National Park</h2>
+            <p class="location">Alaska</p>
+            <p>🏔️ Towering Denali peak, pristine wilderness, and incredible wildlife.</p>
+            <ul class="activities">
+                <li>🥾 Hiking rugged trails</li>
+                <li>🐻 Wildlife spotting</li>
+                <li>🎒 Backcountry adventures</li>
+            </ul>
+        </a>
 
-#### **Redwood National and State Parks**
-- **Location**: California
-- **Highlights**: Majestic redwoods, scenic coastal trails, and lush fern canyons.
-- **Activities**:
-  - 🌲 Walking beneath ancient redwoods.
-  - 🌿 Exploring Fern Canyon.
-  - ⛺ Camping surrounded by nature’s giants.
+        <a href="https://blackstar3092.github.io/frostbyte_frontend/national_parks/redwood" class="card">
+            <h2>Redwood National and State Parks</h2>
+            <p class="location">California</p>
+            <p>🌲 Majestic redwoods, scenic coastal trails, and lush fern canyons.</p>
+            <ul class="activities">
+                <li>🌲 Walking beneath ancient redwoods</li>
+                <li>🌿 Exploring Fern Canyon</li>
+                <li>⛺ Camping in nature</li>
+            </ul>
+        </a>
 
-#### **Buck Reef**
-- **Location**: Guyana
-- **Highlights**: Vast biodiversity, unique ecosystems, and stunning river landscapes.
-- **Activities**:
-  - 🚤 Boating and exploring the reef's waterways.
-  - 🐦 Birdwatching and spotting exotic wildlife.
-  - 🏕️ Camping in serene natural settings.
+        <a href="https://blackstar3092.github.io/frostbyte_frontend/national_parks/buck_reef" class="card">
+            <h2>Buck Reef</h2>
+            <p class="location">Guyana</p>
+            <p>🐦 Vast biodiversity, unique ecosystems, and stunning river landscapes.</p>
+            <ul class="activities">
+                <li>🚤 Boating and exploring</li>
+                <li>🐦 Birdwatching</li>
+                <li>🏕️ Camping</li>
+            </ul>
+        </a>
 
-#### **Grand Canyon National Park**
-- **Location**: Arizona, USA
-- **Highlights**: Iconic canyon views, ancient geological formations, and breathtaking sunsets.
-- **Activities**:
-  - 🚶 Hiking famous trails like Bright Angel and South Kaibab.
-  - 🚣 Rafting along the Colorado River.
-  - 📷 Photographing awe-inspiring landscapes.
+        <a href="https://blackstar3092.github.io/frostbyte_frontend/national_parks/GrandCanyon" class="card">
+            <h2>Grand Canyon National Park</h2>
+            <p class="location">Arizona, USA</p>
+            <p>🏜️ Iconic canyon views, ancient formations, and breathtaking sunsets.</p>
+            <ul class="activities">
+                <li>🚶 Hiking famous trails</li>
+                <li>🚣 Rafting on Colorado River</li>
+                <li>📷 Photography</li>
+            </ul>
+        </a>
+    </div>
+
 
 ---
 
