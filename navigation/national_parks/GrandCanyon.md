@@ -189,8 +189,6 @@ menu: nav/national_parks.html
     </div>
 </div>
 
-{% include weather.html %}
-
 <div class="starring-section">
     <h3> Overall Rating </h3>
     <button id="deleteRatingBtn" style="background: none; border: none; float: right; font-size: 1.5rem; cursor: pointer;">
@@ -205,11 +203,6 @@ menu: nav/national_parks.html
         <span class="star" data-stars-overall="5" data-rating-type="overall">&#9733;</span>
     </div>
     <button class="submit-btn" type="overall">Submit Overall Star Rating</button>
-</div>
-
-<div class="starring-section">
-    <h3>Ratings Breakdown</h3>
-    <canvas id="ratingsPieChart" width="300" height="300"></canvas>
 </div>
 
 <div class="review-section">

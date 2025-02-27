@@ -122,7 +122,7 @@ menu: nav/national_parks.html
     .star:hover ~ .star {
         color: #ff0;
     }
-    
+
     .post-item {
         background-color: #111;
         border: 1px solid #95becf;
@@ -149,6 +149,17 @@ menu: nav/national_parks.html
         color: #aaa;
         margin-bottom: 10px;
     }
+    .starring-section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #111;
+        border-radius: 10px;
+        border: 1px rgb(206, 185, 255);
+        box-shadow: 0 4px 8px 0 rgba(0, 212, 255, 0.2), 0 6px 20px 0 rgba(0, 212, 255, 0.19);
+        text-align: left;
+        color: #e0e0e0;
+    }
+
 </style>
 
 <div class="image-scroller">
@@ -350,56 +361,4 @@ function setRating(stars, type) {
 
 
 
-</script>
-
-
-
-<div id="analyticsSummary" class="group-theme">
-    <h3>Analytics Summary</h3>
-</div>
-
-<script>
-    /**
-     * Fetch and display analytics summary for all parks.
-     */
-    async function fetchAnalytics() {
-        try {
-            const response = await fetch('/api/analytics/summary', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `___`, // Replace with your actual token logic
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch analytics summary: ' + response.statusText);
-            }
-
-  
-            const analyticsData = await response.json();
-
-     
-            const analyticsDiv = document.getElementById('analyticsSummary');
-            analyticsDiv.innerHTML = ''; 
-
-     
-            analyticsData.forEach(entry => {
-                const summaryElement = document.createElement('div');
-                summaryElement.className = 'analytics-item';
-                summaryElement.innerHTML = `
-                    <h3>Park: ${entry.park_id}</h3>
-                    <p>Average Rating: ${entry.stars.toFixed(1)}</p>
-                    <p>Total Reviews: ${entry.total_reviews}</p>
-                `;
-                analyticsDiv.appendChild(summaryElement);
-            });
-        } catch (error) {
-            console.error('Error fetching analytics:', error);
-        }
-    }
-
-   
-    document.addEventListener('DOMContentLoaded', fetchAnalytics);
-    
 </script>
