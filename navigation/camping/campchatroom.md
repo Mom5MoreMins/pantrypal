@@ -1,6 +1,6 @@
 ---
 layout: post 
-title: Camping Posts
+title: Choose a biome to post about!
 search_exclude: true
 permalink: /camping/page2
 menu: nav/camping.html
@@ -23,12 +23,12 @@ menu: nav/camping.html
         flex-direction: column;
         width: 100%;
         max-width: 800px;
-        background-color: #a4ac86;
-        box-shadow: 0 4px 8px 0 #e9edc9, 0 6px 20px 0 #e9edc9;
+        background-color: #545e75;
+        box-shadow: 0 4px 8px 0 #f0f6f6, 0 6px 20px 0 #f0f6f6;
         padding: 20px;
         border-radius: 10px;
-        border: 3px solid #3a5a40;
-        color: #414833;
+        border: 3px solid #545e75;
+        color: #c9cad9;
         margin-bottom: 20px;
         box-sizing: border-box;
     }
@@ -58,8 +58,8 @@ menu: nav/camping.html
         padding: 10px;
         border-radius: 5px;
         border: none;
-        background-color: #a4ac86;
-        color: #414833;
+        background-color: #545e75;
+        color: #c9cad9;
         cursor: pointer;
     }
 
@@ -84,10 +84,10 @@ menu: nav/camping.html
         overflow-x: scroll;
         overflow-y: hidden;
         white-space: nowrap;
-        background-color: #111;
-        border: 1px solid #a4ac86;
+        background-color:rgb(35, 41, 51);
+        border: 1px solid #545e75;
         border-radius: 10px;
-        box-shadow: 0 4px 8px 0 #a4ac86, 0 6px 20px 0 #a4ac86;
+        box-shadow: 0 4px 8px 0 #f0f6f6, 0 6px 20px 0 #f0f6f6;
         margin: 20px auto;
         padding: 10px 0;
     }
@@ -104,9 +104,6 @@ menu: nav/camping.html
 </style>
 
 
-# Choose a biome to post about!
-<!-- try new post function -->
-
 
 <div class="image-scroller">
     <img src="{{ site.baseurl }}/images/camping/beachcamping.jpg" alt="Beach Biome">
@@ -120,11 +117,8 @@ menu: nav/camping.html
     <div class="form-container">
   <h2>Create a Post</h2>
   <form id="postForm">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
-    <p></p>
-    <label for="comment">Comment:</label>
-    <textarea id="comment" name="comment" required></textarea>
+    <input type="text" id="title" name="title" required placeholder="Title">
+    <textarea id="comment" name="comment" required placeholder="Comment"></textarea>
     <!-- Dropdowns for Group and Channel Selection -->
     <div class="dropdown-container">
       <label for="group-select">Group:</label>
