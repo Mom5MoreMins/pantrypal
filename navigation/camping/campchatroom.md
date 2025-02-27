@@ -1,13 +1,35 @@
 ---
 layout: post 
-title: Choose a biome to post about!
+title: Camping Discussion Room
 search_exclude: true
 permalink: /camping/page2
 menu: nav/camping.html
 ---
 
 <style>
-    /* Shared Flex Container */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+  h2, h3 {
+        font-family: 'Poppins', sans-serif;
+        color: #00d4ff;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-family: "Poppins", sans-serif;
+        color: #2E8B57;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fb;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* Flex Container for Centered Content */
     .flex-column-centered {
         display: flex;
         flex-direction: column;
@@ -17,79 +39,84 @@ menu: nav/camping.html
         box-sizing: border-box;
     }
 
-    /* Shared Form and Post Styles */
+    /* Shared Styles for Containers */
     .form-container, .post-item {
         display: flex;
         flex-direction: column;
         width: 100%;
         max-width: 800px;
-        background-color: #545e75;
-        box-shadow: 0 4px 8px 0 #f0f6f6, 0 6px 20px 0 #f0f6f6;
+        background-color: #082411;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
         padding: 20px;
         border-radius: 10px;
-        border: 3px solid #545e75;
-        color: #c9cad9;
+        border: 3px solid #082411;
+        color: #ecf0f1;
         margin-bottom: 20px;
         box-sizing: border-box;
     }
 
-    /* Text Styling for Post Items */
+    /* Styling for Post Title and Text */
     .post-item h3, .post-item p {
-        margin: 0 0 10px;
-        width: 100%;
-    }
-
-    /* Styling for Form Labels */
-    .form-container label {
-        margin-bottom: 5px;
-    }
-
-    /* Styling for Form Inputs and Textareas */
-    .form-container input, .form-container textarea {
         margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
         width: 100%;
     }
 
-    /* Button Styling for Form */
+    .post-item h3 {
+        font-size: 1.5rem;
+    }
+
+    .post-item p {
+        font-size: 1rem;
+    }
+
+    /* Form Styling */
+    .form-container input, .form-container textarea {
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #7f8c8d;
+        width: 100%;
+        font-size: 1rem;
+        background-color: #ecf0f1;
+    }
+
     .form-container button {
-        padding: 10px;
-        border-radius: 5px;
+        padding: 12px;
+        border-radius: 8px;
         border: none;
-        background-color: #545e75;
-        color: #c9cad9;
+        background-color: #082411;
+        color: #ecf0f1;
+        font-size: 1rem;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
-    /* Shared Container for Details Section */
-    .details {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
+    .form-container button:hover {
+        background-color: #1abc9c;
     }
 
-    .button {
-        display: block !important; /* Force the button to display */
+    /* Dropdowns */
+    .dropdown-container label {
+        margin-bottom: 5px;
+        font-size: 1.1rem;
     }
 
+    .dropdown-container select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #7f8c8d;
+        font-size: 1rem;
+    }
 
+    /* Image Scroller */
     .image-scroller {
         width: 100%;
-        overflow-x: scroll;
-        overflow-y: hidden;
+        overflow-x: auto;
         white-space: nowrap;
-        background-color:rgb(35, 41, 51);
-        border: 1px solid #545e75;
+        margin: 20px 0;
+        background-color: #082411;
         border-radius: 10px;
-        box-shadow: 0 4px 8px 0 #f0f6f6, 0 6px 20px 0 #f0f6f6;
-        margin: 20px auto;
-        padding: 10px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .image-scroller img {
@@ -97,12 +124,39 @@ menu: nav/camping.html
         width: 400px;
         height: 300px;
         margin-right: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         object-fit: cover;
     }
 
-</style>
+    /* Posts Details */
+    .details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 1000px;
+        margin-top: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
 
+    /* Post Item Styling */
+    .post-item {
+        margin-bottom: 20px;
+        background-color: #082411;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .post-item button {
+        background-color: #e74c3c;
+        margin-top: 10px;
+    }
+
+    .post-item button:hover {
+        background-color: #c0392b;
+    }
+
+</style>
 
 
 <div class="image-scroller">

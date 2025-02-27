@@ -7,15 +7,24 @@ menu: nav/national_parks.html
 ---
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
     body {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Arial', sans-serif;
         background-color: #000;
         color: #e0e0e0;
         padding: 20px;
     }
 
     h2, h3 {
+        font-family: 'Poppins', sans-serif;
         color: #00d4ff;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-family: "Poppins", sans-serif;
+        color: #2E8B57;
+        font-size: 2.5em;
         margin-bottom: 10px;
     }
 
@@ -90,14 +99,14 @@ menu: nav/national_parks.html
     }
 
     .submit-btn {
-        margin-top: 10px;
-        padding: 10px 20px;
+        margin-top: 20px;
+        padding: 12px 25px;
         background-color: #00d4ff;
         border: none;
-        color: #fff;
-        border-radius: 5px;
+        color: white;
+        border-radius: 6px;
         cursor: pointer;
-        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
     }
 
     .submit-btn:hover {
@@ -111,16 +120,18 @@ menu: nav/national_parks.html
     }
 
     .star {
-        font-size: 2rem;
+        font-size: 2.5rem;
         color: #bbb;
         cursor: pointer;
-        margin: 0 5px;
-        transition: color 0.3s;
+        margin: 0 8px;
+        transition: color 0.3s, transform 0.2s;
     }
+
 
     .star:hover,
     .star:hover ~ .star {
         color: #ff0;
+        transform: scale(1.1);
     }
 
     .post-item {

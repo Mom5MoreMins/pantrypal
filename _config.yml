@@ -20,7 +20,9 @@ header_pages:
   - navigation/about/home.md
   - navigation/camping/home.md
   - navigation/national_parks/home.md
-
+style: 
+  font: Poppins, sans-serif
+  
 Server: https://frostbyte.stu.nighthawkcodingsociety.com/
 Domain: stu.nighthawkcodingsociety.com
 Subdomain: frostbyte

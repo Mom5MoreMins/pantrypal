@@ -7,14 +7,16 @@ menu: nav/camping.html
 ---
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
     body {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Arial', sans-serif;
         background-color: #63c752;
         color: #e0e0e0;
         padding: 20px;
     }
 
     h1, h2, h3 {
+        font-family: 'Poppins', sans-serif;
         color: #00d4ff;
         margin-bottom: 15px;
         text-align: center;

@@ -9,6 +9,7 @@ menu: nav/national_parks.html
 Welcome to the National Parks showcase! Enjoy exploring the beauty of nature.
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 /* Styling for the National Parks page */
 body {
     font-family: Arial, sans-serif;
@@ -17,40 +18,57 @@ body {
 }
 
 h1 {
+    font-family: "Poppins", sans-serif;
     color: #2E8B57;
     font-size: 2.5em;
     margin-bottom: 10px;
 }
 
 h2 {
+    font-family: "Poppins", sans-serif;
     color: #4682B4;
     font-size: 1.8em;
     margin-bottom: 20px;
 }
 
+/* Assigned Park Bar */
+.bar {
+    background: linear-gradient(to right, #4682B4, #2E8B57);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Responsive Grid Layout */
 .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
     gap: 20px;
     justify-items: center;
-    margin: 20px 0;
+    margin: 20px auto;
+    max-width: 900px;
 }
 
+/* Image Styling */
 .grid img {
     width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.bar {
-    background-color: #4682B4;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-    font-weight: bold;
+/* Hover Effect on Images */
+.grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 </style>
 

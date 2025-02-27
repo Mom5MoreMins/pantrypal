@@ -11,15 +11,16 @@ menu: nav/camping.html
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Park Personality Quiz</title>
     <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
         body {
             font-family: Arial, sans-serif;
             background-color: #1e1e1e;
             color: #fff;
-            max-width: 800px;
             margin: auto;
             padding: 20px;
         }
         h1 {
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             color: #39ff14;
         }
@@ -27,8 +28,11 @@ menu: nav/camping.html
             background-color: #333;
             border: 2px solid #39ff14;
             border-radius: 10px;
+            max-width: 800px;
             padding: 20px;
             margin-bottom: 20px;
+            margin-left: auto;  /* Centers the question box */
+            margin-right: auto;  /* Centers the question box */
         }
         .question label {
             color: #fff;

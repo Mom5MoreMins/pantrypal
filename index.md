@@ -6,58 +6,83 @@ description: Take a fun quiz to find out the national park that is perfect for y
 hide: true
 menu: nav/home.html
 ---
-
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Two columns */
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        .card {
-            background: #0a1c08; /* Soft green for a nature theme */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-            text-decoration: none;
-            color: black;
-            display: block;
-        }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fefae0;
+    color: #283618;
+    padding: 20px;
+}
 
-        .card:hover {
-            transform: scale(1.05); /* Zoom-in effect */
-        }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 layout */
+    gap: 20px;
+    max-width: 800px;
+    margin: auto;
+}
 
-        h2 {
-            margin-bottom: 10px;
-        }
+.card {
+    background: rgba(26, 61, 26, 0.9); /* Rich green with transparency */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    text-decoration: none;
+    color: #fefae0;
+    display: block;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-        .location {
-            font-weight: bold;
-            color: #555;
-        }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
 
-        .activities {
-            margin-top: 10px;
-            padding-left: 20px; /* Ensure left alignment */
-        }
+h2 {
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #fefae0;
+}
 
-        .activities li {
-            margin: 5px 0;
-            text-align: left; /* Explicitly left-align */
-        }
-    </style>
+h2 {
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    color: #fefae0;
+}
 
+.location {
+    font-weight: bold;
+    color: #e9c46a;
+}
+
+.activities {
+    margin-top: 10px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.activities li {
+    margin: 5px 0;
+    text-align: left;
+    font-size: 1rem;
+}
+
+/* Make it stack to 1 column on smaller screens */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+</style>
 
 
 # Welcome to the Great Outdoors
@@ -93,8 +118,8 @@ Experience the thrill of camping and the breathtaking beauty of national parks. 
         </a>
 
         <a href="https://blackstar3092.github.io/frostbyte_frontend/national_parks/buck_reef" class="card">
-            <h2>Buck Reef</h2>
-            <p class="location">Guyana</p>
+            <h2>Buck Island Reef National Park</h2>
+            <p class="location">Virgin Islands</p>
             <p>🐦 Vast biodiversity, unique ecosystems, and stunning river landscapes.</p>
             <ul class="activities">
                 <li>🚤 Boating and exploring</li>
@@ -153,8 +178,8 @@ Plan your next trip and create unforgettable memories. Whether it’s gazing at 
 
 #### Proceed:
 
-[Camping Homepage: Learn about camping in different biomes!](https://https://blackstar3092.github.io/frostbyte_frontend/camping/home)
+[Camping Homepage: Learn about camping in different biomes!](https://blackstar3092.github.io/frostbyte_frontend/camping/home)
 
-[Camping Posts: Post about your experience camping in different biomes!](https://https://blackstar3092.github.io/frostbyte_frontend/camping/page2)
+[Camping Posts: Post about your experience camping in different biomes!](https://blackstar3092.github.io/frostbyte_frontend/camping/page2)
 
 [National Park Quiz: Take the quiz to find out which national park is best for you!](https://blackstar3092.github.io/frostbyte_frontend/camping/quiz)
