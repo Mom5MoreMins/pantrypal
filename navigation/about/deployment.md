@@ -54,7 +54,7 @@ comments: true
 
 ## Operating Structure of Our Backend Database
 
-<img src="{{ site.baseurl }}/images/deployment_page/AWS_deploy.png" alt="Backend Diagram">
+<img src="{{ site.baseurl }}/images/deployment_page/AWSDeploy_New.png" alt="Backend Diagram">
 
 <div class="carousel-container">
 <div class="text-item">RISHA</div>
