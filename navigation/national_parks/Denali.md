@@ -487,4 +487,77 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
 
 
 
+<<<<<<< HEAD
 </script>
+=======
+</script>
+# Analytics Summary
+
+This page displays analytics for the given channel.
+
+## ⭐ User Ratings
+
+This section shows analytics fetched from the backend.
+
+<div id="analytics-container">
+    <h4>Total Reviews: <span id="total-reviews">0</span></h4>
+    <h4>Average Stars: <span id="average-stars">0</span> ⭐</h4>
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Stars</th>
+                <th>Number of Reviews</th>
+            </tr>
+        </thead>
+        <tbody id="analytics-table">
+            <!-- Data will be inserted here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        const API_BASE_URL = "http://127.0.0.1:4887/api"; // Ensure Flask is running
+
+        async function fetchAnalyticsSummary() {
+            try {
+                console.log("Fetching analytics summary...");
+                const response = await fetch(`${API_BASE_URL}/analytics/summary`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch analytics summary: " + response.statusText);
+                }
+                const data = await response.json();
+                console.log("Fetched summary:", data);
+
+                // Update total reviews and average stars
+                let totalReviews = 0;
+                let totalStars = 0;
+                const tableBody = document.getElementById("analytics-table");
+                tableBody.innerHTML = ""; // Clear previous data
+
+                data.forEach((entry) => {
+                    totalReviews += entry.total_reviews;
+                    totalStars += entry.stars * entry.total_reviews;
+
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${entry.channel_id}</td>
+                        <td>${entry.stars.toFixed(1)} ⭐</td>
+                        <td>${entry.total_reviews}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                document.getElementById("total-reviews").innerText = totalReviews;
+                document.getElementById("average-stars").innerText = totalReviews > 0 ? (totalStars / totalReviews).toFixed(1) : "0";
+            } catch (error) {
+                console.error("Error fetching analytics summary:", error);
+            }
+        }
+
+        // Fetch analytics summary when the page loads
+        fetchAnalyticsSummary();
+    });
+</script>
+>>>>>>> 9bc6847 (an)
