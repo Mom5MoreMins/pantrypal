@@ -486,325 +486,98 @@ document.addEventListener('DOMContentLoaded', () => fetchAndFillOverallStars(13)
     // Fetch posts on page load
     fetchData(13);
 
-<<<<<<< HEAD
 </script>
-=======
-
-
-</script>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #fff;
-        }
-        .dashboard {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #1e1e1e;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2);
-        }
-        h1, h2 {
-            text-align: center;
-            color: #0f0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #252525;
-            color: #fff;
-        }
-        table th, table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #333;
-        }
-        table th {
-            background-color: #0f0;
-            color: black;
-        }
-        .form-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background: #181818;
-            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.2);
-        }
-        .form-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #0f0;
-        }
-        .form-section input, .form-section button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #0f0;
-            border-radius: 4px;
-            background-color: #252525;
-            color: #0f0;
-        }
-        .form-section input:focus {
-            outline: none;
-            box-shadow: 0 0 8px #0f0;
-        }
-        .form-section button {
-            background-color: #0f0;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .form-section button:hover {
-            background-color: #00ff88;
-            color: black;
-            box-shadow: 0px 0px 10px #0f0;
-        }
-    </style>
-</head>
-<body>
-
-<div class="dashboard">
-    <h1>Analytics Dashboard</h1>
-    <div class="form-section">
-        <label for="channel_id">Channel ID</label>
-        <input type="text" id="channel_id" placeholder="Enter Channel ID">
-        <label for="user_id">User ID</label>
-        <input type="text" id="user_id" placeholder="Enter User ID">
-        <label for="stars">Stars</label>
-        <input type="number" id="stars" placeholder="Enter Stars (1-5)" min="1" max="5">
-        <button id="submitAnalytics">Submit Analytics</button>
-    </div>
-    <h2>Analytics Summary</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Channel ID</th>
-                <th>Average Stars</th>
-                <th>Total Reviews</th>
-            </tr>
-        </thead>
-        <tbody id="analyticsSummary">
-            <!-- Data will be dynamically inserted here -->
-        </tbody>
-    </table>
-</div>
 
 <script>
-    // Placeholder for storing analytics data locally
-    const analyticsData = [];
 
-    document.getElementById('submitAnalytics').addEventListener('click', () => {
-        const channelId = document.getElementById('channel_id').value;
-        const userId = document.getElementById('user_id').value;
-        const stars = parseInt(document.getElementById('stars').value, 10);
+// Declare checklist array
+let checklist = [];
 
-        if (!channelId || !userId || isNaN(stars) || stars < 1 || stars > 5) {
-            alert('Please fill all fields correctly.');
-            return;
-        }
+// Function to fetch the checklist from the backend
+async function fetchChecklist() {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await fetch("/api/checklist", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error("Failed to fetch checklist");
+        checklist = await response.json();
+        renderChecklist();
+    } catch (error) {
+        console.error("Error fetching checklist:", error);
+    }
+}
 
-        // Add analytics data to the array
-        analyticsData.push({ channel_id: channelId, user_id: userId, stars });
-        alert('Analytics submitted successfully!');
-        updateAnalyticsSummary();
-    });
+// Function to add an item to the checklist
+async function addItem() {
+    const newItem = document.getElementById("newItem").value;
+    if (!newItem) return;
 
-    function updateAnalyticsSummary() {
-        const summaryTable = document.getElementById('analyticsSummary');
-        summaryTable.innerHTML = '';
-
-        // Calculate summary data grouped by channel_id
-        const summary = {};
-        analyticsData.forEach(entry => {
-            if (!summary[entry.channel_id]) {
-                summary[entry.channel_id] = { totalStars: 0, count: 0 };
-            }
-            summary[entry.channel_id].totalStars += entry.stars;
-            summary[entry.channel_id].count += 1;
+    const token = localStorage.getItem("token");
+    try {
+        const response = await fetch("/api/checklist", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ item_name: newItem })
         });
 
-        // Populate the table with summary data
-        for (const channelId in summary) {
-            const { totalStars, count } = summary[channelId];
-            const avgStars = (totalStars / count).toFixed(1);
+        if (!response.ok) throw new Error("Failed to add item");
 
-            const row = document.createElement('tr');
-            row.innerHTML = 
-                `<td>${channelId}</td>
-                <td>${avgStars}</td>
-                <td>${count}</td>`;
-
-            summaryTable.appendChild(row);
-        }
-    }
-</script>
-
-<script>
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-
-const API_BASE_URL = "http://localhost:4887/api"; // Ensure your backend is running on this port
-
-export default function AnalyticsApp() {
-  const [channelId, setChannelId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [stars, setStars] = useState("");
-  const [analyticsData, setAnalyticsData] = useState([]);
-  const [summaryData, setSummaryData] = useState([]);
-  const [bulkData, setBulkData] = useState(
-    JSON.stringify(
-      [
-        { channel_id: 1, user_id: 1, stars: 5 },
-        { channel_id: 2, user_id: 2, stars: 4 },
-      ],
-      null,
-      2
-    )
-  );
-
-  useEffect(() => {
-    fetchSummary();
-  }, []);
-
-  const submitAnalytics = async () => {
-    try {
-      await axios.post(`${API_BASE_URL}/analytics`, {
-        channel_id: channelId,
-        user_id: userId,
-        stars: stars,
-      });
-      alert("Analytics added successfully!");
-      fetchSummary();
+        const data = await response.json();
+        checklist.push(data);
+        document.getElementById("newItem").value = "";
+        renderChecklist();
     } catch (error) {
-      console.error("Error submitting analytics:", error);
-      alert("Failed to add analytics");
+        console.error("Error adding item:", error);
     }
-  };
-
-  const fetchAnalytics = async () => {
-    try {
-      console.log("Fetching analytics for channel:", channelId);
-      const response = await axios.get(`${API_BASE_URL}/analytics?channel_id=${channelId}`);
-      console.log("Fetched analytics:", response.data);
-      setAnalyticsData(response.data);
-    } catch (error) {
-      console.error("Error fetching analytics:", error);
-    }
-  };
-
-  const fetchSummary = async () => {
-    try {
-      console.log("Fetching summary...");
-      const response = await axios.get(`${API_BASE_URL}/analytics/summary`);
-      console.log("Fetched summary:", response.data);
-      setSummaryData(response.data);
-    } catch (error) {
-      console.error("Error fetching summary:", error);
-    }
-  };
-
-  const bulkUpload = async () => {
-    try {
-      await axios.post(`${API_BASE_URL}/analytics/bulk`, JSON.parse(bulkData));
-      alert("Bulk upload successful!");
-      fetchSummary();
-    } catch (error) {
-      console.error("Error in bulk upload:", error);
-    }
-  };
-return (
-    <div className="p-6 max-w-lg mx-auto space-y-4">
-      <h2 className="text-xl font-bold">Analytics Dashboard</h2>
-      <Card>
-        <CardContent className="space-y-2">
-          <input
-            className="border p-2 w-full"
-            type="number"
-            placeholder="Channel ID"
-            value={channelId}
-            onChange={(e) => setChannelId(e.target.value)}
-          />
-          <input
-            className="border p-2 w-full"
-            type="number"
-            placeholder="User ID"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
-          <input
-            className="border p-2 w-full"
-            type="number"
-            placeholder="Stars"
-            value={stars}
-            onChange={(e) => setStars(e.target.value)}
-          />
-          <Button className="w-full" onClick={submitAnalytics}>
-            Submit
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Button className="w-full" onClick={fetchAnalytics}>
-        Fetch Analytics
-      </Button>
-      <Card>
-        <CardContent>
-          {analyticsData.length > 0 ? (
-            analyticsData.map((item) => (
-              <p key={item.id}>
-                User {item.user_id} gave {item.stars} stars to Channel {item.channel_id}
-              </p>
-            ))
-          ) : (
-            <p>No analytics data available.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Textarea
-        className="border p-2 w-full"
-        rows="4"
-        value={bulkData}
-        onChange={(e) => setBulkData(e.target.value)}
-      />
-      <Button className="w-full" onClick={bulkUpload}>
-        Bulk Upload
-      </Button>
-
-      <h3 className="font-bold mt-4">Summary</h3>
-      <Card>
-        <CardContent>
-          {summaryData.length > 0 ? (
-            summaryData.map((item) => (
-              <p key={item.channel_id}>
-                Channel {item.channel_id}: {item.stars} ⭐ from {item.total_reviews} reviews
-              </p>
-            ))
-          ) : (
-            <p>No summary data available.</p>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-    
-  );
 }
+
+// Function to remove an item from the checklist
+async function removeItem(id) {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await fetch("/api/checklist", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ id })
+        });
+
+        if (!response.ok) throw new Error("Failed to delete item");
+
+        checklist = checklist.filter(item => item.id !== id);
+        renderChecklist();
+    } catch (error) {
+        console.error("Error deleting item:", error);
+    }
+}
+
+// Function to render checklist items
+function renderChecklist() {
+    const listElement = document.getElementById("checklistItems");
+    listElement.innerHTML = "";
+    checklist.forEach(item => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `${item.item_name} <button onclick="removeItem(${item.id})">Remove</button>`;
+        listElement.appendChild(listItem);
+    });
+}
+
+// Fetch checklist on page load
+document.addEventListener("DOMContentLoaded", fetchChecklist);
+
 </script>
 
+### 🏕️ Camping Checklist
 
->>>>>>> 9bc6847 (an)
+<div>
+    <input type="text" id="newItem" placeholder="Add an item..." />
+    <button onclick="addItem()">Add</button>
+
+<ul id="checklistItems"></ul>
+</div>
