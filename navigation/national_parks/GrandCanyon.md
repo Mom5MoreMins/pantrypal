@@ -573,7 +573,9 @@ function renderChecklist() {
 document.addEventListener("DOMContentLoaded", fetchChecklist);
 
 </script>
+<h2 class="checklist-title">Checklist</h2>
 
+<<<<<<< HEAD
 ### 🏕️ Camping Checklist
 
 <div>
@@ -582,3 +584,200 @@ document.addEventListener("DOMContentLoaded", fetchChecklist);
 
 <ul id="checklistItems"></ul>
 </div>
+=======
+<div class="checklist-section">
+    <form id="checklistForm" class="checklist-form">
+        <label for="item_name" class="checklist-label">Item Name:</label>
+        <input type="text" id="item_name" name="item_name" required class="checklist-input">
+        <button class="submit-btn checklist-btn">Add Item</button>
+    </form>
+</div>
+
+<div class="checklist-container">
+    <p id="count" class="checklist-count"></p>
+    <div class="checklist-items" id="checklist-items"></div>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #fff;
+    }
+    .checklist-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #00ff00;
+        text-shadow: 0 0 10px #00ff00;
+    }
+    .checklist-section, .checklist-container {
+        text-align: center;
+        margin: 20px auto;
+        padding: 20px;
+        background: #1e1e1e;
+        border-radius: 10px;
+        max-width: 400px;
+        border: 2px solid #00ff00;
+        box-shadow: 0 0 10px #00ff00;
+    }
+    .checklist-label {
+        font-weight: bold;
+    }
+    .checklist-input {
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        margin-right: 10px;
+    }
+    .checklist-btn {
+        background-color: #ff9800;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .checklist-btn:hover {
+        background-color: #e68900;
+    }
+    .checklist-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #333;
+    }
+    .check-item {
+        cursor: pointer;
+    }
+    .delete-btn {
+        background-color: #ff4d4d;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .delete-btn:hover {
+        background-color: #e60000;
+    }
+</style>
+
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    document.getElementById("checklistForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const itemName = document.getElementById("item_name").value;
+        const userId = localStorage.getItem("uid");
+        if (!itemName.trim()) return;
+
+        const postData = {
+            user_id: userId,
+            item_name: itemName,
+            is_checked: false
+        };
+
+        try {
+            const response = await fetch(`${pythonURI}/api/checklist`, {
+                ...fetchOptions,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add item: " + response.statusText);
+            }
+
+            alert("Item added successfully!");
+            document.getElementById("checklistForm").reset();
+            fetchChecklistItems();
+        } catch (error) {
+            console.error("Error adding item:", error);
+            alert("Error adding item: " + error.message);
+        }
+    });
+
+    async function fetchChecklistItems() {
+        const userId = localStorage.getItem("uid");
+
+        try {
+            const response = await fetch(`${pythonURI}/api/checklist?user_id=${userId}`, {
+                ...fetchOptions,
+                method: "GET"
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch items: " + response.statusText);
+            }
+
+            const items = await response.json();
+            document.getElementById("count").innerHTML = `<h4>Total Items: ${items.length || 0}</h4>`;
+            const checklistDiv = document.getElementById("checklist-items");
+            checklistDiv.innerHTML = "";
+
+            items.forEach(item => {
+                const itemElement = document.createElement("div");
+                itemElement.className = "checklist-item";
+                itemElement.innerHTML = `
+                    <input type="checkbox" class="check-item" data-id="${item.id}" ${item.is_checked ? "checked" : ""}>
+                    <span>${item.item_name}</span>
+                    <button class="delete-btn" data-id="${item.id}">Delete</button>
+                `;
+                checklistDiv.appendChild(itemElement);
+            });
+
+            document.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", function() {
+                    deleteItem(this.getAttribute("data-id"));
+                });
+            });
+
+            document.querySelectorAll(".check-item").forEach(checkbox => {
+                checkbox.addEventListener("change", function() {
+                    updateItemStatus(this.getAttribute("data-id"), this.checked);
+                });
+            });
+        } catch (error) {
+            console.error("Error fetching items:", error);
+        }
+    }
+
+    async function deleteItem(id) {
+        try {
+            await fetch(`${pythonURI}/api/checklist`, {
+                ...fetchOptions,
+                method: "DELETE",
+                body: JSON.stringify({ id })
+            });
+            fetchChecklistItems();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
+    }
+
+    async function updateItemStatus(id, isChecked) {
+        try {
+            await fetch(`${pythonURI}/api/checklist`, {
+                ...fetchOptions,
+                method: "PUT",
+                body: JSON.stringify({ id, is_checked: isChecked })
+            });
+        } catch (error) {
+            console.error("Error updating item status:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchChecklistItems);
+</script>
+
+>>>>>>> 189da01 (CHECKLIST FINISHED)
