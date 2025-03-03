@@ -5,7 +5,6 @@ search_exclude: true
 permalink: /camping/gemini
 menu: nav/camping.html
 ---
-
 <style>
 /* Style for the chat button */
 .chat-button {
@@ -119,7 +118,7 @@ menu: nav/camping.html
   border-bottom-left-radius: 0; /* Flat bottom-left corner */
 }
 
-/* User's message bubble (on the right) */
+/* User's message bubble (aligned to the far right) */
 .chat-message-user {
   background-color: #d4f8d4; /* Light green */
   color: #000; /* Black text */
@@ -127,23 +126,7 @@ menu: nav/camping.html
   text-align: right; /* Align text inside to the right */
   max-width: 75%; /* Maximum width for the bubble */
   border-bottom-right-radius: 0; /* Flat bottom-right corner */
-  margin-left: auto; /* Push it further right */
-  margin-right: 0; /* Move it closer to the right border */
-}
-
-/* DELETED USER MESSAGES - Also Right-Aligned */
-.chat-message-user.deleted {
-  background-color: rgba(212, 248, 212, 0.5); /* Light green with transparency */
-  color: #666; /* Slightly faded text */
-  font-style: italic; /* Italicized for deleted messages */
-  opacity: 0.7; /* Make it look faded */
-  align-self: flex-end; /* Keep deleted messages on the right */
-  text-align: right; /* Ensure text stays right-aligned */
-  max-width: 75%; /* Consistency with user messages */
-  margin-left: auto; /* Push to the right */
-  margin-right: 0; /* Keep it aligned with user messages */
-  padding: 12px 16px;
-  display: block; /* Ensures it takes full width */
+  margin-left: auto; /* Push the message to the rightmost side */
 }
 
 /* Hide buttons by default */
@@ -199,8 +182,9 @@ menu: nav/camping.html
     </div>
   </div>
 
-<script type="module">
-    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+<script>
+    // 📍 Define the API base URL here to keep it dynamic
+    const API_BASE_URL = "http://127.0.0.1:8102/api"; // Update as needed
 
     // Chatbot message visibility flag
     let chatbotMessageShown = false;
@@ -227,15 +211,31 @@ menu: nav/camping.html
         }
     }
 
-    // Function to create a message element
-    function createMessage(text, className, messageId = null) {
+    // Function to create a message element with update and delete buttons
+    function createMessage(text, className, messageId) {
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('chat-message-container');
+
         const message = document.createElement('div');
         message.classList.add('chat-message', className);
         message.textContent = text;
-        if (messageId) {
-            message.dataset.messageId = messageId;
-        }
-        return message;
+        message.dataset.messageId = messageId;
+
+        const updateButton = document.createElement('button');
+        updateButton.textContent = 'Update';
+        updateButton.classList.add('update-button');
+        updateButton.addEventListener('click', () => updateMessage(messageId));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('delete-button');
+        deleteButton.addEventListener('click', () => deleteMessage(messageId));
+
+        messageContainer.appendChild(message);
+        messageContainer.appendChild(updateButton);
+        messageContainer.appendChild(deleteButton);
+
+        return messageContainer;
     }
 
     // Function to scroll to the bottom of the chatbox
@@ -243,7 +243,7 @@ menu: nav/camping.html
         content.scrollTop = content.scrollHeight;
     }
 
-    // Function to send a message
+    // Function to send message
     async function sendMessage() {
         const input = document.querySelector('.chatbox-input input');
         const content = document.querySelector('.chatbox-content');
@@ -253,8 +253,8 @@ menu: nav/camping.html
             input.value = '';
 
             try {
-                // Send message to backend
-                const response = await fetch(`${pythonURI}/api/chatbot`, {
+                // Send message to backend using dynamic API base URL
+                const response = await fetch(`${API_BASE_URL}/chatbot`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -269,47 +269,41 @@ menu: nav/camping.html
                 const data = await response.json();
                 console.log('Backend Response:', data); // Debugging
 
-                // Display user message
+                // Use the backend-provided ID to create the user message
                 const userMessage = createMessage(`You: ${message}`, 'chat-message-user', data.user_message_id);
                 content.appendChild(userMessage);
 
-                // Display AI response
+                // Display the AI response with the correct ID
                 const aiMessage = createMessage(`RangerAI: ${data.model_response}`, 'chat-message-ai', data.ai_message_id);
                 content.appendChild(aiMessage);
 
                 scrollToBottom(content);
             } catch (error) {
                 console.error('Error sending message:', error);
-                const errorMessage = createMessage('Error: Failed to connect to the AI service.', 'chat-message-ai');
-                content.appendChild(errorMessage);
-                scrollToBottom(content);
             }
-        } else {
-            alert('Please enter a message before sending.');
         }
     }
 
     // Function to update a message
     async function updateMessage(messageId) {
-        const newMessage = prompt("Enter the new message:");
-        if (newMessage) {
+        const newText = prompt('Enter the updated message:');
+        if (newText) {
             try {
-                const response = await fetch(`${pythonURI}/api/chatbot/update/${messageId}`, {
+                const response = await fetch(`${API_BASE_URL}/chatbot/update/${messageId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ message: newMessage }),
+                    body: JSON.stringify({ new_text: newText }),
                 });
 
                 if (!response.ok) {
                     throw new Error('Failed to update message: ' + response.statusText);
                 }
 
-                const data = await response.json();
-                const messageElement = document.querySelector(`.chat-message[data-message-id="${messageId}"]`);
+                const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
                 if (messageElement) {
-                    messageElement.textContent = `You: ${newMessage}`; // Update the message content
+                    messageElement.textContent = newText;
                 }
             } catch (error) {
                 console.error('Error updating message:', error);
@@ -320,7 +314,7 @@ menu: nav/camping.html
     // Function to delete a message
     async function deleteMessage(messageId) {
         try {
-            const response = await fetch(`${pythonURI}/api/chatbot/delete/${messageId}`, {
+            const response = await fetch(`${API_BASE_URL}/chatbot/delete/${messageId}`, {
                 method: 'DELETE',
             });
 
@@ -328,31 +322,23 @@ menu: nav/camping.html
                 throw new Error('Failed to delete message: ' + response.statusText);
             }
 
-            const messageElement = document.querySelector(`.chat-message[data-message-id="${messageId}"]`);
+            const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
             if (messageElement) {
-                messageElement.textContent = "This message was deleted by the user.";
-                messageElement.style.opacity = '0.5';
-                messageElement.style.fontStyle = 'italic';
+                messageElement.remove();
             }
         } catch (error) {
             console.error('Error deleting message:', error);
         }
     }
 
-    // Initialize event listeners
-    document.addEventListener('DOMContentLoaded', () => {
-        const input = document.querySelector('.chatbox-input input');
-        const sendButton = document.querySelector('.chatbox-input button');
-        if (input) {
-            input.addEventListener('keypress', function (event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    sendMessage();
-                }
-            });
-        }
-        if (sendButton) {
-            sendButton.addEventListener('click', sendMessage);
+    // Event listener for the send button
+    document.querySelector('.chatbox-input button').addEventListener('click', sendMessage);
+
+    // Event listener for the Enter key
+    document.querySelector('.chatbox-input input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
         }
     });
 </script>
+</body>
