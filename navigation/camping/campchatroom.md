@@ -9,152 +9,173 @@ menu: nav/camping.html
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-  h2, h3 {
-        font-family: 'Poppins', sans-serif;
-        color: #00d4ff;
-        margin-bottom: 10px;
-    }
+h2, h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #00d4ff;
+    margin-bottom: 10px;
+}
 
-    h1 {
-        font-family: "Poppins", sans-serif;
-        color: #2E8B57;
-        font-size: 2.5em;
-        margin-bottom: 10px;
-    }
+h1 {
+    font-family: "Poppins", sans-serif;
+    color: #2E8B57;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
 
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fb;
-        color: #333;
-        line-height: 1.6;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1b3a1b !important; /* Dark Forest Green */
+    color: #e0e0e0;
+    line-height: 1.6;
+}
 
-    /* Flex Container for Centered Content */
-    .flex-column-centered {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
+/* Flex Container for Centered Content */
+.flex-column-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-    /* Shared Styles for Containers */
-    .form-container, .post-item {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 800px;
-        background-color: #082411;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
-        padding: 20px;
-        border-radius: 10px;
-        border: 3px solid #082411;
-        color: #ecf0f1;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-    }
+/* Shared Styles for Containers */
+.form-container, .post-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    background-color: #082411; /* Deep Earthy Green */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    border: 3px solid #0d3b18;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
 
-    /* Styling for Post Title and Text */
-    .post-item h3, .post-item p {
-        margin-bottom: 10px;
-        width: 100%;
-    }
+/* Styling for Post Title and Text */
+.post-item h3, .post-item p {
+    margin-bottom: 10px;
+    width: 100%;
+}
 
-    .post-item h3 {
-        font-size: 1.5rem;
-    }
+.post-item h3 {
+    font-size: 1.5rem;
+    color: #a8d5ba; /* Soft muted green */
+}
 
-    .post-item p {
-        font-size: 1rem;
-    }
+.post-item p {
+    font-size: 1rem;
+}
 
-    /* Form Styling */
-    .form-container input, .form-container textarea {
-        margin-bottom: 15px;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #7f8c8d;
-        width: 100%;
-        font-size: 1rem;
-        background-color: #ecf0f1;
-    }
+/* Form Styling */
+.form-container input, .form-container textarea {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #4b6b43;
+    width: 100%;
+    font-size: 1rem;
+    background-color: #ecf0f1;
+    color: #333;
+}
 
-    .form-container button {
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        background-color: #082411;
-        color: #ecf0f1;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+.form-container button {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2E8B57; /* Forest Green */
+    color: #ecf0f1;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .form-container button:hover {
-        background-color: #1abc9c;
-    }
+.form-container button:hover {
+    background-color: #1abc9c;
+}
 
-    /* Dropdowns */
-    .dropdown-container label {
-        margin-bottom: 5px;
-        font-size: 1.1rem;
-    }
+/* Dropdowns */
+.dropdown-container label {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #a8d5ba; /* Soft muted green */
+}
 
-    .dropdown-container select {
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #7f8c8d;
-        font-size: 1rem;
-    }
+.dropdown-container select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #4b6b43;
+    font-size: 1rem;
+    background-color: #ecf0f1;
+    color: #333;
+}
 
-    /* Image Scroller */
-    .image-scroller {
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-        margin: 20px 0;
-        background-color: #082411;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+/* Image Scroller */
+.image-scroller {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: 20px 0;
+    background-color: #0d3b18;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
 
-    .image-scroller img {
-        display: inline-block;
-        width: 400px;
-        height: 300px;
-        margin-right: 10px;
-        border-radius: 8px;
-        object-fit: cover;
-    }
+.image-scroller img {
+    display: inline-block;
+    width: 400px;
+    height: 300px;
+    margin-right: 10px;
+    border-radius: 8px;
+    object-fit: cover;
+}
 
-    /* Posts Details */
-    .details {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 1000px;
-        margin-top: 20px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
+/* Posts Details */
+.details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-    /* Post Item Styling */
-    .post-item {
-        margin-bottom: 20px;
-        background-color: #082411;
-        border-radius: 10px;
-        padding: 20px;
-    }
+/* Post Item Styling */
+.post-item {
+    margin-bottom: 20px;
+    background-color: #0d3b18;
+    border-radius: 10px;
+    padding: 20px;
+}
 
-    .post-item button {
-        background-color: #e74c3c;
-        margin-top: 10px;
-    }
+.post-item button {
+    background-color: #8b0000; /* Deep earthy red */
+    margin-top: 10px;
+}
 
-    .post-item button:hover {
-        background-color: #c0392b;
-    }
+.post-item button:hover {
+    background-color: #600000;
+}
+
+/* Dots for Slideshow */
+.dot {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+    background-color: #555;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #a8d5ba; /* Soft muted green */
+}
+
 
 </style>
 

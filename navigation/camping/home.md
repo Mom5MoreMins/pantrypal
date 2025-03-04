@@ -8,38 +8,37 @@ menu: nav/camping.html
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #63c752;
+        font-family: 'Poppins', sans-serif;
+        background-color: #1b3a1b !important;
         color: #e0e0e0;
         padding: 20px;
     }
 
     h1, h2, h3 {
-        font-family: 'Poppins', sans-serif;
         color: #00d4ff;
-        margin-bottom: 15px;
         text-align: center;
+        font-size: 2rem;
     }
 
     p {
-        margin-bottom: 15px;
+        font-size: 1.2rem;
         text-align: center;
+        margin-bottom: 15px;
     }
 
-    .feature-overview {
+    .feature-overview, .slideshow-container, .dot-container {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 850px;
         margin: 20px auto;
-        max-width: 800px;
-        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
     .slideshow-container {
-        position: relative;
-        margin: 20px auto;
-        max-width: 800px;
-        border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .slides {
@@ -53,19 +52,21 @@ menu: nav/camping.html
         height: 100%;
         object-fit: cover;
         cursor: pointer;
+        border-radius: 10px;
     }
 
     .prev, .next {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.7);
         color: #fff;
         border: none;
-        padding: 10px 20px;
+        padding: 12px 20px;
         cursor: pointer;
         z-index: 10;
         border-radius: 5px;
+        font-size: 1.2rem;
     }
 
     .prev {
@@ -79,14 +80,15 @@ menu: nav/camping.html
     .dot-container {
         text-align: center;
         margin-top: 15px;
+        padding: 10px;
     }
 
     .dot {
         display: inline-block;
-        width: 15px;
-        height: 15px;
+        width: 18px;
+        height: 18px;
         margin: 5px;
-        background-color: #ccc;
+        background-color: #555;
         border-radius: 50%;
         cursor: pointer;
     }
@@ -120,12 +122,13 @@ menu: nav/camping.html
         background-color: #fff;
         color: #000;
         border: none;
-        padding: 10px;
+        padding: 12px;
         border-radius: 5px;
         cursor: pointer;
         font-size: 1.2rem;
     }
 </style>
+
 
 <h1>Welcome to the Camping Homepage!</h1>
 

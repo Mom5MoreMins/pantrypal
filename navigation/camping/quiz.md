@@ -11,57 +11,91 @@ menu: nav/camping.html
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Park Personality Quiz</title>
     <style>
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #fff;
-            margin: auto;
-            padding: 20px;
-        }
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            color: #39ff14;
-        }
-        .question {
-            background-color: #333;
-            border: 2px solid #39ff14;
-            border-radius: 10px;
-            max-width: 800px;
-            padding: 20px;
-            margin-bottom: 20px;
-            margin-left: auto;  /* Centers the question box */
-            margin-right: auto;  /* Centers the question box */
-        }
-        .question label {
-            color: #fff;
-            font-size: 16px;
-        }
-        input[type="radio"] {
-            margin-right: 10px;
-        }
-        button {
-            background-color: #39ff14;
-            color: #1e1e1e;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            margin: 20px auto;
-        }
-        button:hover {
-            background-color: #2ecc71;
-        }
-        #result {
-            font-size: 18px;
-            color: #39ff14;
-            font-weight: bold;
-            margin-top: 20px;
-            text-align: center;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Fix for the Main Navigation Bar */
+#main-nav {
+    position: relative !important; /* Prevents it from staying fixed */
+    width: 100%;
+    top: 0;
+    background: #3e7b52; /* Rich green */
+    z-index: 1000; /* Keeps it above other elements */
+    padding: 15px 0;
+}
+
+#secondary-nav {
+    position: relative; /* Ensures it behaves normally */
+    width: 100%;
+    background: #a5a35f; /* Lighter green */
+    padding: 10px 0;
+}
+
+/* General Page Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #3f622e, #a5a35f); /* Green gradient */
+    color: #2e2e2e;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2e4d28; /* Dark green */
+}
+
+/* Quiz Question Styling */
+.question {
+    background-color: #5a483c; /* Darker earthy brown */
+    border: 3px solid #7d6b5f; /* Muted brown */
+    border-radius: 12px;
+    max-width: 800px;
+    padding: 25px;
+    margin: 20px auto;
+    font-size: 1.2rem;
+}
+
+.question label {
+    color: #f8f4e3; /* Light beige for contrast */
+    font-weight: 600;
+}
+
+/* Radio Button Styling */
+input[type="radio"] {
+    margin-right: 12px;
+    transform: scale(1.2); /* Make radio buttons larger */
+}
+
+/* Button Styling */
+button {
+    background: #3e7b52; /* Rich green */
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 30px auto;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #285437; /* Darker green */
+    transform: scale(1.05);
+}
+
+/* Quiz Result Styling */
+#result {
+    font-size: 1.5rem;
+    color: #3e7b52;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 25px;
+}
+
     </style>
 </head>
 <body>
