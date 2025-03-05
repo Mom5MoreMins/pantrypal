@@ -372,8 +372,8 @@ function setRating(stars, type) {
 
 
 <<<<<<< HEAD
-</script>
-=======
+
+
 </script>
 
 
