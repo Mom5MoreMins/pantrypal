@@ -63,17 +63,39 @@ comments: true
 
 </div>
 
+<div class="checklist-container">
+    <p style="color: white;">
+        The <code>delete(self)</code> function is a Flask route that removes a checklist item from the database, ensuring the user is authenticated with <code>@token_required</code>.
+        It retrieves the current user and the JSON request data, checking if an <code>id</code> is provided; otherwise, it returns an error. If the checklist item exists for the user,
+        it is deleted from the database, and a success message is returned.
+    </p>
+
 <h2 style="font-size: 22px; color: white; text-align: center;">Student-developed procedure being called </h2>
 <div style="text-align: center; margin: 20px 0;">
   <img src="{{site.baseurl}}/images/second.png" alt="Second" style="width: 70%; max-width: 500px; border-radius: 15px; box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); animation: fadeIn 2s ease-in-out;" />
 
 </div>
 
+
+<div class="checklist-container">
+    <p style="color: white;">
+        The <code>deleteItem(id)</code> function sends a DELETE request to the backend API to remove a checklist item based on its <code>id</code>.
+        It constructs the request using <code>fetch</code>, includes the item’s <code>id</code> in the request body as JSON, and updates the checklist
+        by calling <code>fetchChecklistItems()</code>. If an error occurs, it logs the error message to the console, ensuring smooth debugging
+        and preventing application crashes.
+    </p>
+
 <h2 style="font-size: 22px; color: white; text-align: center;">Initializing Data</h2>
 <div style="text-align: center; margin: 20px 0;">
-  <img src="{{site.baseurl}}/images/init.png" alt="Second" style="width: 70%; max-width: 500px; border-radius: 15px; box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); animation: fadeIn 2s ease-in-out;" />
----
+  <img src="{{site.baseurl}}/images/initing.png" alt="Second" style="width: 70%; max-width: 500px; border-radius: 15px; box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); animation: fadeIn 2s ease-in-out;" />
 
+<div class="checklist-container">
+    <p style="color: white;">
+        The <code>initChecklist()</code> function initializes a checklist by inserting sample items into a database using SQLAlchemy.
+        It loops through a predefined list of dictionaries containing <code>user_id</code> and <code>item_name</code>, creates 
+        <code>ChecklistItem</code> objects, adds them to the database session, and commits the changes. This ensures users have 
+        default checklist items while demonstrating iteration, data abstraction, and database management for the CSP Create Task.
+    </p>
 </div>
 
 <style>
@@ -92,15 +114,13 @@ comments: true
 <div style="background-color:rgb(49, 49, 49); border-radius: 15px; padding: 20px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); margin-bottom: 30px;">
 
 
-# AP CSP MCQ Retrospective & Improvement Plan
+<h1>AP CSP MCQ Retrospective & Improvement Plan</h1>
 
 
 <div style="text-align: center; margin: 20px 0;">
   <img src="{{site.baseurl}}/images/mcq.png" alt="AP CSP MCQ Performance Chart" style="width: 80%; max-width: 600px; border-radius: 15px; box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); animation: fadeIn 2s ease-in-out;" />
 </div>
 
-
----
 
 
 <h2 style="font-size: 24px; color: #7a5dff; text-align: center; border-bottom: 3px solid #7a5dff; padding-bottom: 5px; width: 60%; margin: 20px auto;">Performance Analysis</h2>
