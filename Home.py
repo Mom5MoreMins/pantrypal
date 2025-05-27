@@ -1,28 +1,29 @@
-# app.py
+# Home.py
 import streamlit as st
-from Home import show_home
-from CalorieCalculator import show_calculator
-from MealPlan import show_mealplan
-from IngredientSub import show_substitute
+import time
 
-st.set_page_config(page_title="PantryPal", page_icon="🥗")
+def show_home():
+    st.title("Welcome to PantryPal 🥗")
+    st.write("""
+    **PantryPal** helps you:
+    - 🍏 **Calorie Calculator**: figure out your daily energy needs  
+    - 🥘 **Meal Plan Generator**: get recipes to hit your calorie goal  
+    - 🔄 **Ingredient Substitution**: swap out missing ingredients  
+    """)
 
-# build your own menu
-page = st.sidebar.selectbox(
-    "Navigate",
-    [
-        "🏠 Home",
-        "🍏 Calorie Calculator",
-        "🥘 Meal Plan",
-        "🔄 Ingredient Substitute",
-    ],
-)
+    st.markdown("---")
+    placeholder = st.empty()
 
-if page == "🏠 Home":
-    show_home()
-elif page == "🍏 Calorie Calculator":
-    show_calculator()
-elif page == "🥘 Meal Plan":
-    show_mealplan()
-elif page == "🔄 Ingredient Substitute":
-    show_substitute()
+    swaps = [
+        "🍞  ➡️  🥖",
+        "🍎  ➡️  🍐",
+        "🥕  ➡️  🌽",
+        "🍗  ➡️  🥩",
+        "🍓  ➡️  🍇",
+    ]
+
+    # infinite loop to keep cycling through frames
+    while True:
+        for frame in swaps:
+            placeholder.markdown(f"<h1 style='text-align:center'>{frame}</h1>", unsafe_allow_html=True)
+            time.sleep(0.6)
