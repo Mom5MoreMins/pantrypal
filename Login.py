@@ -23,6 +23,6 @@ def show_login():
             if verify_user(user, pw):
                 st.session_state.logged_in = True
                 st.session_state.user      = user
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("❌ Incorrect username or password.")

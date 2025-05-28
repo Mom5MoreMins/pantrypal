@@ -10,4 +10,4 @@ def show_account():
     if st.button("Log Out"):
         st.session_state.logged_in = False
         st.session_state.user      = ""
-        st.experimental_rerun()
+        st.rerun()
