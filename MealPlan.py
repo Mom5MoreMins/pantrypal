@@ -2,20 +2,23 @@
 import streamlit as st
 import requests
 import json
+from storage import save_meal_plan, load_meal_plans, load_profile
 
-from storage import save_meal_plan, load_meal_plans
 
-def generate_meal_plan(calories: float, exclude: list[str] = None):
+def generate_meal_plan(username: str, calories: float):
     """
     Calls Spoonacular's mealplanner/generate endpoint for one day.
+    Automatically excludes the user's known allergies from the database.
     """
+    _, allergies = load_profile(username)
+
     params = {
         "timeFrame": "day",
         "targetCalories": int(calories),
         "apiKey": st.secrets["SPOONACULAR_KEY"],
     }
-    if exclude:
-        params["exclude"] = ",".join(exclude).lower()
+    if allergies:
+        params["exclude"] = ",".join(a.lower() for a in allergies)
 
     resp = requests.get(
         "https://api.spoonacular.com/mealplanner/generate",
@@ -25,89 +28,90 @@ def generate_meal_plan(calories: float, exclude: list[str] = None):
     resp.raise_for_status()
     return resp.json()
 
-def get_recipe_info(recipe_id: int):
-    """
-    Fetches detailed recipe info so we can grab spoonacularSourceUrl.
-    """
-    resp = requests.get(
-        f"https://api.spoonacular.com/recipes/{recipe_id}/information",
-        params={"apiKey": st.secrets["SPOONACULAR_KEY"]},
-        timeout=10
-    )
-    resp.raise_for_status()
-    return resp.json()
 
 def show_mealplan(username: str):
     st.header("🥘 Meal Plan")
 
-    # Load BMR and allergies from profile
-    from storage import load_profile
-    bmr, allergies = load_profile(username)
-
+    # Load BMR to ensure profile exists
+    bmr, _ = load_profile(username)
     if bmr is None:
-        st.warning("Please calculate and save your BMR/allergies first.")
+        st.warning("Please calculate and save your BMR and allergies first.")
         return
 
     st.write(f"**Target calories**: {int(bmr)} kcal/day")
-    st.write(f"**Excluding**: {', '.join(allergies) or 'None'}")
     st.markdown("---")
 
     if st.button("Generate Meal Plan"):
         with st.spinner("Fetching your custom meal plan…"):
-            data = generate_meal_plan(bmr, exclude=allergies)
+            try:
+                plan = generate_meal_plan(username, bmr)
+            except requests.exceptions.HTTPError as err:
+                code = err.response.status_code
+                if code in (402, 429):
+                    st.error("⚠️ API limit reached—showing your last saved plan.")
+                    plan = None
+                else:
+                    st.error(f"API error ({code}): {err}")
+                    return
+            except requests.exceptions.ReadTimeout:
+                st.error("⚠️ Request timed out—showing your last saved plan.")
+                plan = None
 
-        # Display the generated plan
-        for meal in data.get("meals", []):
-            st.subheader(meal["title"])
-            st.write(f"- Ready in {meal['readyInMinutes']} minutes")
-            st.write(f"- Servings: {meal['servings']}")
+        # Display new plan
+        if plan:
+            for meal in plan.get("meals", []):
+                title = meal.get("title", "Untitled")
+                st.subheader(title)
+                st.write(f"• Ready in {meal.get('readyInMinutes', '?')} minutes")
+                st.write(f"• Servings: {meal.get('servings', '?')}")
 
-            # Fetch recipe info to get Spoonacular’s own URL
-            info = get_recipe_info(meal["id"])
-            link = info.get("spoonacularSourceUrl") or meal.get("sourceUrl")
-            st.markdown(f"[View Recipe on Spoonacular ➡️]({link})")
+                slug = title.lower().replace(" ", "-")
+                url = f"https://spoonacular.com/recipes/{slug}-{meal.get('id')}"
+                st.markdown(f"[View Recipe on Spoonacular ➡️]({url})")
 
-        nutrients = data.get("nutrients", {})
-        st.markdown("---")
-        st.subheader("Daily Nutrition Summary")
-        st.write(f"- **Calories:** {nutrients.get('calories',0)} kcal")
-        st.write(f"- **Protein:** {nutrients.get('protein',0)} g")
-        st.write(f"- **Fat:** {nutrients.get('fat',0)} g")
-        st.write(f"- **Carbs:** {nutrients.get('carbohydrates',0)} g")
+            nutrients = plan.get("nutrients", {})
+            st.markdown("---")
+            st.subheader("Daily Nutrition Summary")
+            st.write(f"- Calories: {nutrients.get('calories',0):.0f} kcal")
+            st.write(f"- Protein: {nutrients.get('protein',0):.1f} g")
+            st.write(f"- Fat: {nutrients.get('fat',0):.1f} g")
+            st.write(f"- Carbs: {nutrients.get('carbohydrates',0):.1f} g")
 
-        # Persist the full JSON for later review
-        save_meal_plan(username, json.dumps(data))
+            save_meal_plan(username, json.dumps(plan))
 
-    # Show recent saved plans with full details
+        # Fallback to last saved plan
+        else:
+            st.markdown("---")
+            st.subheader("📜 Last Saved Plan")
+            recent = load_meal_plans(username, limit=1)
+            if not recent:
+                st.write("No prior plans to display.")
+                return
+            plan_text, ts = recent[0]
+            saved = json.loads(plan_text)
+            for meal in saved.get("meals", []):
+                title = meal.get("title", "Untitled")
+                st.subheader(title)
+                st.write(f"• Ready in {meal.get('readyInMinutes', '?')} minutes")
+                st.write(f"• Servings: {meal.get('servings', '?')}")
+                slug = title.lower().replace(" ", "-")
+                url = f"https://spoonacular.com/recipes/{slug}-{meal.get('id')}"
+                st.markdown(f"[View Recipe on Spoonacular ➡️]({url})")
+            nutrients = saved.get("nutrients", {})
+            st.markdown("**Nutrition Summary**")
+            st.write(f"- Calories: {nutrients.get('calories',0):.0f} kcal")
+            st.write(f"- Protein: {nutrients.get('protein',0):.1f} g")
+            st.write(f"- Fat: {nutrients.get('fat',0):.1f} g")
+            st.write(f"- Carbs: {nutrients.get('carbohydrates',0):.1f} g")
+
+    # Display recent history
     st.markdown("---")
     st.subheader("📜 Your Recent Saved Plans")
-    plans = load_meal_plans(username)
-    if not plans:
+    history = load_meal_plans(username)
+    if not history:
         st.write("No saved plans yet.")
         return
-
-    for plan_text, ts in plans:
-        st.markdown(f"### Saved on {ts}")
-        try:
-            saved = json.loads(plan_text)
-        except json.JSONDecodeError:
-            st.text("[Error parsing saved plan data]")
-            continue
-
-        for meal in saved.get("meals", []):
-            st.subheader(meal.get("title", "Untitled"))
-            st.write(f"• Ready in {meal.get('readyInMinutes', '?')} minutes")
-            st.write(f"• Servings: {meal.get('servings', '?')}")
-
-            # Same trick on saved plans
-            info = get_recipe_info(meal["id"])
-            link = info.get("spoonacularSourceUrl") or meal.get("sourceUrl")
-            st.markdown(f"[View Recipe on Spoonacular ➡️]({link})")
-
-        nutrients = saved.get("nutrients", {})
-        st.markdown("**Nutrition Summary**")
-        st.write(f"- Calories: {nutrients.get('calories',0)} kcal")
-        st.write(f"- Protein: {nutrients.get('protein',0)} g")
-        st.write(f"- Fat: {nutrients.get('fat',0)} g")
-        st.write(f"- Carbs: {nutrients.get('carbohydrates',0)} g")
-        st.markdown("---")
+    for _, ts in history:
+        st.write(f"- {ts}")
+ 
+ 
