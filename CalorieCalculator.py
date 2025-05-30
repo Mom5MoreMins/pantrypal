@@ -98,7 +98,7 @@ def show_calculator():
             delta = 200
         target = bmr + delta
 
-        # save baseline BMR and allergies
+        # save  BMR and allergies
         save_profile(user, bmr, selected)
 
         st.success(
